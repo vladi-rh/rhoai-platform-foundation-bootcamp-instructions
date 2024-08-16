@@ -1,0 +1,15 @@
+site:
+  title: AI Accelerate Bootcamp
+  url: https://github.com/redhat-ai-services/ai-accelerator-bootcamp-instructions
+  start_page: modules::01_welcome.adoc
+
+ui:
+  bundle:
+    url: ./content/docs-ui/ui-bundle.zip
+  supplemental_files: ./content/supplemental-ui
+
+output:
+  dir: ./content/www
+
+runtime:
+  cache_dir: ./content/.cache/antora

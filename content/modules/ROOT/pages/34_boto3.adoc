@@ -1,0 +1,451 @@
+# Boto3 exploration
+
+In this module you will use boto3 to explore the existing minio configuration and set up scripts to automate uploading the models to the locations you need for your pipelines to run. 
+
+## Minio S3 Storage
+Let's add Minio s3 storage to our dev environment project so Argo can deploy it.
+
+If you need a reference, the ai-accelerator project has minio set up in under the `tenants/ai-examples folder`.
+
+### Set up minio
+
+. Create a `object-datastore.yaml` file in the `tenants/parasol-insurance/namespaces/base` directory with the following content:
+
++
+.tenants/parasol-insurance/namespaces/bases/object-datastore.yaml
+[source,yaml]
+----
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: object-datastore
+  labels:
+    kubernetes.io/metadata.name: object-datastore
+----
+
+. Modify the `tenants/parasol-insurance/namespaces/base/kustomization.yaml` file to include the new namespace:
+
++
+.tenants/parasol-insurance/namespaces/base/kustomization.yaml
+[source,yaml]
+----
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - parasol-insurance.yaml
+  - object-datastore.yaml
+----
+
+. Create a new directory named `minio` in the `tenants/parasol-insurance` directory.
+
+. Create the `base` and `overlays` directories inside the `minio` directory.
+
+. Create a file named `kustomization.yaml` inside the `minio/base` directory with the following content:
+
++
+.tenants/parasol-insurance/minio/base/kustomization.yaml
+[source,yaml]
+----
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: object-datastore
+
+resources:
+  - ../../../../components/apps/minio/overlays/default
+----
+
+. Add the overlay for `parasol-insurance-dev`, and `parasol-insurance-prod` with the following `kustomization.yaml` file content:
+
++
+.tenants/parasol-insurance/minio/overlays/parasol-insurance-dev/kustomization.yaml
+[source,yaml]
+----
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+----
+
+.tenants/parasol-insurance/minio/overlays/parasol-insurance-prod/kustomization.yaml
+[source,yaml]
+----
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+----
+
+
+[TIP]
+====
+The same content will work for both overlays (dev and prod)
+====
+
+Commit your changes to your fork of ai-accelerator project. Let ArgoCD sync and deploy minio.
+You should find your minio resource in the _**object-datastore**_ namespace.
+
+The *minio-ui* route can be found in _**object-datastore**_ namespace under _**Routes**_. Open this in a new tab and log in with `minio:minio123`.
+
+[TIP]
+====
+Compare your change to this in git https://github.com/redhat-ai-services/ai-accelerator-qa/pull/new/34_boto3[boto3 minio branch]
+====
+
+Explore the S3 storage.
+
+## Set up an standard data science workbench to explore S3 with boto3
+
+We have previously used a custom workbench to explore how to train a model. Now we will use a standard workbench to explore the S3 storage.
+
+### Create a standard workbench
+
+. Navigate to RHOAI dashboard, and stop the `custom-workbench`.
+
+. Create a directory named `standard-workbench` in the `tenants/parasol-insurance` directory.
+
+. Create the `base` and `overlays` directories inside the `standard-workbench` directory.
+
+. Create a file named `kustomization.yaml` inside the `standard-workbench/base` directory with the following content:
+
++
+.tenants/parasol-insurance/standard-workbench/base/kustomization.yaml
+[source,yaml]
+----
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: parasol-insurance
+
+resources:
+  - standard-workbench-pvc.yaml
+  - minio-data-connection.yaml
+  - standard-workbench-notebook.yaml
+----
+
+. Create a file named `standard-workbench-pvc.yaml` inside the `standard-workbench/base` directory with the following content:
+
++
+.tenants/parasol-insurance/standard-workbench/base/standard-workbench-pvc.yaml
+[source,yaml]
+----
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: standard-workbench
+  namespace: parasol-insurance
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 40Gi
+  volumeMode: Filesystem
+----
+
+. Create a file named `minio-data-connection.yaml` inside the `standard-workbench/base` directory with the following content:
+
++
+.tenants/parasol-insurance/standard-workbench/base/minio-data-connection.yaml
+[source,yaml]
+----
+kind: Secret
+apiVersion: v1
+metadata:
+  name: minio-data-connection
+  labels:
+    opendatahub.io/dashboard: 'true'
+    opendatahub.io/managed: 'true'
+  annotations:
+    opendatahub.io/connection-type: s3
+    openshift.io/display-name: minio-data-connection
+    argocd.argoproj.io/sync-wave: "-100"
+stringData:
+  AWS_ACCESS_KEY_ID: minio
+  AWS_S3_ENDPOINT: http://minio.object-datastore.svc.cluster.local:9000
+  AWS_SECRET_ACCESS_KEY: minio123
+  AWS_DEFAULT_REGION: east-1
+type: Opaque
+----
+
+. Create a file named `standard-workbench-notebook.yaml` inside the `standard-workbench/base` directory with the following content:
+
++
+.tenants/parasol-insurance/standard-workbench/base/standard-workbench-notebook.yaml
+[source,yaml]
+----
+apiVersion: kubeflow.org/v1
+kind: Notebook
+metadata:
+  annotations:
+    notebooks.opendatahub.io/inject-oauth: 'true'
+    opendatahub.io/image-display-name: Standard Data Science
+    notebooks.opendatahub.io/oauth-logout-url: ''
+    opendatahub.io/accelerator-name: ''
+    openshift.io/description: ''
+    openshift.io/display-name: standard-workbench
+    notebooks.opendatahub.io/last-image-selection: 's2i-generic-data-science-notebook:2024.1'
+  name: standard-workbench
+  namespace: parasol-insurance
+spec:
+  template:
+    spec:
+      affinity: {}
+      containers:
+        - name: standard-workbench
+          image: 'image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/s2i-generic-data-science-notebook:2024.1'
+          resources:
+            limits:
+              cpu: '2'
+              memory: 8Gi
+            requests:
+              cpu: '1'
+              memory: 8Gi
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /notebook/parasol-insurance/standard-workbench/api
+              port: notebook-port
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /notebook/parasol-insurance/standard-workbench/api
+              port: notebook-port
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          env:
+            - name: NOTEBOOK_ARGS
+              value: |-
+                --ServerApp.port=8888
+                --ServerApp.token=''
+                --ServerApp.password=''
+                --ServerApp.base_url=/notebook/parasol-insurance/standard-workbench
+                --ServerApp.quit_button=False
+                --ServerApp.tornado_settings={"user":"user1","hub_host":"","hub_prefix":"/projects/parasol-insurance"}
+            - name: JUPYTER_IMAGE
+              value: 'image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/s2i-generic-data-science-notebook:2024.1'
+            - name: PIP_CERT
+              value: /etc/pki/tls/custom-certs/ca-bundle.crt
+            - name: REQUESTS_CA_BUNDLE
+              value: /etc/pki/tls/custom-certs/ca-bundle.crt
+            - name: SSL_CERT_FILE
+              value: /etc/pki/tls/custom-certs/ca-bundle.crt
+            - name: PIPELINES_SSL_SA_CERTS
+              value: /etc/pki/tls/custom-certs/ca-bundle.crt
+          ports:
+            - containerPort: 8888
+              name: notebook-port
+              protocol: TCP
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /opt/app-root/src
+              name: standard-workbench
+            - mountPath: /dev/shm
+              name: shm
+            - mountPath: /etc/pki/tls/custom-certs/ca-bundle.crt
+              name: trusted-ca
+              readOnly: true
+              subPath: ca-bundle.crt
+          workingDir: /opt/app-root/src
+          envFrom:
+            - secretRef:
+                name: minio-data-connection
+      enableServiceLinks: false
+      serviceAccountName: standard-workbench
+      volumes:
+        - name: standard-workbench
+          persistentVolumeClaim:
+            claimName: standard-workbench
+        - emptyDir:
+            medium: Memory
+          name: shm
+        - configMap:
+            items:
+              - key: ca-bundle.crt
+                path: ca-bundle.crt
+            name: workbench-trusted-ca-bundle
+            optional: true
+          name: trusted-ca
+----
+
+. Create a directory named `parasol-insurance-dev` under the `standard-workbench/overlays` directory.
+
+. Create a file named `kustomization.yaml` inside the `standard-workbench/overlays/parasol-insurance-dev` directory with the following content:
+
++
+.tenants/standard-workbench/overlays/parasol-insurance-dev/kustomization.yaml
+[source,yaml]
+----
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+----
+
+. Push the changes to git, and wait for the synchrnization to complete.
+
++
+[TIP]
+====
+Validate against  https://github.com/redhat-ai-services/ai-accelerator-qa/pull/new/34_boto3_standard_workbench[boto3 standard_workbench branch]
+====
+
+. Navigate to RHOAI dashboard, and you should see an `Standard Workbench` available in the `Workbenches` tab.
+
++
+[.bordershadow]
+image::standard-workbench.png[Standard workbench]
+
+## Explore S3 in RHOAI Workbench:
+Some S3 technologies do not come with UI or CLI to interact with the buckets or files. A common tool that can be used accross all S3 technologies is boto3. Boto3 is the AWS SDK for Python. It allows you to directly interact with AWS services such as S3, EC2, and more.
+
+. Go to RHOAI Dashboard and go to the _**parasol-insurance**_ Data Science Project.
+
++
+[.bordershadow]
+image::standard-workbench.png[Standard workbench]
+
+. As you can see there is a workbench running named _standard-workbench_. 
+
+. Use the kebab menu and select `Edit workbench`. View the _Environment Variables_ and notice how the minio values are loaded as environment variables. Also notice in the _Data Connection_ section that it is selected to the minio data connection.
+
++
+[.bordershadow]
+image::Workbench_env_vars.png[]
+
+. Launch the workbench and wait for the Jupyter notebook to spin up.
+
+. Create a new Notebook. 
+
+. In a new cell, add and run the content below to install boto3 and ultralytics.
+
++
+[source, python]
+----
+!pip install boto3 ultralytics
+----
+
+. Configure the connection to minio S3
+
++
+[source, python]
+----
+import os
+import boto3
+from botocore.client import Config
+
+# Configuration
+minio_url = os.environ["AWS_S3_ENDPOINT"]
+access_key = os.environ["AWS_ACCESS_KEY_ID"]
+secret_key = os.environ["AWS_SECRET_ACCESS_KEY"]
+
+# Setting up the MinIO client
+s3 = boto3.client(
+    's3',
+    endpoint_url=minio_url,
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key,
+    config=Config(signature_version='s3v4'),
+)
+----
+
+. List the current buckets
+
++
+[source, python]
+----
+# Function to get MinIO server info
+def get_minio_buckets():
+    # This function retrieves the list of buckets as an example.
+    # MinIO admin info is not directly supported by boto3; you'd need to use MinIO's admin API.
+    response = s3.list_buckets()
+    print("Buckets:")
+    for bucket in response['Buckets']:
+        print(f'  {bucket["Name"]}')
+  
+get_minio_buckets()
+----
+
++
+[NOTE]
+====
+We currently have no buckets in the S3 storage. We will create a bucket and upload a file to it.
+====
+
+. Create a new bucket
+
++
+[source, python]
+----
+# Function to create a bucket
+def create_minio_bucket(bucket_name):
+    try:
+        s3.create_bucket(Bucket=bucket_name)
+        print(f"Bucket '{bucket_name}' successfully created.")
+    except Exception as e:
+        print(f"Error creating bucket '{bucket_name}': {e}")
+----
+
++
+[source, python]
+----
+create_minio_bucket('models')
+create_minio_bucket('pipelines')
+get_minio_buckets()
+----
+
+. Upload a file to the bucket
+
++
+[source, python]
+----
+# Function to upload a file to a bucket
+def upload_file(file_path, bucket_name, object_name):
+    try:
+        s3.upload_file(file_path, bucket_name, object_name)
+        print(f"File '{file_path}' successfully uploaded to bucket '{bucket_name}' as '{object_name}'.")
+    except Exception as e:
+        print(f"Error uploading file '{file_path}' to bucket '{bucket_name}': {e}")
+----
+
++
+[source, python]
+----
+# Download the model
+from ultralytics import YOLO
+model = YOLO("https://rhods-public.s3.amazonaws.com/demo-models/ic-models/accident/accident_detect.onnx", task="detect")
+# Upload the file
+upload_file('weights/accident_detect.onnx', 'models', 'accident_model/accident_detect.onnx')
+----
+
+. View the contents of the bucket
+
++
+[source, python]
+----
+# Function to get the content in the bucket
+def get_minio_content(bucket):
+    # This function retrieves the content in the bucket
+    # MinIO admin info is not directly supported by boto3; you'd need to use MinIO's admin API.
+    print("Content:")
+    for key in s3.list_objects(Bucket=bucket)['Contents']:
+        print(f'  {key["Key"]}')
+----
+
++
+[source, python]
+----
+get_minio_content('models')
+----
+
