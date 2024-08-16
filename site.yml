@@ -1,6 +1,6 @@
 site:
   title: AI Accelerate Bootcamp
-  url: https://github.com/redhat-ai-services/ai-accelerator-bootcamp-instructions
+  url: https://redhat-ai-services.github.io/ai-accelerator-bootcamp-instructions
   start_page: modules::01_welcome.adoc
 
 ui:
