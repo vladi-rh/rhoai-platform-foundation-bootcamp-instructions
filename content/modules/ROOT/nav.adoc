@@ -1,4 +1,6 @@
-* 1. xref:01_welcome.adoc[Environment Set Up]
+* 1. xref:01_welcome.adoc[Welcome!]
+
+* 2. xref:05_environment_provisioning.adoc[Environment Provisioning]
 
 * 4. xref:20_ai-accelerator_review.adoc[AI-Accelerator Project]
 
@@ -24,5 +26,5 @@
 
 * 15. xref:70_rag_llm.adoc[RAG with LLM]
 
-* 16. xref:00_useful_tips.adoc[Useful Tips]
+* 16. xref:99_useful_tips.adoc[Useful Tips]
 
