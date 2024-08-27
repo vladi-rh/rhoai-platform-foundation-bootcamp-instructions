@@ -12,7 +12,7 @@ In this section we will order all three clusters at demo.redhat.com. Note that t
 
 The demo clusters typically take 1-2 hours to provision, although they may take a little longer on Monday mornings as they are using AWS spot instances and demand is usually high at the start of the work week. So it's suggested to provision them, and continue with the subsequent sections that don't require cluster access yet.
 
-## Provision a Demo Cluster
+## Provision the Demo Cluster
 
 The first cluster where we will run our demonstration projects requires a little more resources that the other two, so lets provision this first.
 
@@ -36,13 +36,15 @@ image::clustersettings_Dev_Prod.png[width=50%]
 
 ## While You Wait
 
-The provisioning process will take a while to complete, so why not take some time to check out some of the documentation in the AI Accelerator project that we will be installing once the clusters are ready:
+The provisioning process will take a while to complete, so why not take some time to check out some of the documentation in the AI Accelerator project that we will be bootstrapping, once the new clusters are ready:
 
 * https://github.com/redhat-ai-services/ai-accelerator[Project Introduction README]
-* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/overview.md[AI Accelerator Overview].
-* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/installation.md[AI Accelerator Installation Procedure].
-* https://github.com/redhat-ai-services/ai-accelerator/tree/main/tenants[Tenants documentation].
+* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/overview.md[AI Accelerator Overview]
+* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/installation.md[AI Accelerator Installation Procedure]
+* https://github.com/redhat-ai-services/ai-accelerator/tree/main/tenants[Tenants documentation]
 
 ## When the Cluster is Ready
 
-Once the clusters have been provisioned, you should receive an email containing the cluster URLs as well as an administrative user (such as `kubeadmin`) and password. You can also obtain these from the status dashboard at https://demo.redhat.com[demo.redhat.com] as well as perform administrative functions on your clusters, such as starting/stopping or extending the lifespan if desired.
+Once the clusters have been provisioned, you should receive an email containing the cluster URLs as well as an administrative user (such as `kubeadmin`) and password. 
+
+You can also obtain these URLs and credentials from your services dashboard at https://demo.redhat.com/[demo.redhat.com]. The dashboard also allows you to perform administrative functions on your clusters, such as starting/stopping or extending the lifespan if desired.
