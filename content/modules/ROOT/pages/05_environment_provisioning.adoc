@@ -2,108 +2,47 @@
 
 # Provisioning a Demonstration Environment
 
-For this boot camp, provision 3 instances of the Red Hat OpenShift Container Platform Cluster from demo.redhat.com.
+The subsequent sections of this lab will utilize three instances of the Red Hat OpenShift Container Platform Cluster:
 
-These would be used as demo, dev and prod clusters in this bootcamp.
+. **Demo Cluster**: for running the model training and deployment exercises
+. **Dev Cluster**: to simulate a development OpenShift cluster
+. **Prod Cluster**: to simulate a production OpenShift cluster
 
-## Spin up Demo Cluster
-Navigate to https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod and order a _**AWS with OpenShift Open Environment**_.
+In this section we will order all three clusters at demo.redhat.com. Note that these clusters are fairly short lived, typically they have a 6 hour runtime and are deleted after 48 hours, although the runtime can be temporarily extended as needed.
 
-IMPORTANT: The Control Plane Instance Type should be set to _**m6a.4xlarge**_
-Please make sure this is set correctly or your cluster will not have enough resources
+The demo clusters typically take 1-2 hours to provision, although they may take a little longer on Monday mornings as they are using AWS spot instances and demand is usually high at the start of the work week. So it's suggested to provision them, and continue with the subsequent sections that don't require cluster access yet.
+
+## Provision a Demo Cluster
+
+The first cluster where we will run our demonstration projects requires a little more resources that the other two, so lets provision this first.
+
+. Navigate to https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod[demo.redhat.com] and select the _**AWS with OpenShift Open Environment**_. Note that this is a blank / empty instance of OpenShift with no other operators or demo components preloaded, perfect for our lab exercise.
+. Change the the **Control Plane Instance Type** to **m6a.4xlarge**, as the default machine configuration does not have sufficient compute resources for the additional component we will be installing.
+. You should be able to use the default version of OpenShift, however since there are continuous releases it's a good idea to double check the https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/[RHOAI Documentation], under the **Supported configurations** subsection to ensure compatibility.
 
 [.bordershadow]
 image::OrderAWS_env.png[width=35%]
 
-This will take around 1-1:20 hrs.
+## Provision the Development and Production Clusters
 
-### Spin up Dev and Prod Cluster
+These are simple clusters used to demonstrate Kustomize overlays in a subsequent lab. One cluster will be used for the _**Dev**_ environment and the other for the _**Prod**_ environment.
 
-Navigate to https://demo.redhat.com/catalog?search=Red+Hat+OpenShift+Container+Platform+Cluster&item=babylon-catalog-prod%2Fopenshift-cnv.ocpmulti-wksp-cnv.prod and order 2 _**Red Hat OpenShift Container Platform Cluster**_. One for the _**Dev**_ environment and one for the _**Prod**_ environment. Create using the defaults:
+. Navigate to https://demo.redhat.com/catalog?search=Red+Hat+OpenShift+Container+Platform+Cluster&item=babylon-catalog-prod%2Fopenshift-cnv.ocpmulti-wksp-cnv.prod[demo.redhat.com] and order the _**Red Hat OpenShift Container Platform Cluster (AWS)**_
+. Select all default configuration options
+. Repeat these steps twice, one for Dev and the next for Prod clusters
 
 [.bordershadow]
 image::clustersettings_Dev_Prod.png[width=50%]
 
-**We'll be using and setting up the DEV and PROD clusters for the later sections.**
+## While You Wait
 
+The provisioning process will take a while to complete, so why not take some time to check out some of the documentation in the AI Accelerator project that we will be installing once the clusters are ready:
 
-## Install and Setup RHOAI & Components: Demo Environment
+* https://github.com/redhat-ai-services/ai-accelerator[Project Introduction README]
+* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/overview.md[AI Accelerator Overview].
+* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/installation.md[AI Accelerator Installation Procedure].
+* https://github.com/redhat-ai-services/ai-accelerator/tree/main/tenants[Tenants documentation].
 
-The environment install and setup will be performed with the help of the Red Hat AI Accelerator repository. This repo is intended to provide a core set of OpenShift features that would commonly be used for a Data Science environment, but can also be highly customized for specific scenarios.
+## When the Cluster is Ready
 
-### Set up Demo cluster
-Follow the following steps to complete the install and setup:
-
-. After the cluster is running and ready, log in as the admin.
-
-. In the top right drop down, select the _**Copy Login Command**_. Enter credentials again. Copy the login token as shown in the image. Paste and run the command in your local terminal. This should log you into the cluster through the terminal.
-
-[.bordershadow]
-image::Login_command.png[Copy the login token]
-
-NOTE: If the `oc login` command fails because of certificate issue, use: `--insecure-skip-tls-verify`
-
-[start=3]
-. Git clone the following repository to your local machine:
-[.console-input]
-[source,adoc]
-----
-git clone https://github.com/redhat-ai-services/ai-accelerator.git
-----
-
-[start=4]
-. Navigate to the cloned folder with the command:
-[source,terminal]
-----
-cd ai-accelerator/
-----
-
-[start=5]
-. Run the bootstrap script by running the bootstrap.sh script
-[source,terminal]
-----
-./bootstrap.sh
-----
-
-* This will first install the GitOps Operator and then provide the user with the following overlays:
-* If the script times out waiting for GitOps to come up, you may need to run the bootstrap script again.
-
-[.bordershadow]
-image::Bootstrap_selection_1.png[]
-
-[start=6]
-. For _**Demo**_ cluster type the number 3 and press Enter. 
-
-This will install all the applications in the bootstrap script and also provide a openshift-gitops-server (ArgoCD) link.
-
-[.bordershadow]
-image::Bootstrap_argo_url.png[]
-[start=7]
-. Log into the Argo CD link with the Openshift credentials and wait till everything syncs successfully.
-
-[.bordershadow]
-image::Argo_home_screen.png[]
-
-
-This will take around 25-30 minutes for everything to spin up.
-
-This will install RHOAI and related operators. Since we are using GPUs for the demo instance, it will also install the Nvidia GPU Operator and the Node Feature Discovery (NFD) Operator.
-
-This GPU overlay also uses _**MachineAutoscalers**_. Since there are Inferencing Service examples that use GPUs, a _**g5.2xlarge**_ machineset (with GPU) will spin up. This can take a few minutes.
-
-[NOTE]
-====
-If the granite inference service fails to spin up, delete the deployment and Argo should redeploy it.
-
-[SOURCE]
-----
-oc delete deployment granite-predictor-00001-deployment -n ai-example-single-model-serving
-----
-
-====
-
-
-We will cover the ai-accelerator project overview in a later section.
-
----
-Continue using the _**DEMO**_ cluster for the exercises.
+Once the clusters have been provisioned, you should receive an email containing the cluster URLs as well as an administrative user (such as `kubeadmin`) and password. You can also obtain these from the status dashboard at https://demo.redhat.com[demo.redhat.com] as well as perform administrative functions on your clusters, such as starting/stopping or extending the lifespan if desired.
