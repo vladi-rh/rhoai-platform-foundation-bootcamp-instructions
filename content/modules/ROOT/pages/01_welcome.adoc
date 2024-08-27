@@ -1,109 +1,36 @@
-:preinstall_operators: %preinstall_operators%
+# Red Hat OpenShift Artificial Intelligence - Accelerator Boot Camp
 
-# Welcome to the Red Hat OpenShift Artificial Intelligence Accelerator Bootcamp
+Welcome to the Red Hat OpenShift Artificial Intelligence (RHOAI) accelerator boot camp! 
 
-For this bootcamp, provision 3 instances of the Red Hat OpenShift Container Platform Cluster from demo.redhat.com.
+This module is a short, intensive and rigorous course of training covering the following topics:
 
-These would be used as demo, dev and prod clusters in this bootcamp.
+* Rapidly **provisioning RHOAI** onto your new OpenShift cluster
+* Working with **Kustomize** to tailor your GitOps based installation
+* Creating and deploying custom **data science container images**
 
-## Spin up Demo Cluster
-Navigate to https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod and order a _**AWS with OpenShift Open Environment**_.
+Once the RHOAI environment is up and running on your cluster, we will dive deeper into some common use cases:
 
-IMPORTANT: The Control Plane Instance Type should be set to _**m6a.4xlarge**_
-Please make sure this is set correctly or your cluster will not have enough resources
+* Training a ML model using a customized development container image
+* Using https://en.wikipedia.org/wiki/Amazon_S3[Amazon S3] based storage to save the newly trained model
+* Serving the model using a custom inference engine (runtime)
+* Using data science pipelines
+* Distributed model training, utilizing multiple compute nodes
+* Using Large Language Models (LLMs) in RHOAI
 
-[.bordershadow]
-image::OrderAWS_env.png[width=35%]
+At completion we hope that you'll have a greater understanding of the features in RHOAI, and the ability to rapidly implement your own AI/ML based project.
 
-This will take around 1-1:20 hrs.
+## What is the RHOAI Accelerator Project?
 
-### Spin up Dev and Prod Cluster
+Building an OpenShift cluster to support containerized AL/ML workloads can be quite complex. There are a number of additional operators, features and configuration that must be provisioned in order to expose features such as GPU compute enabled nodes, monitoring, ML training and deployment lifecycle and so on.
 
-Navigate to https://demo.redhat.com/catalog?search=Red+Hat+OpenShift+Container+Platform+Cluster&item=babylon-catalog-prod%2Fopenshift-cnv.ocpmulti-wksp-cnv.prod and order 2 _**Red Hat OpenShift Container Platform Cluster**_. One for the _**Dev**_ environment and one for the _**Prod**_ environment. Create using the defaults:
+It's possible to install all the various components by hand, making notes such as an installation "cheat sheet" while doing so. However this process will be quite tedious and take a fair amount of time, which is a problem for a number of reasons:
 
-[.bordershadow]
-image::clustersettings_Dev_Prod.png[width=50%]
+**Repetition**: For short lived clusters (e.g. demo.redhat.com) the cluster has a very short lifespan, measured in days. It's important that we have a way to rapidly re-provision a new cluster through the use of automation.
 
-**We'll be using and setting up the DEV and PROD clusters for the later sections.**
+**Customizable Framework**: The intent of the Accelerator project is to be cloned, copied and altered to match your exact requirements. This could be a customized cluster for experimentation on specific components, features or architecture. Or it could be a great starting point for building a GitOps cluster design for real world customer facing implementations.
 
+## RHOAI Accelerator - Open Source
 
-## Install and Setup RHOAI & Components: Demo Environment
+The source code for the AI Accelerator can be found at: https://github.com/redhat-ai-services/ai-accelerator
 
-The environment install and setup will be performed with the help of the Red Hat AI Accelerator repository. This repo is intended to provide a core set of OpenShift features that would commonly be used for a Data Science environment, but can also be highly customized for specific scenarios.
-
-### Set up Demo cluster
-Follow the following steps to complete the install and setup:
-
-. After the cluster is running and ready, log in as the admin.
-
-. In the top right drop down, select the _**Copy Login Command**_. Enter credentials again. Copy the login token as shown in the image. Paste and run the command in your local terminal. This should log you into the cluster through the terminal.
-
-[.bordershadow]
-image::Login_command.png[Copy the login token]
-
-NOTE: If the `oc login` command fails because of certificate issue, use: `--insecure-skip-tls-verify`
-
-[start=3]
-. Git clone the following repository to your local machine:
-[.console-input]
-[source,adoc]
-----
-git clone https://github.com/redhat-ai-services/ai-accelerator.git
-----
-
-[start=4]
-. Navigate to the cloned folder with the command:
-[source,terminal]
-----
-cd ai-accelerator/
-----
-
-[start=5]
-. Run the bootstrap script by running the bootstrap.sh script
-[source,terminal]
-----
-./bootstrap.sh
-----
-
-* This will first install the GitOps Operator and then provide the user with the following overlays:
-* If the script times out waiting for GitOps to come up, you may need to run the bootstrap script again.
-
-[.bordershadow]
-image::Bootstrap_selection_1.png[]
-
-[start=6]
-. For _**Demo**_ cluster type the number 3 and press Enter. 
-
-This will install all the applications in the bootstrap script and also provide a openshift-gitops-server (ArgoCD) link.
-
-[.bordershadow]
-image::Bootstrap_argo_url.png[]
-[start=7]
-. Log into the Argo CD link with the Openshift credentials and wait till everything syncs successfully.
-
-[.bordershadow]
-image::Argo_home_screen.png[]
-
-
-This will take around 25-30 minutes for everything to spin up.
-
-This will install RHOAI and related operators. Since we are using GPUs for the demo instance, it will also install the Nvidia GPU Operator and the Node Feature Discovery (NFD) Operator.
-
-This GPU overlay also uses _**MachineAutoscalers**_. Since there are Inferencing Service examples that use GPUs, a _**g5.2xlarge**_ machineset (with GPU) will spin up. This can take a few minutes.
-
-[NOTE]
-====
-If the granite inference service fails to spin up, delete the deployment and Argo should redeploy it.
-
-[SOURCE]
-----
-oc delete deployment granite-predictor-00001-deployment -n ai-example-single-model-serving
-----
-
-====
-
-
-We will cover the ai-accelerator project overview in a later section.
-
----
-Continue using the _**DEMO**_ cluster for the exercises.
+The accelerator was created and is currently maintained by the Red Hat AI Services organization, however contributions from anywhere are always greatly appreciated!

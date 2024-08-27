@@ -1,5 +1,5 @@
 site:
-  title: AI Accelerate Bootcamp
+  title: AI Accelerator Bootcamp
   url: https://redhat-ai-services.github.io/ai-accelerator-bootcamp-instructions
   start_page: modules::01_welcome.adoc
 
@@ -9,7 +9,7 @@ ui:
   supplemental_files: ./content/supplemental-ui
 
 content:
-  edit_url: 'https://github.com/arckrish/bootcamp-instructions/edit/main/{path}'
+  edit_url: 'https://redhat-ai-services.github.io/ai-accelerator-bootcamp-instructions/edit/main/{path}'
   sources:
     - url: ./
       start_path: content
