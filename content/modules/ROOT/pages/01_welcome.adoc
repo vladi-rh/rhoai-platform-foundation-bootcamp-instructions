@@ -34,3 +34,12 @@ It's possible to install all the various components by hand, making notes such a
 The source code for the AI Accelerator can be found at: https://github.com/redhat-ai-services/ai-accelerator
 
 The accelerator was created and is currently maintained by the Red Hat AI Services organization, however contributions from anywhere are always greatly appreciated!
+
+## Questions for Further Consideration
+
+Additional questions that could be discussed for this topic:
+
+. When would I want to manually install RHOAI and associated components, instead of using the AI Accelerator framework?
+. Who maintains the AI Accelerator framework project?
+. What if I find a bug, or have a new feature to contribute?
+. Can I add my own additional components into the AI Accelerator?

@@ -1,10 +1,10 @@
-# AI-Accelerator Project
+# AI Accelerator Project
 
-The AI-accelerator project is an automated way to deploy RHOAI, relevent operators, and examples to a cluster.
+The AI Accelerator project is an automated way to deploy RHOAI, relevent operators, and examples to a cluster.
 
 Navigate to the ai-accelerator github project: https://github.com/redhat-ai-services/ai-accelerator
 
-5. The ai-accelerator project installs Open Shift GitOps (ArgoCD) first, then uses ArgoCD to install RHOAI and the related operators. It also deploys examples such as inference services, a workbench, and pipelines.
+The ai-accelerator project installs Open Shift GitOps (ArgoCD) first, then uses ArgoCD to install RHOAI and the related operators. It also deploys examples such as inference services, a workbench, and pipelines.
 
 * The list of operators it can install are in the https://github.com/redhat-ai-services/ai-accelerator/tree/main/components/operators[operators] folder.
 *  Examples of model serving, workbench, and pipelines can be found in the https://github.com/redhat-ai-services/ai-accelerator/tree/main/tenants[tenants] folder.
@@ -16,6 +16,7 @@ This project is set up with ArgoCD and Kustomize in mind. Meaning ArgoCD will ha
 If you are unfamiliar with Kustomize, this is a very good tutorial: https://devopscube.com/kustomize-tutorial/[Learn more about Kustomize].
 
 ### Overview of Kustomize in AI-Accelerator Project
+
 Let's try to understand how Kustomize is being used to deploy the different resources in the ai-accelerator.
 
 1. When running the _**bootstrap.sh**_ script, it will apply the Open Shift GitOps operator by using Kustomize on the https://github.com/redhat-ai-services/ai-accelerator/blob/b90f025691e14d8e8a8d5ff3452107f8a0c8f48d/scripts/bootstrap.sh#L11[GitOps_Overlay] https://github.com/redhat-ai-services/ai-accelerator/tree/b90f025691e14d8e8a8d5ff3452107f8a0c8f48d/components/operators/openshift-gitops/operator/overlays/latest[folder]:
@@ -120,3 +121,17 @@ If you are using a disconnected environment, you will need to first setup:
 - the registry for the images
 - the git repositories, proxies and credentials
 ====
+
+## References
+
+* Red Hat Blog: https://www.redhat.com/en/blog/your-guide-to-continuous-delivery-with-openshift-gitops-and-kustomize[Your Guide to Continuous Delivery with OpenShift GitOps and Kustomize] - a good article explaining more GitOps concepts
+* GitHub: https://github.com/gnunn-gitops/standards/blob/master/folders.md[GitOps Folder Structure] - the original inspiration for the folder structure in the AI Accelerator project
+* Red Hat Blog: https://www.redhat.com/en/blog/enterprise-mlops-reference-design[Enterprise MLOps Reference Design] - a conceptual reference design for performing Machine Learning Operations (MLOps)
+* Topic: https://www.redhat.com/en/topics/devops/what-is-gitops[What is GitOps?] - 7-minute read on the topic of GitOps
+
+## Questions for Further Consideration
+
+Additional questions that could be discussed for this topic:
+
+. Where can I find a list of curated components that follow the GitOps pattern? Hint, see the https://github.com/redhat-cop/gitops-catalog[GitOps Catalog] GitHub page.
+. Wow this project structure is complicated! Is there a way to simplify the project folder structures? Hint, a good discussion could be had on where we came from and how we got here in terms of project design and layout.

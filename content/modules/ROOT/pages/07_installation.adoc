@@ -21,7 +21,7 @@ Clone (download) the Git repository containing the AI Accelerator, since we will
 
 TIP: If you can't or prefer not to run the installation from your local machine (such as in a locked down corporate environment), you can also use the Bastion host instead. This is a Linux virtual machine running on AWS, the SSH login details are provided in the provisioning email you received from demo.redhat.com. Just be aware that the Basion host is deprovisioned when the cluster is deleted, so be sure to git commit any changes frequently.
 
-[start=2]
+[start=4]
 . Git clone the following repository to your local machine. If you're using a fork, then change the repository URL in the command below to match yours:
 [.console-input]
 [source,adoc]
@@ -33,7 +33,7 @@ git clone https://github.com/redhat-ai-services/ai-accelerator.git
 
 Carefully follow the instructions found in https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/installation.md[`documentation/installation.md`], with the following specifics:
 
-[start=3]
+[start=5]
 . Use the _**Demo**_ cluster credentials when logging into OpenShift
 . Select number 3 when prompted: 
 [.bordershadow]
@@ -44,7 +44,7 @@ This will install all the applications in the bootstrap script and also provide 
 [.bordershadow]
 image::Bootstrap_argo_url.png[]
 
-[start=4]
+[start=7]
 . Log into the Argo CD link with the Openshift credentials and wait till everything syncs successfully.
 [.bordershadow]
 image::Argo_home_screen.png[]
@@ -71,3 +71,14 @@ We will cover the ai-accelerator project overview in a later section.
 
 ---
 Continue using the _**DEMO**_ cluster for the subsequent exercises.
+
+## Questions for Further Consideration
+
+Additional questions that could be discussed for this topic:
+
+. What's the difference between "bootstrapping" and "installing" the new OpenShift cluster?
+. Why is forking an open source project a good idea? 
+. How can a project fork be used to contribute back to the parent project with bug fixes, updates and new features?
+. Could, or should the bootstrap shell script be converted to Ansible?
+. How does the bootstrap script provision GPU resources in the new OpenShift cluster? Hint: a quick walk through the logic in the source code should be a useful exercise, time permitting.
+. Where can I get help if the bootstrap process breaks?

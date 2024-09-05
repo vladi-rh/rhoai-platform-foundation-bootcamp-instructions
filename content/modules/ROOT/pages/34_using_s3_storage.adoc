@@ -1,13 +1,26 @@
-# Boto3 exploration
+# Using S3 Storage
 
-In this module you will use boto3 to explore the existing minio configuration and set up scripts to automate uploading the models to the locations you need for your pipelines to run. 
+In this module you will set up some S3 based storage in the OpenShift cluster, and the utilize the Python package called https://pypi.org/project/boto3/[Boto3] to explore the existing S3 based storage configuration.
 
-## Minio S3 Storage
-Let's add Minio s3 storage to our dev environment project so Argo can deploy it.
+We will also set up scripts to automate uploading the ML models to the locations required by the pipelines in subsequent modules.
 
-If you need a reference, the ai-accelerator project has minio set up in under the `tenants/ai-examples folder`.
+## What is S3 Storage?
 
-### Set up minio
+Amazon Simple Storage Service (S3) is a service offered by Amazon Web Services (AWS) that provides object storage through a web service interface.
+
+This lab uses https://github.com/minio/minio[MinIO] to implement S3 storage, which is High Performance Object Storage released under GNU Affero General Public License v3.0. MinIO is API compatible with Amazon S3 cloud storage service. Use MinIO to build high performance infrastructure for machine learning, analytics and application data workloads.
+
+For more information about S3:
+* AWS documentation: https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html[What is Amazon S3?]
+* Wikipedia: https://en.wikipedia.org/wiki/Amazon_S3[Amazon S3]
+
+## Adding MinIO to the Cluster
+
+In this section we will add MinIO S3 storage operator to our dev OpenShift cluster configuration project so Argo can deploy it.
+
+If you need a reference, the ai-accelerator project has MinIO set up in under the `tenants/ai-examples folder`.
+
+### Set up MinIO
 
 . Create a `object-datastore.yaml` file in the `tenants/parasol-insurance/namespaces/base` directory with the following content:
 
@@ -85,7 +98,8 @@ resources:
 The same content will work for both overlays (dev and prod)
 ====
 
-Commit your changes to your fork of ai-accelerator project. Let ArgoCD sync and deploy minio.
+Commit your changes to your fork of ai-accelerator project. Wait for ArgoCD to sync and deploy MinIO.
+
 You should find your minio resource in the _**object-datastore**_ namespace.
 
 The *minio-ui* route can be found in _**object-datastore**_ namespace under _**Routes**_. Open this in a new tab and log in with `minio:minio123`.
@@ -97,9 +111,9 @@ Compare your change to this in git https://github.com/redhat-ai-services/ai-acce
 
 Explore the S3 storage.
 
-## Set up an standard data science workbench to explore S3 with boto3
+## Explore S3 with Boto3
 
-We have previously used a custom workbench to explore how to train a model. Now we will use a standard workbench to explore the S3 storage.
+We have previously used a custom workbench to explore how to train a model. Now we will use a standard workbench to explore the S3 storage using the Boto3 Python package.
 
 ### Create a standard workbench
 
@@ -293,7 +307,7 @@ resources:
   - ../../base
 ----
 
-. Push the changes to git, and wait for the synchrnization to complete.
+. Push the changes to git, and wait for the synchronization to complete.
 
 +
 [TIP]
@@ -307,8 +321,11 @@ Validate against  https://github.com/redhat-ai-services/ai-accelerator-qa/pull/n
 [.bordershadow]
 image::standard-workbench.png[Standard workbench]
 
-## Explore S3 in RHOAI Workbench:
-Some S3 technologies do not come with UI or CLI to interact with the buckets or files. A common tool that can be used accross all S3 technologies is boto3. Boto3 is the AWS SDK for Python. It allows you to directly interact with AWS services such as S3, EC2, and more.
+## Explore S3 in RHOAI Workbench
+
+https://pypi.org/project/boto3/[Boto3] is a commonly used Python package, which is the AWS SDK for communicating with S3 storage providers. It allows you to directly interact with AWS services such as S3, EC2, and more.
+
+Lets create some Python code in a Jupyter notebook to interact with our S3 storage:
 
 . Go to RHOAI Dashboard and go to the _**parasol-insurance**_ Data Science Project.
 
@@ -324,11 +341,11 @@ image::standard-workbench.png[Standard workbench]
 [.bordershadow]
 image::Workbench_env_vars.png[]
 
-. Launch the workbench and wait for the Jupyter notebook to spin up.
+. Launch the workbench and wait for the Jupyter notebook to start up.
 
 . Create a new Notebook. 
 
-. In a new cell, add and run the content below to install boto3 and ultralytics.
+. In a new cell, add and run the content below to install the `boto3` and `ultralytics` packages using pip.
 
 +
 [source, python]
@@ -336,7 +353,7 @@ image::Workbench_env_vars.png[]
 !pip install boto3 ultralytics
 ----
 
-. Configure the connection to minio S3
+. Configure the connection to MinIO S3
 
 +
 [source, python]
@@ -449,3 +466,10 @@ def get_minio_content(bucket):
 get_minio_content('models')
 ----
 
+## Questions for Further Consideration
+
+Additional questions that could be discussed for this topic:
+
+* What other tools exist for interacting with S3? Hint, https://s3tools.org/s3cmd[s3cmd] is another quite popular S3 CLI tool.
+* Could a shortcut to the MinIO Console be added to OpenShift? Hint, see the OpenShift `ConsoleLink` API, https://github.com/redhat-na-ssa/demo-lab-config/blob/main/demo/run-mlflow/link-minio.yaml[here's an example].
+* What's the maximum size of an object, such as a ML model that can be stored in S3?
