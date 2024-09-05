@@ -12,7 +12,7 @@
 
 * 7. xref:32_model_training_car.adoc[Model Training]
 
-* 8. xref:34_boto3.adoc[Boto3]
+* 8. xref:34_using_s3_storage.adoc[Using S3 Storage]
 
 * 9. xref:36_deploy_model.adoc[Deploy Model]
 

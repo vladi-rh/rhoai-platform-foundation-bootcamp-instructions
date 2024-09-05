@@ -71,3 +71,14 @@ We will cover the ai-accelerator project overview in a later section.
 
 ---
 Continue using the _**DEMO**_ cluster for the subsequent exercises.
+
+## Questions for Further Consideration
+
+Additional questions that could be discussed for this topic:
+
+. What's the difference between "bootstrapping" and "installing" the new OpenShift cluster?
+. Why is forking an open source project a good idea? 
+. How can a project fork be used to contribute back to the parent project with bug fixes, updates and new features?
+. Could, or should the bootstrap shell script be converted to Ansible?
+. How does the bootstrap script provision GPU resources in the new OpenShift cluster? Hint: a quick walk through the logic in the source code should be a useful exercise, time permitting.
+. Where can I get help if the bootstrap process breaks?

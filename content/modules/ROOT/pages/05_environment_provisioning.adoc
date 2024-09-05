@@ -48,3 +48,13 @@ The provisioning process will take a while to complete, so why not take some tim
 Once the clusters have been provisioned, you should receive an email containing the cluster URLs as well as an administrative user (such as `kubeadmin`) and password. 
 
 You can also obtain these URLs and credentials from your services dashboard at https://demo.redhat.com/[demo.redhat.com]. The dashboard also allows you to perform administrative functions on your clusters, such as starting/stopping or extending the lifespan if desired.
+
+## Questions for Further Consideration
+
+Additional questions that could be discussed for this topic:
+
+. How long can we use the demo.redhat.com OpenShift cluster? When will it get deleted?
+. I want to install a demonstration cluster that might last several months for a RHOAI evaluation period. What options are available?
+. Can we use our own AWS based OpenShift cluster, other than one from demo.redhat.com?
+. Could I install this on my own hardware, such as my desktop PC that is running a single node OpenShift cluster?
+. The topic of being able to easily repeat an installation, as discussed in the following GitOps sections may be interesting to discuss, since this means that work done to configure an environment is not lost if the environment is destroyed.

@@ -304,3 +304,14 @@ image::01_custom_workbench.png[Custom workbench]
 ====
 Verify your work against https://github.com/redhat-ai-services/ai-accelerator-qa/pull/new/31_custom_notebook:[This custom-workbench branch]
 ====
+
+## Questions for Further Consideration
+
+Additional questions that could be discussed for this topic:
+
+. How many Python packages are included in your typical data scientist development environment? Are there any packages that are unique to your team?
+. How do you handle continuous updates in your development environment, remembering that AI/ML is an evolving landscape, and new packages are released all the time, and existing packages are undergoing very frequent updates?
+. Can data scientists ask for new packages in a securely controlled development environment?
+. Where do you store source code for model experimentation and training?
+. Do you think that cluster storage (such as an OpenShift PVC) is a good permanent location for source code, so that in the event of failure the source is not lost?
+. How do your teams of data scientists collaborate on notebooks when training models or performing other experiments?

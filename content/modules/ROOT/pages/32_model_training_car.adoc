@@ -1,8 +1,8 @@
 # Model Training with Custom Notebook
 
-## In this module you will sync a git repo and run through a the parasol-insurnace Jupyter notebooks. 
+In this module you will sync a git repo, and then execute the logic contained in the parasol-insurance Jupyter notebooks. 
 
-We will use the custom image we created and uploaded before and we will create a workbench with the customer image we uploaded in module 04.  
+To perform this task, we will use the custom data science notebook image we created and uploaded in the previous module. 
 
 ## Steps to create workbench with a custom notebook
 

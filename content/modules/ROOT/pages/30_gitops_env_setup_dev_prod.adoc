@@ -1,6 +1,7 @@
 # Environment Install and Setup: DEV and PROD Cluster
 
 ## Parasol-insurance-dev cluster
+
 Follow the following steps to complete the install and setup:
 
 * After the cluster is running and ready, log in as the admin
@@ -313,3 +314,11 @@ When running the bootstrap script, select `bootstrap/overlays/parasol-insurance-
 ====
 To check your work please refer to https://github.com/redhat-ai-services/ai-accelerator-qa/tree/30_gitops_env_setup_prod[This Prod Branch] 
 ====
+
+## Questions for Further Consideration
+
+Additional questions that could be discussed for this topic:
+
+. How familiar are your development teams with CI/CD concepts?
+. How do you currently deploy project to development, QA and Production environments?
+. Is ArgoCD new to the team?
