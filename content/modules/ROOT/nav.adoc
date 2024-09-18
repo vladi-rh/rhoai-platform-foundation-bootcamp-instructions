@@ -10,23 +10,25 @@
 
 * 6. xref:31_custom_notebook.adoc[Custom Notebook]
 
-* 7. xref:32_model_training_car.adoc[Model Training]
+* 7. xref:32_dashboard_configuration.adoc[RHOAI Dashboard Configuration]
 
-* 8. xref:34_using_s3_storage.adoc[Using S3 Storage]
+* 8. xref:33_model_training_car.adoc[Model Training]
 
-* 9. xref:36_deploy_model.adoc[Deploy Model]
+* 9. xref:34_using_s3_storage.adoc[Using S3 Storage]
 
-* 10. xref:40_setup_pipeline_server.adoc[Setup Pipeline Server]
+* 10. xref:36_deploy_model.adoc[Deploy Model]
 
-* 11. xref:41_introduction_to_kfp_pipelines.adoc[Introduction to KFP Pipelines]
+* 11. xref:40_setup_pipeline_server.adoc[Setup Pipeline Server]
 
-* 12. xref:42_working_with_pipelines.adoc[Working with Pipelines]
+* 12. xref:41_introduction_to_kfp_pipelines.adoc[Introduction to KFP Pipelines]
 
-* 13. xref:50_distributed_training.adoc[Distributed Training]
+* 13. xref:42_working_with_pipelines.adoc[Working with Pipelines]
 
-* 14. xref:60_llm_explore.adoc[Explore LLMs]
+* 14. xref:50_distributed_training.adoc[Distributed Training]
 
-* 15. xref:70_rag_llm.adoc[RAG with LLM]
+* 15. xref:60_llm_explore.adoc[Explore LLMs]
 
-* 16. xref:99_useful_tips.adoc[Useful Tips]
+* 16. xref:70_rag_llm.adoc[RAG with LLM]
+
+* 17. xref:99_useful_tips.adoc[Useful Tips]
 
