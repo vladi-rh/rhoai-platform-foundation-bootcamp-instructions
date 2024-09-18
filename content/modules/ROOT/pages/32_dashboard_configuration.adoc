@@ -10,7 +10,7 @@ Notebooks and workbenches can consume many compute resources. Additionally, user
 
 The Idle Notebook Culler helps reduce the number of inactive notebooks running on the cluster. It tracks the last time an action was taken in a notebook and shuts down the pods if the notebook has been inactive for a period of time. A notebook is considered inactive when no user has taken an action inside of the notebook. Actions include executing a cell, creating files, or interacting with the user interface.
 
-image:assets/images/idle-notebook-culling.png[Idle Notebook Culling]
+image:idle-notebook-culling.png[Idle Notebook Culling]
 
 In RHOAI Dashboard>Settings>Cluster Settings>Stop idle notebooks:
 When enabled is selected and saved, the ConfigMap below will be created. You can enable culling outside of RHOAI Dashboard by applying this ConfigMap to `redhat-ods-applications` namespace.
