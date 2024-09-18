@@ -28,5 +28,7 @@
 
 * 15. xref:70_rag_llm.adoc[RAG with LLM]
 
-* 16. xref:99_useful_tips.adoc[Useful Tips]
+* 16. xref:80_dashboard_configuration.adoc[RHOAI Dashboard Configuration]
+
+* 17. xref:99_useful_tips.adoc[Useful Tips]
 
