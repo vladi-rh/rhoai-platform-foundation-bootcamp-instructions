@@ -7,7 +7,7 @@ Some of the clients have expressed interest in connecting to remote workbench fr
 * Create a Data Science Project ai-bootcamp 
 
 [.bordershadow]
-image::create_projecti.png[width=35%]
+image::create_project.png[width=35%]
 
 * Create a workbench with following parameters:
     **Name** workbench-1
@@ -83,28 +83,28 @@ print(pca.explained_variance_ratio_)
 * Login to OpenShift from terminal on your laptop. 
 
 [.bordershadow]
-image::terminal_oclogin.png[width=35%]
+image::terminal_oclogin.png[]
 
 * Switch to project and view pods
 
 [.bordershadow]
-image::terminal_getpods.png[width=35%]
+image::terminal_getpods.png[]
 
 * Start port-forwarding to the workbench pod
 You need to forward to the port the pod is listening on. It is usually 8888 for RHOAI workbench. You can find this port from the service in your project with name same as your workbench.
 
 [.bordershadow]
-image::terminal_portforward.png[width=35%]
+image::terminal_portforward.png[]
 
 * Open the Jupyter Notebook in your VSCode
 
 [.bordershadow]
-image::vscode.png[width=35%]
+image::vscode.png[]
 
 * Click on **Select Kernel** in the top right corner of the notebook. 
 
 [.bordershadow]
-image::vscode_kernel.png[width=35%]
+image::vscode_kernel.png[]
 
 * From the options, select **Existing Jupyter Server** and then enter the url as follows: localhost [:port] /context-path 
 
@@ -115,27 +115,27 @@ http://localhost:8888/notebook/ai-bootcamp/workbench-1/lab
 ----
 
 [.bordershadow]
-image::vscode_connect_url.png[width=35%]
+image::vscode_connect_url.png[]
 
 * Select Yes for the prompt: _Connecting over HTTP without a token may be an insecure connection. Do you want to connect to a possibly insecure server?_
 
 [.bordershadow]
-image::vscode_connect_prompt.png[width=35%]
+image::vscode_connect_prompt.png[]
 
 * Choose a new name or click 'Enter' to accept the suggested server name. 
 
 [.bordershadow]
-image::vscode_kernel_name.png[width=35%]
+image::vscode_kernel_name.png[]
 
 * Choose **Python 3.9** from the list of available kernels. 
 
 [.bordershadow]
-image::vscode_recommended_kernel.png[width=35%]
+image::vscode_recommended_kernel.png[]
 
 * We should be able to see the selected kernel in top-right corner. Execute the cells  in the notebook. This will execute using the remote kernel on the RHOAI workbench. 
 
 [.bordershadow]
-image::vscode_selected_kernel.png[width=35%]
+image::vscode_selected_kernel.png[]
 
 ## Limitations to this approach: 
 
