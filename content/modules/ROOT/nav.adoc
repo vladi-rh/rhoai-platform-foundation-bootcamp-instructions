@@ -25,7 +25,9 @@
     ** 14. xref:42_working_with_pipelines.adoc[Working with Pipelines]
 
 * Distributed Training
-    ** 15. xref:50_distributed_training.adoc[Distributed Training]
+    ** 15. xref:50_distributed_training.adoc[Ray Cluster]
+    
+* Large Language Model [LLM]
     ** 16. xref:60_llm_explore.adoc[Explore LLMs]
     ** 17. xref:70_rag_llm.adoc[RAG with LLM]
 
