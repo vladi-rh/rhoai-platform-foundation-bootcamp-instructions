@@ -35,7 +35,7 @@ Carefully follow the instructions found in https://github.com/redhat-ai-services
 
 [start=5]
 . Use the _**Demo**_ cluster credentials when logging into OpenShift
-. Select number 3 when prompted: 
+. Select number 7 - stable-2.13 when prompted: 
 
 [.bordershadow]
 image::bootstrapOptions.png[]
