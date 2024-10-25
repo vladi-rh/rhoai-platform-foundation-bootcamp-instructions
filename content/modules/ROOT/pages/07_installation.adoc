@@ -37,9 +37,9 @@ Carefully follow the instructions found in https://github.com/redhat-ai-services
 . Use the _**Demo**_ cluster credentials when logging into OpenShift
 . Select number 3 when prompted: 
 [.bordershadow]
-image::Bootstrap_selection_1.png[]
+image::bootstrapOptions.png[]
 
-This will install all the applications in the bootstrap script and also provide a openshift-gitops-server (ArgoCD) link. Option 3 will install RHOAI and related operators. Since we are using GPUs for the demo instance, it will also install the Nvidia GPU Operator and the Node Feature Discovery (NFD) Operator.
+This will install all the applications in the bootstrap script and also provide a openshift-gitops-server (ArgoCD) link. Option 3 and 6 will install RHOAI and related operators. Since we are using GPUs for the demo instance, it will also install the Nvidia GPU Operator and the Node Feature Discovery (NFD) Operator.
 
 [.bordershadow]
 image::Bootstrap_argo_url.png[]
