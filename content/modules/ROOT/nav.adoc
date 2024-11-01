@@ -6,6 +6,15 @@
     ** 3. xref:20_ai-accelerator_review.adoc[Project Overview]
     ** 4. xref:07_installation.adoc[Bootstrap Installation]
     ** 5. xref:30_gitops_env_setup_dev_prod.adoc[Setup Dev & Prod Environments]
-    
+
 * RHOAI Administration
     ** 6. xref:32_dashboard_configuration.adoc[RHOAI Dashboard Configuration]
+
+* Notebooks
+    ** 7. xref:31_custom_notebook.adoc[Custom Notebook]
+    ** 8. xref:33_model_training_car.adoc[Model Training]
+    ** 9. xref:09_remote_connect_notebook.adoc[Connect to Workbench Kernel]
+
+* Storage
+    ** 10. xref:34_using_s3_storage.adoc[Using S3 Storage]
+    ** 11. xref:36_deploy_model.adoc[Deploy Model]
