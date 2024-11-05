@@ -218,7 +218,7 @@ spec:
         version: '1'
       name: ''
       resources: {}
-      runtime: <update this>
+      runtime: <add runtime>
       storage:
         key: <add data connection here>
         path: <Add model path here>
