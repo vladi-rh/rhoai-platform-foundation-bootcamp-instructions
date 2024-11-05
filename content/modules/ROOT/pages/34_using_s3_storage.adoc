@@ -22,9 +22,12 @@ If you need a reference, the ai-accelerator project has MinIO set up in under th
 
 ### Set up MinIO
 
-. Create a `object-datastore.yaml` file in the `tenants/parasol-insurance/namespaces/base` directory with the following content:
+. Create a namespace resource called `object-datastore.yaml` in the `tenants/parasol-insurance/namespaces/base`. This should be an OpenShift Namespace resource named `object-datastore`.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/namespaces/bases/object-datastore.yaml
 [source,yaml]
 ----
@@ -35,10 +38,14 @@ metadata:
   labels:
     kubernetes.io/metadata.name: object-datastore
 ----
+====
 
-. Modify the `tenants/parasol-insurance/namespaces/base/kustomization.yaml` file to include the new namespace:
+. Modify the `tenants/parasol-insurance/namespaces/base/kustomization.yaml` file to include the new namespace resource:
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/namespaces/base/kustomization.yaml
 [source,yaml]
 ----
@@ -49,14 +56,18 @@ resources:
   - parasol-insurance.yaml
   - object-datastore.yaml
 ----
+====
 
 . Create a new directory named `minio` in the `tenants/parasol-insurance` directory.
 
 . Create the `base` and `overlays` directories inside the `minio` directory.
 
-. Create a file named `kustomization.yaml` inside the `minio/base` directory with the following content:
+. Create a file named `kustomization.yaml` inside the `minio/base` directory. This should point to the `minio/overlays/default` folder.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/minio/base/kustomization.yaml
 [source,yaml]
 ----
@@ -68,10 +79,14 @@ namespace: object-datastore
 resources:
   - ../../../../components/apps/minio/overlays/default
 ----
+====
 
-. Add the overlay for `parasol-insurance-dev`, and `parasol-insurance-prod` with the following `kustomization.yaml` file content:
+. Add the overlay for `parasol-insurance-dev`, and `parasol-insurance-prod`. This should be a `kustomization.yaml` file pointing to the overlays directories for `parasol-insurance-dev` and `parasol-insurance-prod`.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/minio/overlays/parasol-insurance-dev/kustomization.yaml
 [source,yaml]
 ----
@@ -91,7 +106,7 @@ kind: Kustomization
 resources:
   - ../../base
 ----
-
+====
 
 [TIP]
 ====
@@ -104,10 +119,6 @@ You should find your minio resource in the _**object-datastore**_ namespace.
 
 The *minio-ui* route can be found in _**object-datastore**_ namespace under _**Routes**_. Open this in a new tab and log in with `minio:minio123`.
 
-[TIP]
-====
-Compare your change to this in git https://github.com/redhat-ai-services/ai-accelerator-qa/pull/new/34_boto3[boto3 minio branch]
-====
 
 Explore the S3 storage.
 
@@ -119,13 +130,16 @@ We have previously used a custom workbench to explore how to train a model. Now 
 
 . Navigate to RHOAI dashboard, and stop the `custom-workbench`.
 
-. Create a directory named `standard-workbench` in the `tenants/parasol-insurance` directory.
+. In your ai-accelerator fork project, create a directory named `standard-workbench` in the `tenants/parasol-insurance` directory.
 
 . Create the `base` and `overlays` directories inside the `standard-workbench` directory.
 
-. Create a file named `kustomization.yaml` inside the `standard-workbench/base` directory with the following content:
+. Create a `kustomization.yaml` file inside the `standard-workbench/base` directory. This should have resources for the **workbench pvc, data connection, and workbench notebook** and should be in the `parasol-insurance` namespace.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/standard-workbench/base/kustomization.yaml
 [source,yaml]
 ----
@@ -138,10 +152,14 @@ resources:
   - minio-data-connection.yaml
   - standard-workbench-notebook.yaml
 ----
+====
 
-. Create a file named `standard-workbench-pvc.yaml` inside the `standard-workbench/base` directory with the following content:
+. Create a file named `standard-workbench-pvc.yaml` inside the `standard-workbench/base` directory. This resource should be a OpenShift PVC resource with **40Gi** of storage.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/standard-workbench/base/standard-workbench-pvc.yaml
 [source,yaml]
 ----
@@ -158,10 +176,14 @@ spec:
       storage: 40Gi
   volumeMode: Filesystem
 ----
+====
 
-. Create a file named `minio-data-connection.yaml` inside the `standard-workbench/base` directory with the following content:
+. Create a secret named `minio-data-connection.yaml` inside the `standard-workbench/base` directory. This shoud have the minio S3 connection details. This should show up in the Data Connection tab of the Data Science Project if set up correctly.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/standard-workbench/base/minio-data-connection.yaml
 [source,yaml]
 ----
@@ -183,10 +205,14 @@ stringData:
   AWS_DEFAULT_REGION: east-1
 type: Opaque
 ----
+====
 
-. Create a file named `standard-workbench-notebook.yaml` inside the `standard-workbench/base` directory with the following content:
+. Create a file named `standard-workbench-notebook.yaml` inside the `standard-workbench/base` directory. This yaml should be a `Notebook` RHOAI resource with the `s2i-generic-data-science-notebook:2024.1` image. It should reference the PVC storage and the data connection resource that we created earlier. TIP: You can find an example/reference Notebook resource by using the OpenShift search.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/standard-workbench/base/standard-workbench-notebook.yaml
 [source,yaml]
 ----
@@ -291,12 +317,16 @@ spec:
             optional: true
           name: trusted-ca
 ----
+====
 
 . Create a directory named `parasol-insurance-dev` under the `standard-workbench/overlays` directory.
 
-. Create a file named `kustomization.yaml` inside the `standard-workbench/overlays/parasol-insurance-dev` directory with the following content:
+. Create a `kustomization.yaml` file inside the `standard-workbench/overlays/parasol-insurance-dev` directory. This should point to the base folder of the `parsol-insurance-dev` directory:
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/standard-workbench/overlays/parasol-insurance-dev/kustomization.yaml
 [source,yaml]
 ----
@@ -306,14 +336,10 @@ kind: Kustomization
 resources:
   - ../../base
 ----
-
-. Push the changes to git, and wait for the synchronization to complete.
-
-+
-[TIP]
 ====
-Validate against  https://github.com/redhat-ai-services/ai-accelerator-qa/pull/new/34_boto3_standard_workbench[boto3 standard_workbench branch]
-====
+
+. Push the changes to your fork, and wait for the Argo synchronization to complete.
+
 
 . Navigate to RHOAI dashboard, and you should see an `Standard Workbench` available in the `Workbenches` tab.
 
@@ -353,9 +379,12 @@ image::Workbench_env_vars.png[]
 !pip install boto3 ultralytics
 ----
 
-. Configure the connection to MinIO S3
+. Configure the connection to MinIO S3. Make sure to reference the S3 connection details.
 
 +
+.Solution
+[%collapsible]
+====
 [source, python]
 ----
 import os
@@ -376,10 +405,14 @@ s3 = boto3.client(
     config=Config(signature_version='s3v4'),
 )
 ----
+====
 
-. List the current buckets
+. Using the boto3.client from the previous step, define a function to list the current buckets. Name this function `get_minio_buckets`
 
 +
+.Solution
+[%collapsible]
+====
 [source, python]
 ----
 # Function to get MinIO server info
@@ -393,6 +426,7 @@ def get_minio_buckets():
   
 get_minio_buckets()
 ----
+====
 
 +
 [NOTE]
@@ -400,9 +434,12 @@ get_minio_buckets()
 We currently have no buckets in the S3 storage. We will create a bucket and upload a file to it.
 ====
 
-. Create a new bucket
+. Using the boto3.client, create a function to create a new bucket in S3 storage. Name it `create_minio_bucket` with `bucket_name` as an input parameter.
 
 +
+.Solution
+[%collapsible]
+====
 [source, python]
 ----
 # Function to create a bucket
@@ -413,18 +450,27 @@ def create_minio_bucket(bucket_name):
     except Exception as e:
         print(f"Error creating bucket '{bucket_name}': {e}")
 ----
+====
+
+. Use the fuctions that you just created to create 2 buckets: `models` and `pipelines`. Use the `get_minio_buckets` function you created to view the newly created buckets.
 
 +
+.Solution
+[%collapsible]
+====
 [source, python]
 ----
 create_minio_bucket('models')
 create_minio_bucket('pipelines')
 get_minio_buckets()
 ----
-
-. Upload a file to the bucket
+====
+. Using the boto3.client, create a function to upload a file to a bucket. This function should be named `upload_file` and should take 3 input parameters: `file_path`, `bucket_name`, and `object_name`.
 
 +
+.Solution
+[%collapsible]
+====
 [source, python]
 ----
 # Function to upload a file to a bucket
@@ -435,7 +481,22 @@ def upload_file(file_path, bucket_name, object_name):
     except Exception as e:
         print(f"Error uploading file '{file_path}' to bucket '{bucket_name}': {e}")
 ----
+====
 
+. Download the `accident_detect.onnx` model and upload the file to S3 storage under the `models` bucket. The onnx file should be stored under the path: `weights/accident_detect.onnx`. You can use this snippet to download the onnx model:
+
++
+[source, python]
+----
+# Download the model
+from ultralytics import YOLO
+model = YOLO("https://rhods-public.s3.amazonaws.com/demo-models/ic-models/accident/accident_detect.onnx", task="detect")
+----
+
++
+.Solution
+[%collapsible]
+====
 +
 [source, python]
 ----
@@ -445,10 +506,14 @@ model = YOLO("https://rhods-public.s3.amazonaws.com/demo-models/ic-models/accide
 # Upload the file
 upload_file('weights/accident_detect.onnx', 'models', 'accident_model/accident_detect.onnx')
 ----
+====
 
-. View the contents of the bucket
+. Create a function to view the contents of the bucket. The function should be named `get_minio_content` and should have an input parameter of `bucket`.
 
 +
+.Solution
+[%collapsible]
+====
 [source, python]
 ----
 # Function to get the content in the bucket
@@ -459,12 +524,19 @@ def get_minio_content(bucket):
     for key in s3.list_objects(Bucket=bucket)['Contents']:
         print(f'  {key["Key"]}')
 ----
+====
+
+. Call the newly created function to view the file contents of the `models` bucket.
 
 +
+.Solution
+[%collapsible]
+====
 [source, python]
 ----
 get_minio_content('models')
 ----
+====
 
 ## Questions for Further Consideration
 
