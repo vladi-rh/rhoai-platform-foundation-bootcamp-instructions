@@ -139,8 +139,6 @@ We have previously used a custom workbench to explore how to train a model. Now 
 +
 .tenants/parasol-insurance/standard-workbench/base/kustomization.yaml
 [source,yaml]
-:source-highlighter: coderay
-[%linenums,yaml,highlight=4]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -148,7 +146,6 @@ kind: Kustomization
 resources:
   - <add resources here>
 ----
-
 
 +
 .Solution
