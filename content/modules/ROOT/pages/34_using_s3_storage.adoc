@@ -134,7 +134,19 @@ We have previously used a custom workbench to explore how to train a model. Now 
 
 . Create the `base` and `overlays` directories inside the `standard-workbench` directory.
 
-. Create a `kustomization.yaml` file inside the `standard-workbench/base` directory. This should have resources for the **workbench pvc, data connection, and workbench notebook** and should be in the `parasol-insurance` namespace.
+. Create a `kustomization.yaml` file inside the `standard-workbench/base` directory. This should have resources for the **workbench pvc, data connection, and workbench notebook**. Remember to add the`parasol-insurance` namespace.
+
++
+.tenants/parasol-insurance/standard-workbench/base/kustomization.yaml
+[source,yaml]
+----
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - <add resources here>
+----
+
 
 +
 .Solution
@@ -179,6 +191,25 @@ spec:
 ====
 
 . Create a secret named `minio-data-connection.yaml` inside the `standard-workbench/base` directory. This shoud have the minio S3 connection details. This should show up in the Data Connection tab of the Data Science Project if set up correctly.
+
++
+.tenants/parasol-insurance/standard-workbench/base/minio-data-connection.yaml
+[source,yaml]
+----
+kind: Secret
+apiVersion: v1
+metadata:
+  name: minio-data-connection
+  labels:
+    <add RHOAI Dashbaord labels here>
+  annotations:
+    opendatahub.io/connection-type: s3
+    openshift.io/display-name: minio-data-connection
+    argocd.argoproj.io/sync-wave: "-100"
+stringData:
+  <add Keys and Values here>
+type: Opaque
+----
 
 +
 .Solution
@@ -379,7 +410,29 @@ image::Workbench_env_vars.png[]
 !pip install boto3 ultralytics
 ----
 
-. Configure the connection to MinIO S3. Make sure to reference the S3 connection details.
+. In a new cell, add and configure the connection to MinIO S3. Make sure to reference the S3 connection details.
+
++
+[source, python]
+----
+## <Add Imports here>
+from botocore.client import Config
+
+# Configuration
+## <Add minio url here from environment variables>
+## <Add the access key from environment variables>
+## <Add the secret key from environment variables>
+
+# Setting up the MinIO client
+s3 = boto3.client(
+    's3',
+    endpoint_url=minio_url,
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_key,
+    config=Config(signature_version='s3v4'),
+)
+----
+
 
 +
 .Solution
@@ -407,7 +460,19 @@ s3 = boto3.client(
 ----
 ====
 
-. Using the boto3.client from the previous step, define a function to list the current buckets. Name this function `get_minio_buckets`
+. Using the boto3.client variable from the previous step, define a function to list the current buckets in a new cell. Name this function `get_minio_buckets`
+
++
+[source, python]
+----
+# Function to get MinIO server bucket info
+# Print the list of buckets in S3
+def get_minio_buckets():
+    # This function retrieves the list of buckets as an example.
+
+  
+get_minio_buckets()
+----
 
 +
 .Solution
@@ -434,7 +499,19 @@ get_minio_buckets()
 We currently have no buckets in the S3 storage. We will create a bucket and upload a file to it.
 ====
 
-. Using the boto3.client, create a function to create a new bucket in S3 storage. Name it `create_minio_bucket` with `bucket_name` as an input parameter.
+. Using the boto3.client variable, create a function to create a new bucket in S3 storage in a new cell. Name it `create_minio_bucket` with `bucket_name` as an input parameter.
+
++
+[source, python]
+----
+# Function to create a bucket
+def create_minio_bucket(bucket_name):
+    try:
+        ## add functionality here
+
+    except Exception as e:
+        print(f"Error creating bucket '{bucket_name}': {e}")
+----
 
 +
 .Solution
@@ -452,7 +529,7 @@ def create_minio_bucket(bucket_name):
 ----
 ====
 
-. Use the fuctions that you just created to create 2 buckets: `models` and `pipelines`. Use the `get_minio_buckets` function you created to view the newly created buckets.
+. In a new cell, Use the fuctions that you just created to create 2 buckets: `models` and `pipelines`. Use the `get_minio_buckets` function you created to view the newly created buckets.
 
 +
 .Solution
@@ -465,7 +542,8 @@ create_minio_bucket('pipelines')
 get_minio_buckets()
 ----
 ====
-. Using the boto3.client, create a function to upload a file to a bucket. This function should be named `upload_file` and should take 3 input parameters: `file_path`, `bucket_name`, and `object_name`.
+
+. Using the boto3.client variable, create a function to upload a file to a bucket. This function should be named `upload_file` and should take 3 input parameters: `file_path`, `bucket_name`, and `object_name`.
 
 +
 .Solution
@@ -497,7 +575,6 @@ model = YOLO("https://rhods-public.s3.amazonaws.com/demo-models/ic-models/accide
 .Solution
 [%collapsible]
 ====
-+
 [source, python]
 ----
 # Download the model
