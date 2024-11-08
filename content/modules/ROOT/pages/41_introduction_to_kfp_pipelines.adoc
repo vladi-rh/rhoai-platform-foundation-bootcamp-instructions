@@ -91,9 +91,15 @@ image::pipeline_runs.png[]
 +
 `python pipelines/08_additional_packages_pipeline.py`
 
-. Before running the `09_secrets_cm_pipeline.py.yaml` we need to create the following resources in the cluster. This pipeline shows how we can access secrets and config maps in out pipelines.
+. Run the `09_secrets_cm_pipeline.py.yaml`. This pipeline shows how we can access secrets and config maps in out pipelines.
++
+Hint: We need to add configmap and secret. 
+
 
 +
+.Solution
+[%collapsible]
+====
 [source,yaml]
 ----
 ---
@@ -114,10 +120,17 @@ metadata:
 data:
   my-configmap-data: thisisaconfigmapvalue
 ----
+====
 
-. Before running the `10_mount_pvc_pipeline.py.yaml` we need to create a pvc named `my-data` in the cluster. This pipeline shows how we can access pvcs in a pipeline.
+. Run the `10_mount_pvc_pipeline.py.yaml`. This pipeline shows how we can access pvcs in a pipeline.
 
 +
+Hint: We need to add PVC
+
++
+.Solution
+[%collapsible]
+====
 [source,yaml]
 ----
 kind: PersistentVolumeClaim
@@ -133,5 +146,7 @@ spec:
       storage: 1Gi
   volumeMode: Filesystem
 ----
+====
+
 
 . The `11_iris_training_pipeline.py` pipeline file showcases how to define an end to end pipeline. This pipeline contains steps like data prep, training the model, validating the model, converting it into onnx format and evaluating the model. This is a great basic example to study how data science pipelines work.

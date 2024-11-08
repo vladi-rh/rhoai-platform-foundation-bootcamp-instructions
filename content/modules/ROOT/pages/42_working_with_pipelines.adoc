@@ -13,24 +13,35 @@ In the parasol-insurance repository, there is a python notebook that re-trains a
 . Start the notebook with a cell to import the packages neccesary to work with `kfp` pipelines sdk:
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 import kfp.compiler
 from kfp import dsl
 ----
+====
 
 . Add a cell to define the kubeflow endpoint, and the image that will be used to create containers that will execute each task:
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 KUBEFLOW_ENDPOINT = 'https://ds-pipeline-dspa.parasol-insurance.svc.cluster.local:8443'
 PYTHON_IMAGE = 'image-registry.openshift-image-registry.svc:5000/openshift/python:latest'
 ----
+====
 
 . Add a cell to define the task that will download the dataset (see the `retrieve_dataset` function defined at  https://github.com/rh-aiservices-bu/parasol-insurance/blob/dev/lab-materials/04/04-03-model-retraining.ipynb[04-03-model-retraining.ipynb])
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 @dsl.component(
@@ -56,6 +67,7 @@ def download_data(dataset_type: str,
         zip_ref.extractall(path=datasets.path)
     print("Done!")
 ----
+====
 
 +
 [TIP]
@@ -63,9 +75,12 @@ def download_data(dataset_type: str,
 Notice the output dataset parameter (`datasets: dsl.Output[dsl.Dataset]`), and how we use the path of such dataset to unzip the contents of the downloaded dataset.
 ====
 
-. Create a cell to define the pipeline, and use the previously defined task:
+. Create a cell to define the pipeline, and use the previously defined task.
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 @kfp.dsl.pipeline(
@@ -74,10 +89,14 @@ Notice the output dataset parameter (`datasets: dsl.Output[dsl.Dataset]`), and h
 def accident_detection_pipeline(model_obc: str = "accident-detection"):
     download_data(dataset_type="sample")
 ----
+====
 
 . Create a cell to connect to the `KUBEFLOW_ENDPOINT`, and create your pipeline run:
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 print(f"Connecting to kfp: {KUBEFLOW_ENDPOINT}")
@@ -99,6 +118,7 @@ client = kfp.Client(
 result = client.create_run_from_pipeline_func(
     accident_detection_pipeline, arguments={}, experiment_name="accident-detection")
 ----
+====
 
 +
 [IMPORTANT]
@@ -113,6 +133,9 @@ Provide your own token, you can find the token in the OpenShift Web Console by c
 . Create a cell to train the model, organize this cell to appear before the cell that defines the pipeline (`@kfp.dsl.pipeline`). The contents of this cell were crafted after from a combination of functions from https://github.com/rh-aiservices-bu/parasol-insurance/blob/dev/lab-materials/04/04-03-model-retraining.ipynb[04-03-model-retraining.ipynb]; we recommend you to compare this cell with the original notebook contents:
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 @dsl.component(
@@ -147,6 +170,7 @@ def train_model(datasets: dsl.Input[dsl.Dataset],
     shutil.copy('/opt/app-root/src/runs/detect/train/weights/best.onnx',
                 f'{model_onnx.path}/accident-detection_{timestamp}.onnx')
 ----
+====
 
 [TIP]
 ====
@@ -156,6 +180,9 @@ Notice here the use of the `shutil` package to copy from the default output dire
 . Add the `train_model` task to the pipeline:
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 @kfp.dsl.pipeline(
@@ -165,6 +192,7 @@ def accident_detection_pipeline(model_obc: str = "accident-detection"):
     download_data_task = download_data(dataset_type="sample")
     train_model(datasets=download_data_task.output)
 ----
+====
 
 +
 [TIP]
@@ -179,6 +207,9 @@ Notice how we use the output of the `download_data` task as the input of the `tr
 . Create a cell to upload the model to s3 using the `boto3` package, organize this cell to appear before the cell that defines the pipeline (`@kfp.dsl.pipeline`):
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 @dsl.component(
@@ -211,10 +242,14 @@ def upload_to_s3(model_onnx: dsl.Input[dsl.Model]):
             s3.upload_file(f"{dirpath}/{file}", "models",
                            f"accident_model/{file}")
 ----
+====
 
-. Add the `upload_to_s3` task to the pipeline:
+. Add the `upload_to_s3` task to the pipeline.
 
 +
+.Solution
+[%collapsible]
+====
 [source,python]
 ----
 @kfp.dsl.pipeline(
@@ -225,6 +260,7 @@ def accident_detection_pipeline(model_obc: str = "accident-detection"):
     train_model_task = train_model(datasets=download_data_task.output)
     upload_to_s3(model_onnx=train_model_task.outputs["model_onnx"])
 ----
+====
 
 . Save and run your notebook.
 
@@ -244,6 +280,10 @@ def accident_detection_pipeline(model_obc: str = "accident-detection"):
 
 +
 .tenants/parasol-insurance/model-training-pipeline/base/kustomization.yaml
+
+.Solution
+[%collapsible]
+====
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -258,10 +298,14 @@ resources:
   - model-retrain-rbac.yaml
   - execute-kfp-task.yaml
 ----
+====
 
-. Create file `tenants/parasol-insurance/model-training-pipeline/base/model-retrain-imagestream.yaml` with the following content:
+. Create file `tenants/parasol-insurance/model-training-pipeline/base/model-retrain-imagestream.yaml`.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/model-training-pipeline/base/model-retrain-imagestream.yaml
 [source,yaml]
 ----
@@ -270,10 +314,14 @@ kind: ImageStream
 metadata:
   name: model-retrain
 ----
+====
 
-. Create file `tenants/parasol-insurance/model-training-pipeline/base/model-retrain-pipeline.yaml` with the following content:
+. Create file `tenants/parasol-insurance/model-training-pipeline/base/model-retrain-pipeline.yaml`.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/model-training-pipeline/base/model-retrain-pipeline.yaml
 [source,yaml]
 ----
@@ -355,10 +403,14 @@ spec:
   workspaces:
     - name: source
 ----
+====
 
-. Create file `tenants/parasol-insurance/model-training-pipeline/base/model-retrain-pipelinerun.yaml` with the following content:
+. Create file `tenants/parasol-insurance/model-training-pipeline/base/model-retrain-pipelinerun.yaml`.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/model-training-pipeline/base/model-retrain-pipelinerun.yaml
 [source,yaml]
 ----
@@ -388,10 +440,14 @@ spec:
             storage: 1Gi
         volumeMode: Filesystem
 ----
+====
 
-. Create file `tenants/parasol-insurance/model-training-pipeline/base/model-retrain-rbac.yaml` with the following content:
+. Create file `tenants/parasol-insurance/model-training-pipeline/base/model-retrain-rbac.yaml`.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/model-training-pipeline/base/model-retrain-rbac.yaml
 [source,yaml]
 ----
@@ -420,10 +476,14 @@ rules:
     resources:
       - routes
 ----
+====
 
-. Create file `tenants/parasol-insurance/model-training-pipeline/base/execute-kfp-task.yaml` with the following content:
+. Create file `tenants/parasol-insurance/model-training-pipeline/base/execute-kfp-task.yaml`.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/model-training-pipeline/base/execute-kfp-task.yaml
 [source,yaml]
 ----
@@ -456,12 +516,16 @@ spec:
       script: |
         python $(inputs.params.SCRIPT)
 ----
+====
 
 . In the `overlays` directory, create a `parasol-insurance-dev` directory.
 
-. In the `parasol-insurance-dev` directory, create a `kustomization.yaml` file with the following content:
+. In the `parasol-insurance-dev` directory, create a `kustomization.yaml` file.
 
 +
+.Solution
+[%collapsible]
+====
 .tenants/parasol-insurance/model-training-pipeline/overlays/parasol-insurance-dev/kustomization.yaml
 [source,yaml]
 ----
@@ -471,6 +535,7 @@ kind: Kustomization
 resources:
   - ../../base
 ----
+====
 
 . Commit and push the changes to the Git repository.
 
