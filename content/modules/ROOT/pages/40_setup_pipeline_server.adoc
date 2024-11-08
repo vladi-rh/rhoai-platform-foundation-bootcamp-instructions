@@ -12,9 +12,12 @@ The data science pipelines server is a component of RHOAI that allows you to cre
 
 . Create a directory `parasol-insurance-dev` in `data-science-pipelines/overlays`.
 
-. In the `base` directory, create a `kustomization.yaml` file with the following content:
+. In the `base` directory, create a `kustomization.yaml` file 
 
 +
+.Solution
+[%collapsible]
+====
 .kustomization.yaml
 [source,yaml]
 ----
@@ -26,6 +29,7 @@ namespace: parasol-insurance
 resources:
   - dspa.yaml
 ----
+====
 
 . In the `base` directory, create a `dspa.yaml` file with the following content:
 
@@ -71,7 +75,7 @@ spec:
       s3CredentialsSecret:
         accessKey: AWS_ACCESS_KEY_ID
         secretKey: AWS_SECRET_ACCESS_KEY
-        secretName: accident-model-data-conn
+        secretName: <secret-name>
       scheme: http
   persistenceAgent:
     deploy: true
@@ -94,9 +98,12 @@ image::01-configure-pipeline-server.png[Configure pipeline server]
 Instead of creating the pipeline server configuration using the RHOAI method that you have seen in previous enablemens, in these steps you are using the GitOps method to create the pipeline server configuration.
 ====
 
-. In the `overlays/parasol-insurance-dev/` directory, create a `kustomization.yaml` file with the following content:
+. In the `overlays/parasol-insurance-dev/` directory, create a `kustomization.yaml` file 
 
 +
+.Solution
+[%collapsible]
+====
 .kustomization.yaml
 [source,yaml]
 ----
@@ -106,6 +113,7 @@ kind: Kustomization
 resources:
   - ../../base
 ----
+====
 
 . Commit and push the changes to the Git repository.
 

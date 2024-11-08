@@ -18,3 +18,8 @@
 * Storage
     ** 10. xref:34_using_s3_storage.adoc[Using S3 Storage]
     ** 11. xref:36_deploy_model.adoc[Deploy Model]
+
+* Data Science Pipelines
+    ** 12. xref:40_setup_pipeline_server.adoc[Setup Pipeline Server]
+    ** 13. xref:41_introduction_to_kfp_pipelines.adoc[Introduction to KFP Pipelines]
+    ** 14. xref:42_working_with_pipelines.adoc[Working with Pipelines]
