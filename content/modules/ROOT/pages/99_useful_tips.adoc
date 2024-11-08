@@ -9,9 +9,17 @@ oc delete argocd --all -n openshift-gitops
 oc delete pods --all -n openshift-gitops-operator
 echo "rerun ./bootstrap.sh "
 ```
+### Argo CD Out of Sync due to differences in manifests applied and operator trying to modify mnifests. 
 
+Please include this annotation when you see out-of-sync error due to differences in manifests:
 
-## working with bastion host 
+```
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=true
+```
+
+## Working with bastion host 
 
 ### copy over your ssh-key
 
