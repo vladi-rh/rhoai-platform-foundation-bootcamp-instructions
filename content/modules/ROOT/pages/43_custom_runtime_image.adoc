@@ -16,7 +16,8 @@ Basic Python scripting and command-line interaction.
 
 ## Build and Deploy an Airflow Pipeline with Elyra
 
-### Pre-requisites:
+Pre-requisites:
+
 . Fork this repository -  https://github.com/red-hat-data-services/telecom-customer-churn-airflow
 
 . Airflow running in the cluster - https://ai-on-openshift.io/tools-and-applications/airflow/airflow/
@@ -40,7 +41,7 @@ Review the lesson to add custom notebook image to RHOAI
 You can use Minio instance deployed as a data connection
 ====
 
-. Clone fork of git repository -  https://github.com/red-hat-data-services/telecom-customer-churn-airflow
+. Clone fork of git repository -  https://github.com/<YOUR-ID>red-hat-data-services/telecom-customer-churn-airflow
 
 . Configure Elyra to work with Airflow. Add custom runtime image - quay.io/eformat/airflow-runner:2.5.1
 +
@@ -65,7 +66,7 @@ image::add_runtime_image.png[]
 . Github/GitLabs settings:
 .. Git type: GITHUB 
 .. GitHub server API Endpoint: https://api.github.com 
-.. GitHub DAG Repository: https://github.com/red-hat-data-services/telecom-customer-churn-airflow
+.. GitHub DAG Repository: https://github.com/<YOUR-ID>red-hat-data-services/telecom-customer-churn-airflow
 .. GitHub DAG Repository Branch: Your branch 
 .. Personal Access Token: A personal access token for pushing to the repository
 
@@ -74,5 +75,5 @@ Minio Storage details
 
 ====
 
-. Test and run the DAG - https://github.com/red-hat-data-services/telecom-customer-churn-airflow/tree/main/dags
+. Test and run the DAG - https://github.com/<YOUR-ID>red-hat-data-services/telecom-customer-churn-airflow
 
