@@ -30,6 +30,6 @@
     
 * Large Language Model [LLM]
     ** 17. xref:60_llm_explore.adoc[Explore LLMs]
-    ** 18. xref:70_rag_llm_explore.adoc[RAG with LLM]
+    ** 18. xref:70_rag_llm.adoc[RAG with LLM]
 
 * 19. xref:99_useful_tips.adoc[Useful Tips]
