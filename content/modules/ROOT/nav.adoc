@@ -24,3 +24,11 @@
     ** 13. xref:41_introduction_to_kfp_pipelines.adoc[Introduction to KFP Pipelines]
     ** 14. xref:42_working_with_pipelines.adoc[Working with Pipelines]
     ** 15. xref:43_custom_runtime_image.adoc[Advanced Pipeline Customization]
+
+* Distributed Training
+    ** 16. xref:50_distributed_training.adoc[Ray Cluster]
+    
+* Large Language Model [LLM]
+    ** 17. xref:60_llm_explore.adoc[Explore LLMs]
+
+* 19. xref:99_useful_tips.adoc[Useful Tips]
