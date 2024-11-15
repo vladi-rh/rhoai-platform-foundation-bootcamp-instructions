@@ -49,7 +49,7 @@ You can use deployed Minio instance
 [%collapsible]
 ====
 [.bordershadow]
-image::add_runtime_image.png[]
+image::pipelines/add_runtime_image.png[]
 ====
 
 . Create a runtime configuration
