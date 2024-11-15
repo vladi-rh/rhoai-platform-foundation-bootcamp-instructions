@@ -38,7 +38,7 @@ Review the lesson to add custom notebook image to RHOAI
 +
 [TIP]
 ====
-You can use Minio instance deployed as a data connection
+You can use deployed Minio instance
 ====
 
 . Clone fork of git repository -  https://github.com/<YOUR-ID>red-hat-data-services/telecom-customer-churn-airflow
