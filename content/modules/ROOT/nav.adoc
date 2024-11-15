@@ -23,3 +23,4 @@
     ** 12. xref:40_setup_pipeline_server.adoc[Setup Pipeline Server]
     ** 13. xref:41_introduction_to_kfp_pipelines.adoc[Introduction to KFP Pipelines]
     ** 14. xref:42_working_with_pipelines.adoc[Working with Pipelines]
+    ** 15. xref:43_custom_runtime_image.adoc[Advanced Pipeline Customization]
