@@ -570,3 +570,16 @@ auth.logout()
 
 . Save and close the notebook.
 
+## References and Further Reading
+
+* https://docs.ray.io/en/latest/ray-overview/getting-started.html[Ray.io documentation] - the Ray docs with some great example code libraries for various features, check out the Getting Started section as well as the Kubernetes architecture guide.
+* https://developers.redhat.com/articles/2024/09/30/fine-tune-llama-openshift-ai?source=sso#[How to fine-tune Llama 3.1 with Ray on OpenShift AI] - a great example of fine tuning a large LLM using multiple GPU worker nodes, and monitoring the training execution cycle.
+* https://github.com/opendatahub-io/distributed-workloads[Source Code] - check out the source code repo, which includes additional examples of distributed training.
+* https://ai-on-openshift.io/demos/llama2-finetune/llama2-finetune/[Fine-Tune Llama 2 Models with Ray and DeepSpeed] - another distributed training example from ai-on-openshift.com
+
+## Questions for Further Consideration
+
+* How many GPUs did Meta use to train Llama3? Hint: Search https://ai.meta.com/research/publications/the-llama-3-herd-of-models/[this paper] for the term `16K` for some fascinating insights into massive distributed training.
+* How many GPU cores would you realistically need to retrain the Llama3 models?
+* How many GPU cores would you realistically need to retrain the https://www.ibm.com/new/ibm-granite-3-0-open-state-of-the-art-enterprise-models[Granite models]?
+* What else can Ray help with, other than distributed model training? Hint: See the Ray getting started guide in the references above.
