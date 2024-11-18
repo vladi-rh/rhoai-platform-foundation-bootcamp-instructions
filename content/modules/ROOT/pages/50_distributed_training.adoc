@@ -2,7 +2,7 @@
 
 In this section, we will cover how to train a model on multiple containers using the Ray Cluster capabilities of the RHOAI platform.
 
-The official documentation on how to perform distributed training with Ray can be found here: https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.9/html-single/working_with_distributed_workloads/index[working with distributed workloads].
+The official documentation on how to perform distributed training with Ray can be found here: https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2-latest/html-single/working_with_distributed_workloads/index[working with distributed workloads].
 
 The ray cluster documentation can be found here: https://docs.ray.io/en/latest/cluster/getting-started.html[Ray Clusters Documentation].
 
