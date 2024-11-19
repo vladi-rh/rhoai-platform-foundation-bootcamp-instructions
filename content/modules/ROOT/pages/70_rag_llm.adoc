@@ -110,7 +110,9 @@ The example below is sourced from: https://github.com/rh-aiservices-bu/llm-on-op
 ### Let's get started
 Using the _**DEMO**_ cluster
 
-Create a new Data Science Project named `rag-llm-demo` and spin up a new _**Standard Data Science**_ workbench. 
+Create a new Data Science Project named `rag-llm-demo`.
+
+Spin up a new _**Standard Data Science**_ workbench. 
 
 Go into Openshift console and go to the `rag-llm-demo` namespace and deploy the resources below.
 
@@ -487,6 +489,8 @@ Download and run through these 3 notebooks in your workbench:
 or upload the repository to the workbench:
 `https://github.com/rh-aiservices-bu/llm-on-openshift.git`
 
+
+
 #### Creating an index and populating it with documents using PostgreSQL+pgvector
 Depended on which workbench image you are using, we have to make some changes to the notebook.
 
@@ -500,7 +504,7 @@ Depended on which workbench image you are using, we have to make some changes to
 2. Update the _Base Parameters and PostgreSQL info_
 
 ```
-product_version = 2.11
+product_version = 2.13
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
 COLLECTION_NAME = f"rhoai-doc-{product_version}"
 ```
@@ -515,7 +519,7 @@ NOTE: _Create the index and ingest the documents_ will take more than 5 minutes 
 
 ```
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
-COLLECTION_NAME = "rhoai-doc-2.11"
+COLLECTION_NAME = "rhoai-doc-2.13"
 ```
 
 Run through the notebook
@@ -532,7 +536,7 @@ TEMPERATURE=0.01
 PRESENCE_PENALTY=1.03
 
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
-COLLECTION_NAME = "rhoai-doc-2.11"
+COLLECTION_NAME = "rhoai-doc-2.13"
 ```
 
 At the end, should have a successful RAG with LLM sample that you can query.
