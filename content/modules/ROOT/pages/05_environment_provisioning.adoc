@@ -20,6 +20,8 @@ The first cluster where we will run our demonstration projects requires a little
 . Change the the **Control Plane Instance Type** to **m6a.4xlarge**, as the default machine configuration does not have sufficient compute resources for the additional component we will be installing.
 . You should be able to use the default version of OpenShift, however since there are continuous releases it's a good idea to double check the https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/[RHOAI Documentation], under the **Supported configurations** subsection to ensure compatibility.
 
+WARNING: As of Nov 22, 2024 the Node Feature Discovery and NVIDIA Operator appear to be broken on the latest version of OpenShift (4.17), be sure to use 4.16 when building a cluster so that the taints and tolerations work correctly. This may be fixed by Red Hat Engineering soon, so this warning can be removed when the operators are compatible with latest OCP.
+
 [.bordershadow]
 image::OrderAWS_env.png[width=35%]
 
