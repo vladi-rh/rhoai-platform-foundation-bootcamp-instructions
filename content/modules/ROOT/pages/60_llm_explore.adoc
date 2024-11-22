@@ -82,3 +82,4 @@ These are very simple tests to make sure that the InferenceService is working. V
 ### References
 1. https://www.ibm.com/topics/large-language-models[]
 2. https://www.run.ai/guides/machine-learning-engineering/llm-training[]
+3. https://bbycroft.net/llm[LLM Visualization] - A peek "under the hood" showing what's inside some common LLMs
