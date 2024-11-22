@@ -548,5 +548,4 @@ Run through the notebook to successfully demo an LLM with RAG using PGVector.
 
 ## References
 
-* IBM Research Blog and Video: https://research.ibm.com/blog/retrieval-augmented-generation-RAG[What is retrieval-augmented generation?]
-* A peek under the hood: https://bbycroft.net/llm[LLM Visualization]
+* https://research.ibm.com/blog/retrieval-augmented-generation-RAG[What is retrieval-augmented generation?] - IBM Research Blog and Video describing the basics of RAG.
