@@ -10,6 +10,8 @@ There are many different types of LLMs for different use cases. Be sure to choos
 
 # Explore LLMs
 
+WARNING: As of Nov 22, 2024 the Node Feature Discovery and NVIDIA Operator appear to be broken on the latest version of OpenShift (4.17), be sure to use 4.16 when building a cluster so that the taints and tolerations work correctly. This may be fixed by Red Hat Engineering soon, so this warning can be removed when the operators are compatible with latest OCP.
+
 In the https://github.com/redhat-ai-services/ai-accelerator[ai-accelerator project], there is an example of an LLM. Let's look at the https://github.com/redhat-ai-services/ai-accelerator/tree/main/tenants/ai-example/single-model-serving-tgis[single-model-serving-tgis] example.
 
 This inference service uses https://huggingface.co/google/flan-t5-small[flan-t5-small] model.
