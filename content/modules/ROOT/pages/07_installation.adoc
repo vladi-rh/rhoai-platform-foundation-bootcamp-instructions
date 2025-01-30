@@ -23,6 +23,7 @@ TIP: If you can't or prefer not to run the installation from your local machine 
 
 [start=4]
 . Git clone the following repository to your local machine. If you're using a fork, then change the repository URL in the command below to match yours:
+
 [.console-input]
 [source,adoc]
 ----
