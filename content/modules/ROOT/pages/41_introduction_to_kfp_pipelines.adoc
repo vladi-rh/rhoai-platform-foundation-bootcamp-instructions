@@ -100,6 +100,8 @@ Hint: We need to add configmap and secret.
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 ---
@@ -131,6 +133,8 @@ Hint: We need to add PVC
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 kind: PersistentVolumeClaim

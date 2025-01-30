@@ -23,6 +23,8 @@ image::create_workbench.png[width=35%]
 * In a new cell, add the below contents.
 
 +
+
+[.console-input]
 [source, python]
 ----
 from __future__ import division
@@ -44,6 +46,8 @@ labels = dataset.target_names
 ----
 
 +
+
+[.console-input]
 [source, python]
 ----
 # <help:scikit_pca>
@@ -62,6 +66,8 @@ plt.show()
 ----
 
 +
+
+[.console-input]
 [source, python]
 ----
 # <help:scikit_pca>
@@ -73,6 +79,8 @@ print('\nEigenvalues \n%s' %eig_vals)
 ----
 
 +
+
+[.console-input]
 [source, python]
 ----
 # <help:scikit_pca>
@@ -109,6 +117,8 @@ image::vscode_kernel.png[]
 * From the options, select **Existing Jupyter Server** and then enter the url as follows: localhost [:port] /context-path 
 
 In this case url is: 
+
+[.console-input]
 [source, html]
 ----
 http://localhost:8888/notebook/ai-bootcamp/workbench-1/lab

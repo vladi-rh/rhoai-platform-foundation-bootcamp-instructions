@@ -29,6 +29,8 @@ If you need a reference, the ai-accelerator project has MinIO set up in under th
 [%collapsible]
 ====
 .tenants/parasol-insurance/namespaces/bases/object-datastore.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: v1
@@ -47,6 +49,8 @@ metadata:
 [%collapsible]
 ====
 .tenants/parasol-insurance/namespaces/base/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -69,6 +73,8 @@ resources:
 [%collapsible]
 ====
 .tenants/parasol-insurance/minio/base/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -88,6 +94,8 @@ resources:
 [%collapsible]
 ====
 .tenants/parasol-insurance/minio/overlays/parasol-insurance-dev/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -98,6 +106,8 @@ resources:
 ----
 
 .tenants/parasol-insurance/minio/overlays/parasol-insurance-prod/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -138,6 +148,8 @@ We have previously used a custom workbench to explore how to train a model. Now 
 
 +
 .tenants/parasol-insurance/standard-workbench/base/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -152,6 +164,8 @@ resources:
 [%collapsible]
 ====
 .tenants/parasol-insurance/standard-workbench/base/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -172,6 +186,8 @@ resources:
 [%collapsible]
 ====
 .tenants/parasol-insurance/standard-workbench/base/standard-workbench-pvc.yaml
+
+[.console-input]
 [source,yaml]
 ----
 kind: PersistentVolumeClaim
@@ -193,6 +209,8 @@ spec:
 
 +
 .tenants/parasol-insurance/standard-workbench/base/minio-data-connection.yaml
+
+[.console-input]
 [source,yaml]
 ----
 kind: Secret
@@ -215,6 +233,8 @@ type: Opaque
 [%collapsible]
 ====
 .tenants/parasol-insurance/standard-workbench/base/minio-data-connection.yaml
+
+[.console-input]
 [source,yaml]
 ----
 kind: Secret
@@ -244,6 +264,8 @@ type: Opaque
 [%collapsible]
 ====
 .tenants/parasol-insurance/standard-workbench/base/standard-workbench-notebook.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kubeflow.org/v1
@@ -373,6 +395,8 @@ spec:
 [%collapsible]
 ====
 .tenants/standard-workbench/overlays/parasol-insurance-dev/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -419,6 +443,8 @@ image::Workbench_env_vars.png[]
 . In a new cell, add and run the content below to install the `boto3` and `ultralytics` packages using pip.
 
 +
+
+[.console-input]
 [source, python]
 ----
 !pip install boto3 ultralytics
@@ -427,6 +453,8 @@ image::Workbench_env_vars.png[]
 . In a new cell, add and configure the connection to MinIO S3. Make sure to reference the S3 connection details.
 
 +
+
+[.console-input]
 [source, python]
 ----
 ## <Add Imports here>
@@ -452,6 +480,7 @@ s3 = boto3.client(
 .Solution
 [%collapsible]
 ====
+[.console-input]
 [source, python]
 ----
 import os
@@ -477,6 +506,8 @@ s3 = boto3.client(
 . Using the boto3.client variable from the previous step, define a function to list the current buckets in a new cell. Name this function `get_minio_buckets`
 
 +
+
+[.console-input]
 [source, python]
 ----
 # Function to get MinIO server bucket info
@@ -492,6 +523,7 @@ get_minio_buckets()
 .Solution
 [%collapsible]
 ====
+[.console-input]
 [source, python]
 ----
 # Function to get MinIO server info
@@ -516,6 +548,7 @@ We currently have no buckets in the S3 storage. We will create a bucket and uplo
 . Using the boto3.client variable, create a function to create a new bucket in S3 storage in a new cell. Name it `create_minio_bucket` with `bucket_name` as an input parameter.
 
 +
+[.console-input]
 [source, python]
 ----
 # Function to create a bucket
@@ -531,6 +564,7 @@ def create_minio_bucket(bucket_name):
 .Solution
 [%collapsible]
 ====
+[.console-input]
 [source, python]
 ----
 # Function to create a bucket
@@ -549,6 +583,7 @@ def create_minio_bucket(bucket_name):
 .Solution
 [%collapsible]
 ====
+[.console-input]
 [source, python]
 ----
 create_minio_bucket('models')
@@ -563,6 +598,7 @@ get_minio_buckets()
 .Solution
 [%collapsible]
 ====
+[.console-input]
 [source, python]
 ----
 # Function to upload a file to a bucket
@@ -578,6 +614,8 @@ def upload_file(file_path, bucket_name, object_name):
 . Download the `accident_detect.onnx` model and upload the file to S3 storage under the `models` bucket. The onnx file should be stored under the path: `weights/accident_detect.onnx`. You can use this snippet to download the onnx model:
 
 +
+
+[.console-input]
 [source, python]
 ----
 # Download the model
@@ -589,6 +627,7 @@ model = YOLO("https://rhods-public.s3.amazonaws.com/demo-models/ic-models/accide
 .Solution
 [%collapsible]
 ====
+[.console-input]
 [source, python]
 ----
 # Download the model
@@ -605,6 +644,7 @@ upload_file('weights/accident_detect.onnx', 'models', 'accident_model/accident_d
 .Solution
 [%collapsible]
 ====
+[.console-input]
 [source, python]
 ----
 # Function to get the content in the bucket
@@ -623,6 +663,7 @@ def get_minio_content(bucket):
 .Solution
 [%collapsible]
 ====
+[.console-input]
 [source, python]
 ----
 get_minio_content('models')

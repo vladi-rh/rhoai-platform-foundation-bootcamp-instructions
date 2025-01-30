@@ -16,6 +16,8 @@ Kueue is a kubernetes-native system that manages quotas and how jobs consume the
 
 +
 .kueue/base/kustomization.yaml
+
+[.console-input]
 [source, yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -31,6 +33,8 @@ resources:
 
 +
 .kueue/base/cluster-queue.yaml
+
+[.console-input]
 [source, yaml]
 ----
 apiVersion: kueue.x-k8s.io/v1beta1
@@ -56,6 +60,8 @@ spec:
 
 +
 .kueue/base/default-flavor.yaml
+
+[.console-input]
 [source, yaml]
 ----
 apiVersion: kueue.x-k8s.io/v1beta1
@@ -68,6 +74,8 @@ metadata:
 
 +
 .kueue/base/local-queue.yaml
+
+[.console-input]
 [source, yaml]
 ----
 apiVersion: kueue.x-k8s.io/v1beta1
@@ -87,6 +95,8 @@ spec:
 
 +
 .kueue/overlays/parasol-insurance-dev/kustomization.yaml
+
+[.console-input]
 [source, yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -112,6 +122,8 @@ image::01-kueue-sync.png[Kueue sync]
 . Add a cell with the imports:
 
 +
+
+[.console-input]
 [source,python]
 ----
 from codeflare_sdk import Cluster, ClusterConfiguration, TokenAuthentication
@@ -121,6 +133,8 @@ from codeflare_sdk import generate_cert
 . Add a cell to authenticate with the OpenShift cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 auth = TokenAuthentication(
@@ -145,6 +159,8 @@ image::02-server-token.png[server token]
 . Add a cell to configure a Ray cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 cluster = Cluster(ClusterConfiguration(
@@ -166,6 +182,8 @@ cluster = Cluster(ClusterConfiguration(
 . Add a cell to start the Ray cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 cluster.up()
@@ -174,6 +192,8 @@ cluster.up()
 . Add a cell to check the status of the Ray cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 cluster.status()
@@ -206,6 +226,8 @@ You can use the `cluster.wait_ready()` instruction to wait until the cluster is 
 . Add a cell to setup the Ray cluster certificates for mutual TLS:
 
 +
+
+[.console-input]
 [source,python]
 ----
 generate_cert.generate_tls_cert(cluster.config.name, cluster.config.namespace)
@@ -241,6 +263,8 @@ Find more information about the cluster dashboard here: https://docs.ray.io/en/l
 . Add a cell to stop the Ray cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 cluster.down()
@@ -251,6 +275,8 @@ cluster.down()
 . Add a cell to log out of the OpenShift cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 auth.logout()
@@ -266,6 +292,8 @@ auth.logout()
 
 +
 .mnist_fashion.py
+
+[.console-input]
 [source,python]
 ----
 import torch
@@ -366,6 +394,8 @@ The `mnist_fashion.py` script trains a neural network model using the Fashion MN
 
 +
 .requirements.txt
+
+[.console-input]
 [source]
 ----
 pytorch_lightning==1.5.10
@@ -379,6 +409,8 @@ torchvision==0.12.0
 . Add a cell with the imports:
 
 +
+
+[.console-input]
 [source,python]
 ----
 from codeflare_sdk import Cluster, ClusterConfiguration, TokenAuthentication
@@ -388,6 +420,8 @@ from codeflare_sdk import generate_cert
 . Add a cell to authenticate with the OpenShift cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 auth = TokenAuthentication(
@@ -412,6 +446,8 @@ image::02-server-token.png[server token]
 . Add a cell to configure a Ray cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 cluster = Cluster(ClusterConfiguration(
@@ -432,6 +468,8 @@ cluster = Cluster(ClusterConfiguration(
 . Add a cell to start the Ray cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 # Bring up the cluster
@@ -470,6 +508,8 @@ image::08-jobtest-workload-conditions.png[Ray cluster workload conditions]
 . Add a cell to setup the Ray cluster certificates for mutual TLS:
 
 +
+
+[.console-input]
 [source,python]
 ----
 generate_cert.generate_tls_cert(cluster.config.name, cluster.config.namespace)
@@ -485,6 +525,8 @@ The generate cert instructions only work in a Ray cluster that is up and running
 . Add a cell to check on the cluster details:
 
 +
+
+[.console-input]
 [source,python]
 ----
 cluster.details()
@@ -493,6 +535,8 @@ cluster.details()
 . Add a cell to configure the training job submission:
 
 +
+
+[.console-input]
 [source,python]
 ----
 # Initialize the Job Submission Client
@@ -511,6 +555,8 @@ print(submission_id)
 . Use the following code lines to create cells to monitor the job status:
 
 +
+
+[.console-input]
 [source,python]
 ----
 # List all existing jobs
@@ -553,6 +599,8 @@ image::09-ray-dashboard-job.png[Ray dashboard job]
 . Add a cell to stop the Ray cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 cluster.down()
@@ -563,6 +611,8 @@ cluster.down()
 . Add a cell to log out of the OpenShift cluster:
 
 +
+
+[.console-input]
 [source,python]
 ----
 auth.logout()

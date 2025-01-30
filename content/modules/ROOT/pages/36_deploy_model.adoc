@@ -21,6 +21,8 @@ In this tutorial we will setup the Triton Runtime (NVIDIA Triton Inference Serve
 [%collapsible]
 ====
 .multi-model-serving/overlays/parasol-insurance-dev/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -35,6 +37,8 @@ resources:
 
 +
 .multi-model-serving/base/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -49,6 +53,8 @@ resources:
 [%collapsible]
 ====
 .multi-model-serving/base/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -70,6 +76,8 @@ resources:
 [%collapsible]
 ====
 .multi-model-serving/base/data-connection.yaml
+
+[.console-input]
 [source,yaml]
 ----
 kind: Secret
@@ -97,6 +105,8 @@ type: Opaque
 
 +
 .multi-model-serving/base/serving-runtime.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: serving.kserve.io/v1alpha1
@@ -199,6 +209,8 @@ Once we have our serving runtime, we can use it as the runtime for our Inference
 
 +
 .multi-model-serving/base/inference-service.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: serving.kserve.io/v1beta1
@@ -230,6 +242,8 @@ spec:
 [%collapsible]
 ====
 .multi-model-serving/base/inference-service.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: serving.kserve.io/v1beta1

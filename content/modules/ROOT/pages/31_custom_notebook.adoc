@@ -33,6 +33,8 @@ All accounts in Quay must have unique e-mail addresses and usernames. The issue 
 . Clone the bootcamp git repository with the following command:
 
 +
+
+[.console-input]
 [source,terminal]
 ----
 git clone https://github.com/redhat-ai-services/ai-accelerator-bootcamp.git
@@ -41,6 +43,8 @@ git clone https://github.com/redhat-ai-services/ai-accelerator-bootcamp.git
 . Navigate to the custom notebook code in the cloned folder using the following command:
 
 +
+
+[.console-input]
 [source,terminal]
 ----
 cd ai-accelerator-bootcamp/source_code/31_custom_notebook
@@ -49,6 +53,8 @@ cd ai-accelerator-bootcamp/source_code/31_custom_notebook
 . Run the podman build command to build the image and use the -t flag to tag it with your quay id. Replace {quay id} with your quay id
 
 +
+
+[.console-input]
 [source,terminal]
 ----
 podman build -t quay.io/{quay id}/custom_notebook .
@@ -60,6 +66,8 @@ WARNING: if using an M-powered Mac, build with `podman build -t quay.io/{quay id
 . After the image is built successfully, push it to your quay repository. Before pushing, log into quay.io:
 
 +
+
+[.console-input]
 [source,terminal]
 ----
 podman login quay.io
@@ -80,6 +88,8 @@ image::quay_cli_password.png[]
 Replace {quay id} with your quay id
 
 +
+
+[.console-input]
 [source,terminal]
 ----
 podman push quay.io/{quay id}/custom_notebook
@@ -95,6 +105,8 @@ podman push quay.io/{quay id}/custom_notebook
 
 +
 .kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -110,6 +122,8 @@ resources:
 
 +
 .custom-workbench-is.yaml
+
+[.console-input]
 [source,yaml]
 ----
 kind: ImageStream
@@ -155,6 +169,8 @@ Replace {quay_id} with your quay id. This ensures that the image stream you are 
 
 +
 .custom-workbench-pvc.yaml
+
+[.console-input]
 [source,yaml]
 ----
 kind: PersistentVolumeClaim
@@ -176,6 +192,8 @@ spec:
 
 +
 .custom-workbench-notebook.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kubeflow.org/v1
@@ -286,6 +304,8 @@ spec:
 
 +
 .kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1

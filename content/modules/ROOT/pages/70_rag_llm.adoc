@@ -121,6 +121,8 @@ Go into Openshift console and go to the `rag-llm-demo` namespace and deploy the 
 .Postgresql Secret
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 kind: Secret
@@ -138,6 +140,8 @@ type: Opaque
 .Postgresql PVC
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 kind: PersistentVolumeClaim
@@ -157,6 +161,8 @@ spec:
 .Postgresql Service
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 kind: Service
@@ -177,6 +183,8 @@ spec:
 .Postgresql Deployment
 [%collapsible]
 ====
+
+[.console-input]
 [source, yaml]
 ----
 apiVersion: apps/v1
@@ -271,6 +279,7 @@ The PgVector extension must be manually enabled in the server. This can only be 
 - Connect to the running server Pod, either through the Terminal view in the OpenShift Console, or through the CLI with: `oc rsh services/postgresql`
 - Once connected, enter the following command:
 
+[.console-input]
 ```
 psql -d vectordb -c "CREATE EXTENSION vector;"
 ```
@@ -285,6 +294,8 @@ If the command succeeds, it will print `CREATE EXTENSION`.
 .vLLM PVC
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: v1
@@ -304,6 +315,8 @@ spec:
 .vLLM Route
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 kind: Route
@@ -328,6 +341,8 @@ spec:
 .vLLM Service
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 kind: Service
@@ -363,6 +378,8 @@ image::huggingface_agree_and_access.png[]
 .vLLM Deployment
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 kind: Deployment
@@ -496,6 +513,7 @@ Depended on which workbench image you are using, we have to make some changes to
 
 1. Update the packages to install:
 
+[.console-input]
 ```
 !pip install -q pgvector langchain-community pypdf sentence-transformers
 ```
@@ -503,6 +521,7 @@ Depended on which workbench image you are using, we have to make some changes to
 [start=2]
 2. Update the _Base Parameters and PostgreSQL info_
 
+[.console-input]
 ```
 product_version = 2.13
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
@@ -517,6 +536,7 @@ NOTE: _Create the index and ingest the documents_ will take more than 5 minutes 
 
 1. Update the _Base Parameters and PostgreSQL info:
 
+[.console-input]
 ```
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
 COLLECTION_NAME = "rhoai-doc-2.13"
@@ -526,6 +546,7 @@ Run through the notebook
 
 #### RAG example with Langchain, PostgreSQL+pgvector, and vLLM
 
+[.console-input]
 ```
 # Replace values according to your vLLM deployment
 INFERENCE_SERVER_URL = f"http://vllm.rag-llm-demo.svc.cluster.local:8000/v1"

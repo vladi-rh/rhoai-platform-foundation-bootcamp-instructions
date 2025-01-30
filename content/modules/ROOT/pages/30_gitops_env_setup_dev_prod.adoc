@@ -77,6 +77,8 @@ image::parasol-insurance-dev-overlay.png[ParaSol Insurance Dev Overlay]
 
 +
 .kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -97,6 +99,8 @@ As you can see, the Kustomization resource from above is referencing the `cluste
 
 +
 .kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -148,6 +152,8 @@ replacements:
 
 +
 .patch-applicationset-manual-sync.yaml
+
+[.console-input]
 [source,yaml]
 ----
 - op: remove
@@ -158,6 +164,8 @@ replacements:
 
 +
 .patch-application-manual-sync.yaml
+
+[.console-input]
 [source,yaml]
 ----
 - op: remove
@@ -169,6 +177,8 @@ Replace the repoURL with your fork URL.
 
 +
 .patch-application-repo-revision.yaml
+
+[.console-input]
 [source,yaml]
 ----
 - op: replace
@@ -199,6 +209,8 @@ NOTE: Remember to add the `base` and `overlays` files and folders. Make sure you
 
 +
 .kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -212,6 +224,8 @@ resources:
 
 +
 .parasol-insurance.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: v1
@@ -230,6 +244,8 @@ metadata:
 
 +
 .kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -253,6 +269,8 @@ This namespace is defined to be created in the `parasol-insurance-dev` environme
 
 +
 .push_changes
+
+[.console-input]
 [source,terminal]
 ----
 git add .

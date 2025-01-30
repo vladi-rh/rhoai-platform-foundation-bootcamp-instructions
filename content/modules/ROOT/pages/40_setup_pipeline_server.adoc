@@ -19,6 +19,8 @@ The data science pipelines server is a component of RHOAI that allows you to cre
 [%collapsible]
 ====
 .kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -35,6 +37,8 @@ resources:
 
 +
 .dspa.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: datasciencepipelinesapplications.opendatahub.io/v1alpha1
@@ -105,6 +109,8 @@ Instead of creating the pipeline server configuration using the RHOAI method tha
 [%collapsible]
 ====
 .kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1

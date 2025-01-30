@@ -18,6 +18,8 @@ When enabled is selected and saved, the ConfigMap below will be created. You can
 Apply ConfigMap in `redhat-ods-applications`.
 __CULL_IDLE_TIME__ and __IDLENESS_CHECK_PERIOD__ is in minutes. __ENABLE_CULLING__ is false by default.
 
+[.console-input]
+[source,yaml]
 ```
 kind: ConfigMap
 apiVersion: v1
@@ -40,6 +42,8 @@ If culling is enabled by ConfigMap, but then disabled in RHOAI Dashboard setting
 
 When launching workbenches or model servers from the RHOAI dashboard, users can select from several default sizes. These default options might not suit your organization's needs. In such cases, you can use custom model server and notebook size configurations. To do this edit the `odh-dashboard-config` OdhDashboardConfig resource in namespace `redhat-ods-applications`. You can use the OpenShift Dashboard -> Search or navigate to Home -> API explorer and filter ford `OdhDashboardConfig`:
 
+[.console-input]
+[source,yaml]
 ```
 apiVersion: opendatahub.io/v1alpha
 kind: OdhDashboardConfig

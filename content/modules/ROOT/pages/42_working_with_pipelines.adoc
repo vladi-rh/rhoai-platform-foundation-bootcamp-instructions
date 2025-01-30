@@ -16,6 +16,8 @@ In the parasol-insurance repository, there is a python notebook that re-trains a
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 import kfp.compiler
@@ -29,6 +31,8 @@ from kfp import dsl
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 KUBEFLOW_ENDPOINT = 'https://ds-pipeline-dspa.parasol-insurance.svc.cluster.local:8443'
@@ -42,6 +46,8 @@ PYTHON_IMAGE = 'image-registry.openshift-image-registry.svc:5000/openshift/pytho
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 @dsl.component(
@@ -81,6 +87,8 @@ Notice the output dataset parameter (`datasets: dsl.Output[dsl.Dataset]`), and h
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 @kfp.dsl.pipeline(
@@ -97,6 +105,8 @@ def accident_detection_pipeline(model_obc: str = "accident-detection"):
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 print(f"Connecting to kfp: {KUBEFLOW_ENDPOINT}")
@@ -136,6 +146,8 @@ Provide your own token, you can find the token in the OpenShift Web Console by c
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 @dsl.component(
@@ -183,6 +195,8 @@ Notice here the use of the `shutil` package to copy from the default output dire
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 @kfp.dsl.pipeline(
@@ -210,6 +224,8 @@ Notice how we use the output of the `download_data` task as the input of the `tr
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 @dsl.component(
@@ -250,6 +266,8 @@ def upload_to_s3(model_onnx: dsl.Input[dsl.Model]):
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,python]
 ----
 @kfp.dsl.pipeline(
@@ -284,6 +302,8 @@ def accident_detection_pipeline(model_obc: str = "accident-detection"):
 .Solution
 [%collapsible]
 ====
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -307,6 +327,8 @@ resources:
 [%collapsible]
 ====
 .tenants/parasol-insurance/model-training-pipeline/base/model-retrain-imagestream.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: image.openshift.io/v1
@@ -323,6 +345,8 @@ metadata:
 [%collapsible]
 ====
 .tenants/parasol-insurance/model-training-pipeline/base/model-retrain-pipeline.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: tekton.dev/v1beta1
@@ -412,6 +436,8 @@ spec:
 [%collapsible]
 ====
 .tenants/parasol-insurance/model-training-pipeline/base/model-retrain-pipelinerun.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: tekton.dev/v1
@@ -449,6 +475,8 @@ spec:
 [%collapsible]
 ====
 .tenants/parasol-insurance/model-training-pipeline/base/model-retrain-rbac.yaml
+
+[.console-input]
 [source,yaml]
 ----
 kind: RoleBinding
@@ -485,6 +513,8 @@ rules:
 [%collapsible]
 ====
 .tenants/parasol-insurance/model-training-pipeline/base/execute-kfp-task.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: tekton.dev/v1beta1
@@ -527,6 +557,8 @@ spec:
 [%collapsible]
 ====
 .tenants/parasol-insurance/model-training-pipeline/overlays/parasol-insurance-dev/kustomization.yaml
+
+[.console-input]
 [source,yaml]
 ----
 apiVersion: kustomize.config.k8s.io/v1beta1
