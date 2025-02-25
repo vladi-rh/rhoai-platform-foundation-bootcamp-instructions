@@ -117,7 +117,7 @@ image::01-kueue-sync.png[Kueue sync]
 
 ### Basic Ray cluster setup
 
-. Using the `standard-workbench` workbench, create a new Jupyter Notebook with the name `0_basic_ray.ipynb`.
+. Using the `standard-workbench` workbench (see 'Using S3 storage' sections for instructions how `standard-workbench` is created), create a new Jupyter Notebook with the name `0_basic_ray.ipynb`.
 
 . Add a cell with the imports:
 
@@ -154,6 +154,8 @@ You can find these values in the OpenShift Web Console by clicking on your usern
 
 [.bordershadow]
 image::02-server-token.png[server token]
+
+Note that user account tokens are valid for 24 hours only. If longer living tokens are required consider using Service Accounts with either time-limited API tokens or long-lived tokens.
 ====
 
 . Add a cell to configure a Ray cluster:
@@ -286,7 +288,7 @@ auth.logout()
 
 ### Running a distributed workload
 
-. Using the `standard-workbench` workbench, create a new python script file with the name `mnist_fashion.py`.
+. Using the `standard-workbench` workbench (see 'Using S3 storage' sections for instructions how `standard-workbench` is created), create a new python script file with the name `mnist_fashion.py`.
 
 . Add the following code to the `mnist_fashion.py` file:
 
@@ -404,7 +406,7 @@ torchmetrics==0.9.1
 torchvision==0.12.0
 ----
 
-. Using the `standard-workbench` workbench, create a new Jupyter Notebook with the name `1_distributed_training.ipynb`.
+. Using the `standard-workbench` workbench (see 'Using S3 storage' sections for instructions how `standard-workbench` is created), create a new Jupyter Notebook with the name `1_distributed_training.ipynb`.
 
 . Add a cell with the imports:
 
@@ -441,6 +443,8 @@ You can find these values in the OpenShift Web Console by clicking on your usern
 
 [.bordershadow]
 image::02-server-token.png[server token]
+
+Note that user account tokens are valid for 24 hours only. If longer living tokens are required consider using Service Accounts with either time-limited API tokens or long-lived tokens.
 ====
 
 . Add a cell to configure a Ray cluster:
