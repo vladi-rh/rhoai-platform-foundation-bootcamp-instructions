@@ -16,7 +16,7 @@ The demo clusters typically take 1-2 hours to provision, although they may take 
 
 The first cluster where we will run our demonstration projects requires a little more resources that the other two, so lets provision this first.
 
-. Navigate to https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod[demo.redhat.com] and select the _**AWS with OpenShift Open Environment**_. Note that this is a blank / empty instance of OpenShift with no other operators or demo components preloaded, perfect for our lab exercise.
+. In a web browser, navigate to demo.redhat.com and request a new instance of https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod[_**AWS with OpenShift Open Environment**_]. Note that this is a blank / empty instance of OpenShift with no other operators or demo components preloaded, ideal for the subsequent lab exercises where we will provision RHOAI.
 
 [.bordershadow]
 image::OrderAWS_env.png[width=35%]
@@ -33,7 +33,7 @@ image::OrderAWS_controlplane.png[width=35%]
 
 These are simple clusters used to demonstrate Kustomize overlays in a subsequent lab. One cluster will be used for the _**Dev**_ environment and the other for the _**Prod**_ environment.
 
-. Navigate to https://demo.redhat.com/catalog?search=Red+Hat+OpenShift+Container+Platform+Cluster&item=babylon-catalog-prod%2Fopenshift-cnv.ocpmulti-wksp-cnv.prod[demo.redhat.com] and order the _**Red Hat OpenShift Container Platform Cluster (AWS)**_
+. Navigate to demo.redhat.com and order the _**Red Hat OpenShift Container Platform Cluster (AWS)**_
 . Select all default configuration options
 . Repeat these steps twice, one for Dev and the next for Prod clusters
 
