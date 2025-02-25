@@ -65,7 +65,10 @@ As soon as the GitOps (ArgoCD) server is up and running, the bootstrap scrips wi
 [.bordershadow]
 image::Bootstrap_argo_url.png[]
 
-You can also access this URL by
+You can also access this URL through a shortcut added to OpenShift Admin Console UI:
+
+[.bordershadow]
+image::bootstrapArgoCD.png[]
 
 [start=8]
 . Log into the Argo CD link with the Openshift credentials and wait till everything syncs successfully.
