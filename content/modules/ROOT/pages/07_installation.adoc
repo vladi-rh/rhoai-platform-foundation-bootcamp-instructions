@@ -31,6 +31,15 @@ TIP: If you can't or prefer not to run the installation from your local machine 
 git clone <paste the URL for your forked repo that you copied from GitHub web console>
 ----
 
+Optionally: we would highly recommended adding in an upstream reference to the AI Accelerator project, should you wish to contribute updates and bug fixes:
+
+[.console-input]
+[source,adoc]
+----
+cd ai-accelerator
+git remote add upstream https://github.com/redhat-ai-services/ai-accelerator.git
+----
+
 ## Bootstrap the Demo Cluster
 
 Carefully follow the instructions found in https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/installation.md[`documentation/installation.md`], with the following specifics:
