@@ -17,13 +17,17 @@ The demo clusters typically take 1-2 hours to provision, although they may take 
 The first cluster where we will run our demonstration projects requires a little more resources that the other two, so lets provision this first.
 
 . Navigate to https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod[demo.redhat.com] and select the _**AWS with OpenShift Open Environment**_. Note that this is a blank / empty instance of OpenShift with no other operators or demo components preloaded, perfect for our lab exercise.
-. Change the the **Control Plane Instance Type** to **m6a.4xlarge**, as the default machine configuration does not have sufficient compute resources for the additional component we will be installing.
-. You should be able to use the default version of OpenShift, however since there are continuous releases it's a good idea to double check the https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/[RHOAI Documentation], under the **Supported configurations** subsection to ensure compatibility.
-
-WARNING: As of Nov 22, 2024 the Node Feature Discovery and NVIDIA Operator appear to be broken on the latest version of OpenShift (4.17), be sure to use 4.16 when building a cluster so that the taints and tolerations work correctly. This may be fixed by Red Hat Engineering soon, so this warning can be removed when the operators are compatible with latest OCP.
 
 [.bordershadow]
 image::OrderAWS_env.png[width=35%]
+
+. Change the the **Control Plane Instance Type** to **m6a.4xlarge**, as the default machine configuration does not have sufficient compute resources for all of the various RHOAI and related operators we will be installing.
+
+[.bordershadow]
+image::OrderAWS_controlplane.png[width=35%]
+
+. You should be able to use the default (latest) version of OpenShift, however since there are continuous new product releases it's a good idea to double check the https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/[RHOAI Documentation], under the **Supported configurations** subsection to ensure compatibility.
+
 
 ## Provision the Development and Production Clusters
 
