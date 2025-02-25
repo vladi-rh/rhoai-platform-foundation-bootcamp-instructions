@@ -72,6 +72,7 @@ image::bootstrapArgoCD.png[]
 
 [start=8]
 . Log into the Argo CD link with the Openshift credentials and wait till everything syncs successfully.
+
 [.bordershadow]
 image::Argo_home_screen.png[]
 
