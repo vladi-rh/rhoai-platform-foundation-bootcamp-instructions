@@ -14,6 +14,7 @@ The ai-accelerator project installs Open Shift GitOps (ArgoCD) first, then uses 
 This project is set up with ArgoCD and Kustomize in mind. Meaning ArgoCD will handle the deployment of resources based on what Kustomize tells it. 
 
 If you are unfamiliar with Kustomize, take a look at the following tutorials:
+
 * https://www.redhat.com/en/blog/your-guide-to-continuous-delivery-with-openshift-gitops-and-kustomize[Your Guide to Continuous Delivery with OpenShift GitOps and Kustomize]
 * https://devopscube.com/kustomize-tutorial/[Kustomize Tutorial: Comprehensive Guide For Beginners]
 
