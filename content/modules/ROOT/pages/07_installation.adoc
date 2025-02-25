@@ -46,15 +46,26 @@ Carefully follow the instructions found in https://github.com/redhat-ai-services
 
 [start=6]
 . Use the _**Demo**_ cluster credentials when logging into OpenShift
-. Select number 7 - stable-2.13 when prompted: 
+. Select 1 for the `rhoai-eus-2.16-aws-gpu` overlay when prompted: 
 
 [.bordershadow]
 image::bootstrapOptions.png[]
 
-This will install all the applications in the bootstrap script and also provide a openshift-gitops-server (ArgoCD) link. Option 3 and 6 will install RHOAI and related operators. Since we are using GPUs for the demo instance, it will also install the Nvidia GPU Operator and the Node Feature Discovery (NFD) Operator.
+Since we are using GPUs for the demo instance, we've selected the overlay ending with `*-aws-gpu`. This installs the Nvidia GPU Operator and the Node Feature Discovery (NFD) Operator in additional to configuring an additional OpenShift MachineSet that utilizes an AWS machine containing Nvidia hardware.
+
+Next, the bootstrap script will prompt you to change the GitOps configuration to point to your forked repository (instead of the main repo), select 1 - Yes since we want to use our forked repo on our lab cluster environment, so that we can make changes to the content and have those synchronized using GitOps:
+
+[.bordershadow]
+image::bootstrapBranch.png[]
+
+The bootstrap script will then install the OpenShift GitOps operator (ArgoCD), and instruct the GitOps server to install all the components in your Git repository.
+
+As soon as the GitOps (ArgoCD) server is up and running, the bootstrap scrips will provide a link: 
 
 [.bordershadow]
 image::Bootstrap_argo_url.png[]
+
+You can also access this URL by
 
 [start=8]
 . Log into the Argo CD link with the Openshift credentials and wait till everything syncs successfully.
