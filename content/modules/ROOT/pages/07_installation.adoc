@@ -18,17 +18,17 @@ TIP: You can see who else has forked the repo by clicking the https://github.com
 
 ## Clone the AI Accelerator Project
 
-Clone (download) the Git repository containing the AI Accelerator to your local environment, since we will be running the bootstrap scripts from a terminal on your local machine. 
+https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository[Clone the Git repository] containing the AI Accelerator to your local environment, since we will be running the bootstrap scripts from a terminal on your local machine. 
 
 TIP: If you can't or prefer not to run the installation from your local machine (such as in a locked down corporate environment), you can also use the Bastion host instead. This is a Linux virtual machine running on AWS, the SSH login details are provided in the provisioning email you received from demo.redhat.com. Just be aware that the Basion host is deprovisioned when the cluster is deleted, so be sure to git commit any changes frequently.
 
 [start=5]
-. Git clone the following repository to your local machine. If you're using a fork, then change the repository URL in the command below to match yours:
+. With the forked GitHub repository open in your browser, copy the Git repo URL from the "Code" drop down options list. Then in a terminal window, run the `git clone` command:
 
 [.console-input]
 [source,adoc]
 ----
-git clone https://github.com/redhat-ai-services/ai-accelerator.git
+git clone <paste the URL for your forked repo that you copied from GitHub web console>
 ----
 
 ## Bootstrap the Demo Cluster
