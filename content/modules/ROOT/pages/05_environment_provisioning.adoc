@@ -18,6 +18,8 @@ The first cluster where we will run our demonstration projects requires a little
 
 . In a web browser, navigate to demo.redhat.com and request a new instance of https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod[_**AWS with OpenShift Open Environment**_]. Note that this is a blank / empty instance of OpenShift with no other operators or demo components preloaded, ideal for the subsequent lab exercises where we will provision RHOAI.
 
+WARNING: During testing (Feb 2025) it was found that the Node Feature Discovery operator breaks in the latest version of **OpenShift 4.17**. We have created a https://github.com/redhat-ai-services/ai-accelerator/pull/102[temporary workaround] that sets an explicit version number for the NFD operator images, but does require you to chose a specific version of OpenShift that matches. For this reason, we highly recommend selecting **OpenShift 4.16** from the drop down, but if you select a different version you will have to manually edit the NFD operator template in your Git repository to get it to work correctly.
+
 [.bordershadow]
 image::OrderAWS_env.png[width=35%]
 
