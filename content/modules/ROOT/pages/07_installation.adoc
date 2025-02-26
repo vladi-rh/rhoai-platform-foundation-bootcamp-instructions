@@ -82,18 +82,6 @@ TIP: Once provisioned, the project will create a link to ArgoCD in the Applicati
 
 This GPU overlay also uses _**MachineAutoscalers**_. Since there are Inferencing Service examples that use GPUs, a _**g5.2xlarge**_ machineset (with GPU) will spin up. This can take a few minutes.
 
-[NOTE]
-====
-If the granite inference service fails to spin up, delete the deployment and Argo should redeploy it.
-
-[SOURCE]
-----
-oc delete deployment granite-predictor-00001-deployment -n ai-example-single-model-serving
-----
-
-====
-
-
 We will cover the ai-accelerator project overview in a later section.
 
 ---
@@ -109,3 +97,39 @@ Additional questions that could be discussed for this topic:
 . Could, or should the bootstrap shell script be converted to Ansible?
 . How does the bootstrap script provision GPU resources in the new OpenShift cluster? Hint: a quick walk through the logic in the source code should be a useful exercise, time permitting.
 . Where can I get help if the bootstrap process breaks?
+
+. Refer to the https://access.redhat.com/support/policy/updates/rhoai-sm/lifecycle[RHOAI lifecycle support document], can you explain what the difference between the `fast`, `stable`, `stable-2.16` and `eus-2.16` channels? How should one pick which channel to use?
+
+.About RHOAI Channels
+[%collapsible]
+====
+A: It's complicated!
+
+* `eus-X.Y` channels allow for upgrades from previous eus versions, for example the last RHOAI EUS version was 2.8, so you can upgrade from 2.8 to 2.16. This is ideal for customers who run RHOAI in a permanent installation, and who do not typically want unmanaged updates.
+
+* `stable` channels allow for major and minor version upgrades, for example RHOAI 2.16 to 2.17. This is ideal for environments that can be easily updated (such as lab or development clusters)
+
+* `stable-X.Y` channels allow for specific major versions to receive minor updates, for example RHOAI 2.16.0 to 2.16.1. Use this if you want to allow for patches, but prefer to stay on a specific major version. This is ideal for GitOps, allowing for automatic patching but staying on a specific version.
+
+* `fast` channels - here be dragons. You would typically only use this channel when testing out a brand new feature while working with engineering or support teams, in a very temporary lab style cluster.
+====
+
+## Troubleshooting
+
+Steps for checking the health of your environment:
+
+. In the OpenShift web console, navigate to the Home page and check the health of the cluster. Also verify if there are any crashed pods.
+. Verify that all operators are installed and running ok in the Installed Operators section
+. Check that the cluster has auto-scaled the nodes and machine sets, in the Compute section. Note that it can take up to 30 minutes to request a spot instance of a GPU enabled node, and some of the model servers will show in "failed" state until this availability problem is resolved through automatic scaling
+. Open GitOps (ArgoCD) and verify that everything is in synchronized state. Some components have dependencies on others, as we will discuss in further sections.
+
+[NOTE]
+====
+If the granite inference service fails to spin up, delete the deployment and Argo should redeploy it.
+
+[SOURCE]
+----
+oc delete deployment granite-predictor-00001-deployment -n ai-example-single-model-serving
+----
+
+====
