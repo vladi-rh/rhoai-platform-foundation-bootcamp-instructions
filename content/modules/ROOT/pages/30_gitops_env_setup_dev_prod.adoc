@@ -285,11 +285,11 @@ git push origin main
 ./bootstrap.sh
 ...
 
-1. bootstrap/overlays/parasol-insurance-dev/
-2. bootstrap/overlays/rhoai-eus-2.8-aws-gpu/
-3. bootstrap/overlays/rhoai-eus-2.8/
-4. bootstrap/overlays/rhoai-fast-aws-gpu/
-5. bootstrap/overlays/rhoai-fast/
+1. parasol-insurance-dev        6. rhoai-fast-aws-gpu
+2. rhoai-eus-2.16-aws-gpu       7. rhoai-fast
+3. rhoai-eus-2.16	              8. rhoai-stable-2.10
+4. rhoai-eus-2.8-aws-gpu        9. rhoai-stable-2.13-aws-gpu
+5. rhoai-eus-2.8	              10. rhoai-stable-2.13
 ----
 
 +
@@ -318,7 +318,7 @@ image::05_parasol-insurance-ds-project.png[RHOAI Data Science Project]
 
 [TIP]
 ====
-To check your work please refer to https://github.com/redhat-ai-services/ai-accelerator-qa/tree/30_gitops_env_setup_dev_prod[This Dev Branch] 
+To check your work please refer to https://github.com/redhat-ai-services/ai-accelerator-qa/tree/2.16-parasol-dev-prod[This Dev Branch] 
 ====
 
 ## Parasol-insurance-prod cluster
@@ -330,7 +330,7 @@ When running the bootstrap script, select `bootstrap/overlays/parasol-insurance-
 
 [TIP]
 ====
-To check your work please refer to https://github.com/redhat-ai-services/ai-accelerator-qa/tree/30_gitops_env_setup_prod[This Prod Branch] 
+To check your work please refer to https://github.com/redhat-ai-services/ai-accelerator-qa/tree/2.16-parasol-dev-prod[This Prod Branch] 
 ====
 
 ## Questions for Further Consideration
