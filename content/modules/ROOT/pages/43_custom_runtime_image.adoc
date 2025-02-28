@@ -77,3 +77,20 @@ Minio Storage details
 
 . Test and run the DAG - https://github.com/<YOUR-ID>red-hat-data-services/telecom-customer-churn-airflow
 
+## Questions for further considerations
+
+* Can we create a custom runtime image?
+
+.Solution
+[%collapsible]
+====
+You can create a custom runtime-image: https://github.com/opendatahub-io/notebooks/tree/main/runtimes[Custom Runtime Image]
+====
+
+* How many customers ask for custom images?
+* Do you think it is a good idea to have a custom image for each pipeline? Why or why not?
+* How can we make the process of creating a custom runtime image easier?
+
+
+
+
