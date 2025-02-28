@@ -198,3 +198,8 @@ spec:
           memory: 120Gi
 ====
 
+.Updated Configuration
+[%collapsible]
+====
+.image::custom-notebook-size.png[]
+====
