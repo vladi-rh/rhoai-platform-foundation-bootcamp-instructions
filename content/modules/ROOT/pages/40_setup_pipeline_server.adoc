@@ -45,20 +45,12 @@ apiVersion: datasciencepipelinesapplications.opendatahub.io/v1alpha1
 kind: DataSciencePipelinesApplication
 metadata:
   name: dspa
+  namespace: parasol-insurance
 spec:
   apiServer:
-    stripEOF: true
-    dbConfigConMaxLifetimeSec: 120
-    applyTektonCustomResource: true
     deploy: true
     enableSamplePipeline: false
-    autoUpdatePipelineDefaultVersion: true
-    archiveLogs: false
-    terminateStatus: Cancelled
     enableOauth: true
-    trackArtifacts: true
-    collectMetrics: true
-    injectDefaultScript: true
   database:
     disableHealthCheck: false
     mariaDB:
@@ -77,9 +69,9 @@ spec:
       port: ''
       region: us-east-1
       s3CredentialsSecret:
-        accessKey: AWS_ACCESS_KEY_ID
-        secretKey: AWS_SECRET_ACCESS_KEY
-        secretName: <secret-name>
+        accessKey: AWS_ACCESS_KEY_ID # Update with minio access key
+        secretKey: AWS_SECRET_ACCESS_KEY # Update with minio secret key
+        secretName: <secret-name> # Update with the secret name
       scheme: http
   persistenceAgent:
     deploy: true
