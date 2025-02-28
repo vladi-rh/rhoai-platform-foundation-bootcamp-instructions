@@ -153,3 +153,26 @@ oc delete deployment granite-predictor-00001-deployment -n ai-example-single-mod
 ----
 
 ====
+
+### Setting up GitHub and SSH when using Bastion host
+
+When attempting to clone from GitHub on the Bastion host, you'll need to set up SSH and add a SSH Key in the GitHub settings.
+
+Paste the text below, replacing the email used in the example with your GitHub email address:
+
+[SOURCE]
+----
+ssh-keygen -t ed25519 -C "your_email@example.com"
+----
+
+Start the ssh-agent in the background, and add your SSH private key to the ssh-agent.
+
+[SOURCE]
+----
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/myNewPrivateKEy
+----
+
+Finally, copy the SSH key and add it into GitHub.
+
+More instructions can be found at: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent[Generating a new SSH key and adding it to the ssh-agent]
