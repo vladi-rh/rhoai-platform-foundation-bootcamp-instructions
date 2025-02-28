@@ -6,7 +6,7 @@ The data science pipelines server is a component of RHOAI that allows you to cre
 
 ## Setup the pipelines server (DSPA).
 
-. Create a `data-science-pipelines` directory in the `parasol-insurance` tenand directory.
+. Create a `data-science-pipelines` directory in the `parasol-insurance` tenant directory.
 
 . Create the `base` and `overlays` directories in the `data-science-pipelines` directory.
 
