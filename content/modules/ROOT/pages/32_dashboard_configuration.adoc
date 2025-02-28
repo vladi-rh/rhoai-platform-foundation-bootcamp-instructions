@@ -201,5 +201,5 @@ spec:
 .Updated Configuration
 [%collapsible]
 ====
-.image::custom-notebook-size.png[]
+image::custom-notebook-size.png[]
 ====
