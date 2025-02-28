@@ -35,7 +35,7 @@ image::OrderAWS_controlplane.png[width=35%]
 
 These are simple clusters used to demonstrate Kustomize overlays in a subsequent lab. One cluster will be used for the _**Dev**_ environment and the other for the _**Prod**_ environment.
 
-. Navigate to demo.redhat.com and order the https://catalog.demo.redhat.com/catalog?item=babylon-catalog-prod%2Fsandboxes-gpte.ocp-wksp.prod[_**Red Hat OpenShift Container Platform Cluster (AWS)**_]
+. Navigate to demo.redhat.com and order the https://catalog.demo.redhat.com/catalog?item=babylon-catalog-prod%2Fsandboxes-gpte.ocp-wksp.prod[_**Red Hat OpenShift Container Platform Cluster (AWS)**_] (Note: this is a different link / catalog item from the one above)
 . Select all default configuration options
 . Repeat these steps twice, one for Dev and the next for Prod clusters
 
