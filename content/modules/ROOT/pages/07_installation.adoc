@@ -16,6 +16,26 @@ https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/workin
 
 TIP: You can see who else has forked the repo by clicking the https://github.com/redhat-ai-services/ai-accelerator/forks[forks link] in the "About" section. It's interesting to see who else is using this accelerator project!
 
+## Prepare your Local Environment
+Before you can run the bootstrap script, you need to prepare your local environment. Ensure you have installed the updated versions of the required tools.
+
+. Validate the installed versions:
+.. `git --version`
+.. `yq --version`
+.. `oc version`
+.. `kustomize version`
+
+.Installation Instructions
+[%collapsible]
+====
+Installation instructions:
+
+* For `git` see: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[Git] 
+* For 'yq' see: https://mikefarah.gitbook.io/yq/[yq]
+* For `oc` see: https://docs.openshift.com/container-platform/4.16/cli_reference/openshift_cli/getting-started-cli.html[OpenShift CLI]
+* For `kustomize` see: https://kubectl.docs.kubernetes.io/installation/kustomize/[Kustomize]
+====
+
 ## Clone the AI Accelerator Project
 
 https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository[Clone the Git repository] containing the AI Accelerator to your local environment, since we will be running the bootstrap scripts from a terminal on your local machine. 
