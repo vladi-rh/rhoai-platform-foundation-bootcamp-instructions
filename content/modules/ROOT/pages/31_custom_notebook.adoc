@@ -6,13 +6,28 @@ RHOAI provides many pre-built notebooks like Standard Data Science notebook, Ten
 
 These inbuilt notebooks come with most of the packages that one would need to run their Data Science projects. But the world of Data Science and Machine Learning is vast and there might be a need to download other python packages.
 
-In this case the user can use the `pip install` command inside the notebook but this might lead to issues like kernel mismatches or limited visibility and control.
+In this case, the user can use the `pip install` command inside the notebook but this might lead to issues like kernel mismatches or limited visibility and control.
 
-The best and recommended solution in this case is to create a custom notebook. RHOAI has made it extremely easy to import a notebook image form any image registry.
+The best and recommended solution in this case is to create a custom notebook. RHOAI has made it extremely easy to import a notebook image from any image registry.
+
+In the https://www.redhat.com/en/services/training/developing-and-deploying-aiml-applications-red-hat-openshift-ai-ai267[AI267] course, the content teaches you how to create a custom notebook image by taking an existing notebook image and adding additional python packages to it. This is a great way to create a custom notebook image, but what if you or your customer needs to create a custom notebook image from scratch or need to customize the notebook image even more. Your customer may need to know what is in the notebook image itself, or they may need to add additional software (such as database drivers) to the notebook image. We can utilize the notebook repository: https://github.com/opendatahub-io/notebooks/tree/main[https://github.com/opendatahub-io/notebooks/tree/main] to create a custom notebook image from the ground up. This repository where ODH and RHOAI workbenches are being created from. Let's use this repository to create a custom notebook image.
+
+### Notebooks Repository
+The https://github.com/opendatahub-io/notebooks/tree/main[notebooks repository] uses a `makefile` to create the notebook image. The `makefile` is a file that contains a set of directives used by a make build automation tool to build a set of target images. It utilizes a  build chain feature where it builds the base image first and then builds the images on top of the base image. 
+
+Take a look at the https://github.com/opendatahub-io/notebooks/blob/main/docs/developer-guide.md[developer guide] to understand the notebooks build chain.
+
+The notebooks repository also has a Wiki of the different variations of images here: https://github.com/opendatahub-io/notebooks/wiki/Workbenches
 
 ## Steps to create a custom notebook
 
-. Install Podman and log into https://quay.io[quay.io]
+. Install _**make**_ (or _**gmake**_) on your local machine. Make is a build automation tool that automatically builds executable programs and libraries from source code by reading files called Makefiles which specify how to derive the target program. We need make _** version 4+ **_ to build the notebooks repository.
+
+. Install _**pipenv**_ on your local machine. Pipenv is a tool that aims to bring the best of all packaging worlds (bundled dependencies, virtual environments, and package management) to the Python world. It automatically creates and manages a virtual environment for your projects, as well as adds/removes packages from your Pipfile as you install/uninstall packages.
+
+. Start Podman or Docker on your machine.
+
+. Log into https://quay.io[quay.io] from your web browser.
 
 +
 .If you get an error saying your account is already associated with an existing Quay account.
@@ -30,72 +45,137 @@ The error message you see can be remedied by the following steps:
 All accounts in Quay must have unique e-mail addresses and usernames. The issue here is that there exists a user under e-mail (your email address) in Quay's db. Logging in with a user with the same e-mail address will not work because users are not connected via a special table in Quay's db and Quay will perceive logging in via that button as though a new user is coming in. Quay will then check if the e-mail address is unique and will find that it's not and will error out.
 ====
 
+
 . Clone the bootcamp git repository with the following command:
 
-+
-
++ 
 [.console-input]
 [source,terminal]
 ----
-git clone https://github.com/redhat-ai-services/ai-accelerator-bootcamp.git
+git clone https://github.com/opendatahub-io/notebooks.git
 ----
 
-. Navigate to the custom notebook code in the cloned folder using the following command:
+. Navigate into the folder you just cloned.
 
 +
-
 [.console-input]
 [source,terminal]
 ----
-cd ai-accelerator-bootcamp/source_code/31_custom_notebook
+cd notebooks
 ----
 
-. Run the podman build command to build the image and use the -t flag to tag it with your quay id. Replace {quay id} with your quay id
-
-+
-
-[.console-input]
-[source,terminal]
-----
-podman build -t quay.io/{quay id}/custom_notebook .
-----
-
-+
-WARNING: if using an M-powered Mac, build with `podman build -t quay.io/{quay id}/custom_notebook . --platform linux/amd64`
-
-. After the image is built successfully, push it to your quay repository. Before pushing, log into quay.io:
-
-+
-
-[.console-input]
-[source,terminal]
-----
-podman login quay.io
-----
+. Log into the quay.io registery from your CLI. 
 
 +
 .Generate quay.io cli password from settings
 [%collapsible]
 ====
-Log into https://quay.io[quay.io] and go to _**Account Settings**_ in the top right. In the Account settings, _**Generate Encrypted Password**_ in order for you to login using the command line. Use this when logging into quay.io from podman
+Log into https://quay.io[quay.io] and go to _**Account Settings**_ in the top right. In the Account settings, _**Generate Encrypted Password**_. 
 
 [.bordershadow]
 image::quay_cli_password.png[]
 
+Enter your password and then choose the _**Podman Login**_ or _**Docker Login**_ tab. Use this when logging into quay.io from Podman or Docker.
 ====
 
-. Push the image to your quay repository:
-Replace {quay id} with your quay id
++
+[.console-input]
+[source,terminal]
+----
+podman login -u='username' -p='password' quay.io
+----
 
+
+. Open the _**Makefile**_ and try to understand the build chain.
+
+. Let's add a Python Package to the jupyter-data-science-ubi9-python-3.11 image. 
+
+. Change directory to the `jupyter/datascience/ubi9-python-3.11` directory.
+
++
+[.console-input] 
+[source,terminal]
+----
+cd jupyter/datascience/ubi9-python-3.11 
+----
+
+. Open the _**Pipfile**_ in the `jupyter/datascience/ubi9-python-3.11` directory. This file contains the list of Python packages that are installed in the image.
+
+. Add a new Python package to the _**Pipfile**_. For example, let's add the `art` package to the _**Pipfile**_ so we can make fancy ASCII art in our notebook.
+
++
+After line 22, add the following line and save the file:
+
++
+[.console-input]
+[source,terminal]
+----
+art = "~=6.4.0"
+----
+
+. Use `pipenv lock` to add the new package to the `Pipfile.lock`. This updates the pip lock file with the new package. Run the following command:
+
++
+[.console-input]
+[source,terminal]
+----
+pipenv lock
+----
+
+. We now will need to update the `requirements.txt` file. The notebooks repository has a handy script that will do this for us. Run the following command (still in the `jupyter/datascience/ubi9-python-3.11` directory):
+
++
+[.console-input]
+[source,terminal]
+----
+../../../scripts/sync-requirements-txt.sh
+----
+
++
+You can now see that the **_Art_** package has been added to the `requirements.txt` file. As well as updating some of the existing packages.
+
+. Now that we have added the new package to the image, we need to build the image. Change directory to the root of the repository project. After running this command you should be in the `notebooks` directory.
+
++
+[.console-input]
+[source,terminal]
+----
+cd ../../../
+----
+
+. Let's build the jupyter-datascience-ubi9-python-3.11 image. Run the following command:
 +
 
 [.console-input]
 [source,terminal]
 ----
-podman push quay.io/{quay id}/custom_notebook
+make jupyter-datascience-ubi9-python-3.11 -e  IMAGE_REGISTRY=quay.io/{quay_id}/workbench-images  -e  RELEASE=2024b
 ----
 
-. A new repository named custom_notebook will get created in your quay.io account. This will get created as a Private repository. Convert it into a public repository.
++
+.If using gmake
+[%collapsible]
+====
+[.console-input]
+[source,terminal]
+----
+gmake jupyter-datascience-ubi9-python-3.11 -e  IMAGE_REGISTRY=quay.io/{quay_id}/workbench-images  -e  RELEASE=2024b
+----
+====
+
++
+
+Note: If you're on a M-powered Mac, you need to build with `--platform linux/amd64`. In the Makefile, you can add the _**--platform linux/amd64**_ build arguments to the container build command. Edit **line 77** in the **Makefile** to be: `$(eval BUILD_ARGS := --platform linux/amd64)`
+
++
+This takes some time to build. It will build the base image first and then build the image on top of the base image. The image will then be pushed to the quay.io registry under your account in the **_workbench_** folder.
+
+
+. Check your quay registry to see the image you just built. https://quay.io/repository/{quay_id}/workbench-images?tab=tags[https://quay.io/repository/{quay_id}/workbench-images?tab=tags]
+
++
+
+. A new repository named `workbench-images` will get created in your quay.io account. This will get created as a Private repository. Convert it into a public repository in the settings.
 
 . In the `parasol-insurance` tenant (`ai-accelerator/tenants/parasol-insurance`), create a directory named `custom-workbench`
 
@@ -133,7 +213,8 @@ metadata:
     opendatahub.io/notebook-image-creator: admin
     opendatahub.io/notebook-image-desc: This is a custom notebook for running the parasol insurance code
     opendatahub.io/notebook-image-name: Custom Notebook
-    opendatahub.io/notebook-image-url: 'quay.io/{quay_id}/custom_notebook:latest'
+    opendatahub.io/notebook-image-url: 'quay.io/{quay_id}/workbench-images:jupyter-datascience-ubi9-python-3.11-2024b_{update_this}
+'
     opendatahub.io/recommended-accelerators: '[]'
   name: custom-notebook
   namespace: redhat-ods-applications
@@ -149,10 +230,10 @@ spec:
       annotations:
         opendatahub.io/notebook-python-dependencies: '[]'
         opendatahub.io/notebook-software: '[]'
-        openshift.io/imported-from: 'quay.io/{quay_id}/custom_notebook:latest'
+        openshift.io/imported-from: 'quay.io/{quay_id}/workbench-images:jupyter-datascience-ubi9-python-3.11-2024b_{update_this}'
       from:
         kind: DockerImage
-        name: 'quay.io/{quay_id}/custom_notebook:latest'
+        name: 'quay.io/{quay_id}/workbench-images:jupyter-datascience-ubi9-python-3.11-2024b_{update_this}'
       importPolicy:
         importMode: Legacy
       referencePolicy:
@@ -201,7 +282,7 @@ kind: Notebook
 metadata:
   annotations:
     notebooks.opendatahub.io/inject-oauth: 'true'
-    opendatahub.io/image-display-name: Minimal Python
+    opendatahub.io/image-display-name: Datascience notebook
     notebooks.opendatahub.io/oauth-logout-url: ''
     opendatahub.io/accelerator-name: ''
     openshift.io/description: ''
@@ -323,9 +404,20 @@ resources:
 [.bordershadow]
 image::01_custom_workbench.png[Custom workbench]
 
-[TIP]
+[Verify]
 ====
-Verify your work against https://github.com/redhat-ai-services/ai-accelerator-qa/pull/new/31_custom_notebook:[This custom-workbench branch]
+Verify the new custom workbench spins up successfully and the `art` package is available in the notebook.
+
+Use `pip list` in the notebook terminal to verify the `art` package is installed.
+
+Create a new notebook and run the following code to see the ASCII art:
+
+```
+from art import *
+hello_world=text2art("Hello World")
+print(hello_world)
+```
+
 ====
 
 ## Questions for Further Consideration
