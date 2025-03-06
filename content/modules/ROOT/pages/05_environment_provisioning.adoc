@@ -16,7 +16,7 @@ The demo clusters typically take 1-2 hours to provision, although they may take 
 
 The first cluster where we will run our demonstration projects requires a little more resources that the other two, so lets provision this first.
 
-. In a web browser, navigate to demo.redhat.com and request a new instance of https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod[_**AWS with OpenShift Open Environment**_]. Note that this is a blank / empty instance of OpenShift with no other operators or demo components preloaded, ideal for the subsequent lab exercises where we will provision RHOAI.
+. In a web browser, navigate to demo.redhat.com and request a new instance of https://demo.redhat.com/catalog?search=aws&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-ocp.prod[_**AWS with OpenShift Open Environment**_, window=_blank]. Note that this is a blank / empty instance of OpenShift with no other operators or demo components preloaded, ideal for the subsequent lab exercises where we will provision RHOAI.
 
 WARNING: During testing (Feb 2025) it was found that the Node Feature Discovery operator breaks in the latest version of **OpenShift 4.17**. We have created a https://github.com/redhat-ai-services/ai-accelerator/pull/102[temporary workaround] that sets an explicit version number for the NFD operator images, but does require you to chose a specific version of OpenShift that matches. For this reason, we highly recommend selecting **OpenShift 4.16** from the drop down, but if you select a different version you will have to manually edit the NFD operator template in your Git repository to get it to work correctly.
 
@@ -28,14 +28,14 @@ image::OrderAWS_env.png[width=35%]
 [.bordershadow]
 image::OrderAWS_controlplane.png[width=35%]
 
-. You should be able to use the default (latest) version of OpenShift, however since there are continuous new product releases it's a good idea to double check the https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/[RHOAI Documentation], under the **Supported configurations** subsection to ensure compatibility.
+. You should be able to use the default (latest) version of OpenShift, however since there are continuous new product releases it's a good idea to double check the https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/[RHOAI Documentation, window=_blank], under the **Supported configurations** subsection to ensure compatibility.
 
 
 ## Provision the Development and Production Clusters
 
 These are simple clusters used to demonstrate Kustomize overlays in a subsequent lab. One cluster will be used for the _**Dev**_ environment and the other for the _**Prod**_ environment.
 
-. Navigate to demo.redhat.com and order the https://catalog.demo.redhat.com/catalog?item=babylon-catalog-prod%2Fsandboxes-gpte.ocp-wksp.prod[_**Red Hat OpenShift Container Platform Cluster(AWS)**_] (Note: this is a different link / catalog item from the one above)
+. Navigate to demo.redhat.com and order the https://catalog.demo.redhat.com/catalog?item=babylon-catalog-prod%2Fsandboxes-gpte.ocp-wksp.prod[_**Red Hat OpenShift Container Platform Cluster(AWS)**_, window=_blank] (Note: this is a different link / catalog item from the one above)
 . Select all default configuration options
 . Repeat these steps twice, one for Dev and the next for Prod clusters
 
@@ -46,16 +46,16 @@ image::clustersettings_Dev_Prod.png[width=50%]
 
 The provisioning process will take a while to complete, so why not take some time to check out some of the documentation in the AI Accelerator project that we will be bootstrapping, once the new clusters are ready:
 
-* https://github.com/redhat-ai-services/ai-accelerator[Project Introduction README]
-* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/overview.md[AI Accelerator Overview]
-* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/installation.md[AI Accelerator Installation Procedure]
-* https://github.com/redhat-ai-services/ai-accelerator/tree/main/tenants[Tenants documentation]
+* https://github.com/redhat-ai-services/ai-accelerator[Project Introduction README, window=_blank]
+* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/overview.md[AI Accelerator Overview, window=_blank]
+* https://github.com/redhat-ai-services/ai-accelerator/blob/main/documentation/installation.md[AI Accelerator Installation Procedure, window=_blank]
+* https://github.com/redhat-ai-services/ai-accelerator/tree/main/tenants[Tenants documentation, window=_blank]
 
 ## When the Cluster is Ready
 
 Once the clusters have been provisioned, you should receive an email containing the cluster URLs as well as an administrative user (such as `kubeadmin`) and password. 
 
-You can also obtain these URLs and credentials from your services dashboard at https://demo.redhat.com/[demo.redhat.com]. The dashboard also allows you to perform administrative functions on your clusters, such as starting/stopping or extending the lifespan if desired.
+You can also obtain these URLs and credentials from your services dashboard at https://demo.redhat.com/[demo.redhat.com, window=_blank]. The dashboard also allows you to perform administrative functions on your clusters, such as starting/stopping or extending the lifespan if desired.
 
 ## Questions for Further Consideration
 
