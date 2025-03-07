@@ -108,7 +108,7 @@ After line 22, add the following line and save the file:
 
 +
 [.console-input]
-[source,terminal]
+[source]
 ----
 art = "~=6.4.0"
 ----
