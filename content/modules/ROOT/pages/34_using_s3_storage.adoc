@@ -28,7 +28,7 @@ If you need a reference, the ai-accelerator project has MinIO set up in under th
 .Solution
 [%collapsible]
 ====
-.tenants/parasol-insurance/namespaces/bases/object-datastore.yaml
+.tenants/parasol-insurance/namespaces/base/object-datastore.yaml
 
 [.console-input]
 [source,yaml]
