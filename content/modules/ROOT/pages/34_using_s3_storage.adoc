@@ -394,7 +394,7 @@ spec:
 .Solution
 [%collapsible]
 ====
-.tenants/standard-workbench/overlays/parasol-insurance-dev/kustomization.yaml
+.tenants/parasol-insurance/standard-workbench/overlays/parasol-insurance-dev/kustomization.yaml
 
 [.console-input]
 [source,yaml]
