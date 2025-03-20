@@ -46,7 +46,7 @@ All accounts in Quay must have unique e-mail addresses and usernames. The issue 
 ====
 
 
-. Clone the bootcamp git repository with the following command:
+. Clone the notebooks git repository with the following command:
 
 + 
 [.console-input]
