@@ -22,7 +22,7 @@
 * Data Science Pipelines
     ** 12. xref:40_setup_pipeline_server.adoc[Setup Pipeline Server]
     ** 13. xref:41_introduction_to_kfp_pipelines.adoc[KFP Pipelines]
-    ** 14. xref:kfp_elyra_differences[Comparison between Elyra and KFP]
+    ** 14. xref:kfp_elyra_differences.adoc[Comparison between Elyra and KFP]
     ** 15. xref:build_custom_runtime_image.adoc[Custom Runtime Image]
     ** 16. xref:introduction_to_elyra_pipelines.adoc[Elyra Pipelines]
     ** 17. xref:42_working_with_pipelines.adoc[Working with Pipelines]

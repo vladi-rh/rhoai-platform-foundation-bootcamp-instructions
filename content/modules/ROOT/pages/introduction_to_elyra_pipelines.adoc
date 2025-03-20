@@ -15,7 +15,7 @@ The runtime configuration is included and is pre-configured for submitting pipel
 
 . Create a new directory named `data` in the root folder and upload the following files (test.csv, train.csv,validate.csv) You can download the file by clicking the link below: 
 +
-link:data/test.csv[Download test.csv]
+<<test.csv , test.csv >>
 +
 link:data/train.csv[Download train.csv]
 +
