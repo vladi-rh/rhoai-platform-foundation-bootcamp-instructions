@@ -15,11 +15,11 @@ The runtime configuration is included and is pre-configured for submitting pipel
 
 . Create a new directory named `data` in the root folder and upload the following files (test.csv, train.csv,validate.csv) You can download the file by clicking the link below: 
 +
-xref:data/test.csv[Download test.csv]
+https://github.com/rh-aiservices-bu/fraud-detection/blob/main/data/test.csv[Download test.csv]
 +
-link:data/train.csv[Download train.csv]
+https://github.com/rh-aiservices-bu/fraud-detection/blob/main/data/train.csv[Download train.csv]
 +
-link:data/validate.csv[Download validate.csv]
+https://github.com/rh-aiservices-bu/fraud-detection/blob/main/data/validate.csv[Download validate.csv]
 
 . Open the `custom-workbench` in `parasol-insurance` project. Click on Launcher and create a new python notebook `1.train_model.ipynb`
 +
