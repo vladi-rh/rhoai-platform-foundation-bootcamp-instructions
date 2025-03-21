@@ -422,13 +422,31 @@ image::pipeline_editor.png[]
 
 +
 
+. Update the pipeline parameters for node 1.train_model.
+
++
+[.bordershadow]
+image::pipeline_parameters.png[]
++
+
 . Update the runtime image. 
 
 +
 [.bordershadow]
 image::update_runtime.png[]
 
-. Update S3 storage `environment variables` for node 2.save_model. 
+. Update S3 storage `Kubernetes Secrets` for node 2.save_model 
++
+[%collapsible]
+.Solution
+[source,yaml]
+----
+AWS_ACCESS_KEY_ID: <AWS_ACCESS_KEY_ID>
+AWS_SECRET_ACCESS_KEY: <AWS_SECRET_ACCESS_KEY>
+AWS_S3_BUCKET: <AWS_S3_BUCKET>
+AWS_S3_ENDPOINT: <AWS_S3_ENDPOINT>
+AWS_DEFAULT_REGION: <AWS_DEFAULT_REGION>
+----
 +
 
 . Click on Run icon to run the pipeline. Pipline run can be viewed on RHOAI dashboard. 

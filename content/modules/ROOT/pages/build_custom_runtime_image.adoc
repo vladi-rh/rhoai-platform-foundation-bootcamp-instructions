@@ -56,13 +56,13 @@ podman login -u='username' -p='password' quay.io
 
 . Let's add a Python Package to the runtime image-datascience-ubi9-python-3.11 image. 
 
-. Change directory to the `runtime/datascience/ubi9-python-3.11` directory.
+. Change directory to the `runtimes/datascience/ubi9-python-3.11` directory.
 
 +
 [.console-input] 
 [source,terminal]
 ----
-cd runtime/datascience/ubi9-python-3.11 
+cd runtimes/datascience/ubi9-python-3.11 
 ----
 
 . Open the _**Pipfile**_ in the `runtime/datascience/ubi9-python-3.11` directory. This file contains the list of Python packages that are installed in the image.
@@ -88,7 +88,7 @@ art = "~=6.4.0"
 pipenv lock
 ----
 
-. We will need to update the `requirements.txt` file. The notebooks repository has a handy script that will do this for us. Run the following command (still in the `runtime/datascience/ubi9-python-3.11` directory):
+. We will need to update the `requirements.txt` file. The notebooks repository has a handy script that will do this for us. Run the following command (still in the `runtimes/datascience/ubi9-python-3.11` directory):
 
 +
 [.console-input]
@@ -157,13 +157,27 @@ image::custom_wb.png[]
 image::runtime_logo.png[]
 
 . Click on + sign to add custom runtime image. Fill the following to add a new runtime image: 
-Display Name: custom-runtime-image
-Image Name:  pull quay.io/{quay-id}/runtime-images:runtime-datascience-ubi9-python-{tag}
-Image Pull Policy: Always
++
+`Display Name:` custom-runtime-image
++
+`Image Name:`  pull quay.io/{quay-id}/runtime-images:runtime-datascience-ubi9-python-{tag}
++
+`Image Pull Policy:` Always
 +
 
+.Runtime-Image
+[%collapsible]
+====
+Please use this image if your unable to build a custom-image in the previous steps. 
+
+[.console-input]
+[source,terminal]
+quay.io/arckrish/rt-images:runtime-datascience-ubi9-python-3.11-2023x_20250318
+====
+
+
 [.bordershadow]
-image::add_runtime_image.png[]
+image::add_runtime.png[]
 
 . Click on **Save and Close** to save the runtime image.
 +
