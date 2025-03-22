@@ -65,7 +65,7 @@ podman login -u='username' -p='password' quay.io
 cd runtimes/datascience/ubi9-python-3.11 
 ----
 
-. Open the _**Pipfile**_ in the `runtime/datascience/ubi9-python-3.11` directory. This file contains the list of Python packages that are installed in the image.
+. Open the _**Pipfile**_ in the `runtimes/datascience/ubi9-python-3.11` directory. This file contains the list of Python packages that are installed in the image.
 
 . Add a new Python package to the _**Pipfile**_. For example, let's add the `art` package to the _**Pipfile**_ to match the custom notebook image built in earlier exercise. 
 
@@ -174,7 +174,7 @@ Please use this image if your unable to build a custom-image in the previous ste
 [source,terminal]
 quay.io/arckrish/rt-images:runtime-datascience-ubi9-python-3.11-2023x_20250318
 ====
-
++
 
 [.bordershadow]
 image::add_runtime.png[]
