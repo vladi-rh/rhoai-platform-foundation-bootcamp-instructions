@@ -8,6 +8,77 @@ The ray cluster documentation can be found here: https://docs.ray.io/en/latest/c
 
 Kueue is a kubernetes-native system that manages quotas and how jobs consume them. Kueue decides when a job should wait, when a job should be admitted to start (as in pods can be created) and when a job should be preempted (as in active pods should be deleted). Find more information about Kueue here: https://kueue.sigs.k8s.io/docs/[Kueue Documentation].
 
+## Enable Codeflare, Ray, and Kueue in the DataScienceCluster
+In order to do Distributed Training, we'll need to use Codeflare, Ray, and Kueue. Luckily for us, RHOAI already provides the CRDs (Custom Definition Resources) for Codeflare, Ray, and Kueue that are used for running distributed training. We just need to enable them in the DataScienceCluster.
+
+As you can see in the DataScienceCluster, the components `Codeflare`, `Ray`, and `Kueue` are in the *__Removed__* state. 
+
+
+[.bordershadow]
+image::distributed-training-dsc-removed.png[dsc codeflare, ray, kueue removed]
+
+Let's enable `Codeflare`, `Ray`, and `Kueue` in the DataScienceCluster.
+
+If you recall, when creating our cluster overlays, we set up the __parasol-insurance-dev__ and __parasol-insurance-prod__ overlays from the https://redhat-ai-services.github.io/ai-accelerator-bootcamp-instructions/modules/30_gitops_env_setup_dev_prod.html#_setting_up_ai_accelerator_project_for_dev_cluster[Setup Dev & Prod section]. In step 3, we copied `componets/argocd/apps/overlays/eus-2.16` into our __parasol-insurance-*__ overlay folder. Because we did this, our RHOAI operator is pointing to the `components/operators/openshift-ai/aggregate/overlays/eus-2.16` folder. This means that the changes in this overlay will be applied to our __parasol-insurance-*__ overlay. So in order to make changes to the RHOAI operator, we'll need to make changes to the `components/operators/openshift-ai/aggregate/overlays/eus-2.16` folder.
+
+[.bordershadow]
+image::patch-operators-list-parasol-overlay.png[patch operators list parasol overlay]
+
+. In the `components/operators/openshift-ai/instance/overlays/eus-2.16` folder, update the *kustomzation.yaml* file by adding the following:
+
++
+
+.components/operators/openshift-ai/instance/overlays/eus-2.16/kustomization.yaml
+
+[.console-input]
+[source, yaml]
+----
+  - ../../components/components-distributed-compute
+----
+
++
+.Solution
+[%collapsible]
+====
+.components/operators/openshift-ai/instance/overlays/eus-2.16/kustomization.yaml
+
+[.console-input]
+[source,yaml]
+----
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: redhat-ods-applications
+
+resources:
+  - ../../base
+
+components:
+  - ../../components/components-serving
+  - ../../components/components-training
+  - ../../components/components-trustyai
+  - ../../components/default-notebook-pvc-size
+  - ../../components/idle-notebook-culling
+  - ../../components/notebook-pod-sizes
+  - ../../components/make-kubeadmin-cluster-admin
+  - ../../components/model-server-pod-sizes
+  - ../../components/rhoai-dashboard-access
+  - ../../components/auth-with-authorino
+  - ../../components/components-distributed-compute
+----
+====
+
+This will add the `components/operators/openshift-ai/instance/components/components-distributed-compute` folder to the list of components that the `components/operators/openshift-ai/instance/overlays/eus-2.16/kustomization.yaml` will apply.
+
+In the `components/operators/openshift-ai/instance/components/components-distributed-compute` folder, the *kustomization.yaml* file contains a patch function that will patch the DataScienceCluster resource. The patch will enable the `Codeflare`, `Ray`, and `Kueue` components in the DataScienceCluster yaml by setting the respective components from the *__Removed__* state to the *__Managed__* state.
+
+After the changes have been committed to your fork, ArgoCD will sync with the changes and the DataScienceCluster will update and restart with the new components enabled.
+
+[.bordershadow]
+image::distributed-training-dsc-added.png[dsc codeflare, ray, kueue managed]
+
+
+
 ## Create the Kueue configuration with GitOps
 
 . In the `parasol-insurance` tenant directory, create a new directory called `kueue`, and create the `base` and `overlays` directories inside it.
