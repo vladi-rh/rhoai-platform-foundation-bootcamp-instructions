@@ -627,6 +627,28 @@ submission_id = client.submit_job(
 print(submission_id)
 ----
 
+[WARNING]
+====
+This cell will try to upload everything in the current working directory to the Ray cluster. Make sure that older files are not uploaded by adding the *__excludes__* parameter to the `runtime_env`.
+
+[.console-input]
+[source,python]
+----
+# Initialize the Job Submission Client
+"""
+The SDK will automatically gather the dashboard address and authenticate using the Ray Job Submission Client
+"""
+client = cluster.job_client
+# Submit an example mnist job using the Job Submission Client
+submission_id = client.submit_job(
+    entrypoint="python mnist_fashion.py",
+    runtime_env={"working_dir": "./","pip": "requirements.txt","excludes": ["/weights/accident_detect.onnx"]},
+)
+print(submission_id)
+----
+
+====
+
 . Use the following code lines to create cells to monitor the job status:
 
 +
