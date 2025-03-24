@@ -74,12 +74,36 @@ image::node_describe_gpu.png[]
 ### Test Model Notebooks
 After exploring the GPU Node details, open RHOAI and launch new workbench and run the tests for the LLMs. These can be found in the `https://github.com/redhat-ai-services/ai-accelerator[]` 
 
-- tenants/ai-example/multi-model-serving/test
-- tenants/ai-example/single-model-serving-tgis/test
-- tenants/ai-example/single-model-serving-vllm/test
+- Fraud detection model - tenants/ai-example/multi-model-serving/test
+- FLAN-T5 small model -  tenants/ai-example/single-model-serving-tgis/test
+- Granite model - tenants/ai-example/single-model-serving-vllm/test
 
 These are very simple tests to make sure that the InferenceService is working. View the logs of the inference service pod while you test.
 
+#### Testing Fraud Detection Model
+Testing this model includes the following steps:
+
+- Create workbench in ai-example-multi-model-serving Data Science Project using Standard Data Science Python v3.11 notebook image
+- Clone your fork of ai-example repository in Jupiter Notebook in created workbench
+- Open tenants/ai-example/multi-model-serving/test/test-using-grpc.ipynb Jupiter Notebook and run through cells.
+- Change values in the data field in the fifth cell to observe how prediction result change.
+- Open tenants/ai-example/multi-model-serving/test/test-using-rest.ipynb Jupiter Notebook. In the first cell make sure to replace apps base URL in infer_url field with apps base URL of your demo cluster. Run through notebook cells and observe results.
+- Change values in the data field in the third cell to observe how prediction result change.
+
+#### Testing FLAN-T5 small model
+Testing this model includes the following steps:
+
+- Create workbench in ai-example-single-node-serving Data Science Project using Standard Data Science Python v3.11 notebook image
+- Clone your fork of ai-example repository in Jupiter Notebook in created workbench
+- Open tenants/ai-example/single-model-serving-tgis/test/test-using-grpc.iypnb Jupiter Notebook. In the first cell make sure to replace apps base URL in infer_endpoint field with apps base URL of your demo cluster. Run through notebook cells and observe results.
+- As recommended in notebook comments try changing question in the third cell and observe answers. Explain why answers are often not correct.
+
+#### Testing Granite model
+Testing this model includes the following steps:
+
+- Reuse the workbench from the previous test
+- Open tenants/ai-example/single-model-serving-vllm/test/granite-test.ipynb Jupiter Notebook. In the first cell make sure to replace apps base URL in infer_endpoint field with apps base URL of your demo cluster. Run through notebook cells and observe results.
+- Note that answers provided by this model will be unintelligible. This is a known issue and being investigated.
 
 ### References
 1. https://www.ibm.com/topics/large-language-models[]
