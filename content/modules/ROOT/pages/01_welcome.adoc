@@ -1,6 +1,6 @@
-# Red Hat OpenShift Artificial Intelligence - Accelerator Boot Camp
+# Red Hat OpenShift Artificial Intelligence - Platform Foundation Bootcamp
 
-Welcome to the Red Hat OpenShift Artificial Intelligence (RHOAI) accelerator boot camp! 
+Welcome to the Red Hat OpenShift Artificial Intelligence (RHOAI)n- Platform Foundation Bootcamp! 
 
 This module is a short, intensive and rigorous course of training covering the following topics:
 
