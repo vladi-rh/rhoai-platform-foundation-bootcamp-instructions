@@ -1,6 +1,6 @@
-# Red Hat OpenShift AI (RHOAI) Accelerator Boot Camp
+# Red Hat OpenShift Artificial Intelligence (RHOAI) - Platform Foundation Bootcamp
 
-This repository contains the source code for the instructions used by the Red Hat OpenShift AI Accelerator project boot camp. 
+This repository contains the source code for the instructions used by the RHOAI Platform Foundation Bootcamp. 
 
 To view the static version of the instructions, please use this URL: 
 
