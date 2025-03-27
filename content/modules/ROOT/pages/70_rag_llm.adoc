@@ -110,11 +110,22 @@ The example below is sourced from: https://github.com/rh-aiservices-bu/llm-on-op
 ### Let's get started
 Using the _**DEMO**_ cluster
 
-Create a new Data Science Project named `rag-llm-demo`.
+. Create a new Data Science Project named `rag-llm-demo`.
 
-Spin up a new _**Standard Data Science**_ workbench. 
+. We'll need to use a custom workbench image for this example. 
+Import this custom workbench into RHOAI and name it `langchain-wb`:
 
-Go into Openshift console and go to the `rag-llm-demo` namespace and deploy the resources below.
++
+
+[.console-input]
+[source,yaml]
+----
+quay.io/opendatahub-contrib/workbench-images:cuda-jupyter-langchain-c9s-py311_2023c_latest
+----
+
+. Spin up a new _**langchain-wb**_ workbench in the `rag-llm-demo` project. 
+
+. Go into Openshift console and go to the `rag-llm-demo` namespace and deploy the resources below.
 
 ### Deploy Vector Database
 
@@ -129,6 +140,7 @@ kind: Secret
 apiVersion: v1
 metadata:
   name: postgresql
+  namespace: rag-llm-demo
 stringData:
   database-name: vectordb
   database-password: vectordb
@@ -148,6 +160,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: postgresql
+  namespace: rag-llm-demo
 spec:
   accessModes:
     - ReadWriteOnce
@@ -169,6 +182,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: postgresql
+  namespace: rag-llm-demo
 spec:
   selector:
     app: postgresql
@@ -191,6 +205,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgresql
+  namespace: rag-llm-demo
 spec:
   strategy:
     type: Recreate
@@ -274,7 +289,8 @@ spec:
 
 After applying all those files you should have a running PostgreSQL+pgvector server running, accessible at `postgresql.rag-llm-demo.svc.cluster.local:5432` with credentials `vectordb:vectordb`.
 
-The PgVector extension must be manually enabled in the server. This can only be done as a Superuser (above account won't work). The easiest way is to:
+[start=5]
+. The PgVector extension must be manually enabled in the server. This can only be done as a Superuser (above account won't work). The easiest way is to:
 
 - Connect to the running server Pod, either through the Terminal view in the OpenShift Console, or through the CLI with: `oc rsh services/postgresql`
 - Once connected, enter the following command:
@@ -302,6 +318,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: vllm-models-cache
+  namespace: rag-llm-demo
 spec:
   accessModes:
     - ReadWriteOnce
@@ -323,6 +340,7 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: vllm
+  namespace: rag-llm-demo
   labels:
     app: vllm
 spec:
@@ -349,6 +367,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: vllm
+  namespace: rag-llm-demo
   labels:
     app: vllm
 spec:
@@ -368,9 +387,9 @@ spec:
 ----
 ====
 
-You'll need a `HUGGING_FACE_HUB_TOKEN` to download and use the LLM. You can get this by creating an account on https://huggingface.co/[Hugging Face] and creating an access token in the https://huggingface.co/settings/tokens [Settings>Access Tokens] page. Insert your token in the `env` section.
+You'll need a `HUGGING_FACE_HUB_TOKEN` to download and use the LLM. You can get this by creating an account on https://huggingface.co/[Hugging Face, window=_blank] and creating an access token in the https://huggingface.co/settings/tokens [Settings>Access Tokens] page. Insert your token in the `env` section.
 
-Once logged in, you'll also need to go to the https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2[model page] on HuggingFace and agree to share your contact information to access the model.
+Once logged in, you'll also need to go to the https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2[model page, window=_blank] on HuggingFace and agree to share your contact information to access the model.
 
 [.bordershadow]
 image::huggingface_agree_and_access.png[]
@@ -386,6 +405,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: vllm
+  namespace: rag-llm-demo
   labels:
     app: vllm
 spec:
@@ -481,7 +501,7 @@ spec:
             sizeLimit: 1Gi
       dnsPolicy: ClusterFirst
       tolerations:
-        - key: nvidia-gpu-only
+        - key: nvidia.com/gpu
           operator: Exists
           effect: NoSchedule
   strategy:
@@ -497,11 +517,11 @@ NOTE: We are greatly reducing the amount of resources the LLM uses.
 
 Download and run through these 3 notebooks in your workbench:
 
-1. https://github.com/rh-aiservices-bu/llm-on-openshift/blob/main/examples/notebooks/langchain/Langchain-PgVector-Ingest.ipynb[examples/notebooks/langchain/Langchain-PgVector-Ingest.ipynb]
+1. https://github.com/rh-aiservices-bu/llm-on-openshift/blob/main/examples/notebooks/langchain/Langchain-PgVector-Ingest.ipynb[examples/notebooks/langchain/Langchain-PgVector-Ingest.ipynb, window=_blank]
 
-2. https://github.com/rh-aiservices-bu/llm-on-openshift/blob/main/examples/notebooks/langchain/Langchain-PgVector-Query.ipynb[examples/notebooks/langchain/Langchain-PgVector-Query.ipynb]
+2. https://github.com/rh-aiservices-bu/llm-on-openshift/blob/main/examples/notebooks/langchain/Langchain-PgVector-Query.ipynb[examples/notebooks/langchain/Langchain-PgVector-Query.ipynb, window=_blank]
 
-3. https://github.com/rh-aiservices-bu/llm-on-openshift/blob/main/examples/notebooks/langchain/RAG_with_sources_Langchain-vLLM-PgVector.ipynb[examples/notebooks/langchain/RAG_with_sources_Langchain-vLLM-PgVector.ipynb]
+3. https://github.com/rh-aiservices-bu/llm-on-openshift/blob/main/examples/notebooks/langchain/RAG_with_sources_Langchain-vLLM-PgVector.ipynb[examples/notebooks/langchain/RAG_with_sources_Langchain-vLLM-PgVector.ipynb, window=_blank]
 
 or upload the repository to the workbench:
 `https://github.com/rh-aiservices-bu/llm-on-openshift.git`
@@ -509,17 +529,8 @@ or upload the repository to the workbench:
 
 
 #### Creating an index and populating it with documents using PostgreSQL+pgvector
-Depended on which workbench image you are using, we have to make some changes to the notebook.
 
-1. Update the packages to install:
-
-[.console-input]
-```
-!pip install -q pgvector langchain-community pypdf sentence-transformers
-```
-
-[start=2]
-2. Update the _Base Parameters and PostgreSQL info_
+. Update the _Base Parameters and PostgreSQL info_
 
 [.console-input]
 ```
@@ -545,6 +556,15 @@ COLLECTION_NAME = "rhoai-doc-2.16"
 Run through the notebook
 
 #### RAG example with Langchain, PostgreSQL+pgvector, and vLLM
+. Update the Python packages
++
+[.console-input]
+```
+!pip install -q einops==0.7.0 langchain-community sentence-transformers openai pgvector
+```
+
+
+. Update Inference Server URL and Connection String:
 
 [.console-input]
 ```
@@ -559,6 +579,7 @@ PRESENCE_PENALTY=1.03
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
 COLLECTION_NAME = "rhoai-doc-2.16"
 ```
+
 
 At the end, should have a successful RAG with LLM sample that you can query.
 
