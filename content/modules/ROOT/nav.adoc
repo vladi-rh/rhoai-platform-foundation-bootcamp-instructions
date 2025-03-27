@@ -36,4 +36,8 @@
     ** 21. xref:70_rag_llm.adoc[RAG with LLM]
     ** 22. xref:composer_ai.adoc[Composer AI]
 
-* 23. xref:99_useful_tips.adoc[Useful Tips]
+* Monitoring Data Science Models
+    ** 22. xref:80_trustyai_overview.adoc[TrustyAI Overview]
+    ** 23. xref:81_llm_evaluation.adoc[Evaluating Large Language Models]
+
+* 24. xref:99_useful_tips.adoc[Useful Tips]
