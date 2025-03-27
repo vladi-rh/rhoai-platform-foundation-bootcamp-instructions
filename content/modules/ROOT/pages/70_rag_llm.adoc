@@ -523,7 +523,7 @@ Depended on which workbench image you are using, we have to make some changes to
 
 [.console-input]
 ```
-product_version = 2.13
+product_version = 2.16
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
 COLLECTION_NAME = f"rhoai-doc-{product_version}"
 ```
@@ -539,7 +539,7 @@ NOTE: _Create the index and ingest the documents_ will take more than 5 minutes 
 [.console-input]
 ```
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
-COLLECTION_NAME = "rhoai-doc-2.13"
+COLLECTION_NAME = "rhoai-doc-2.16"
 ```
 
 Run through the notebook
@@ -557,7 +557,7 @@ TEMPERATURE=0.01
 PRESENCE_PENALTY=1.03
 
 CONNECTION_STRING = "postgresql+psycopg://vectordb:vectordb@postgresql.rag-llm-demo.svc.cluster.local:5432/vectordb"
-COLLECTION_NAME = "rhoai-doc-2.13"
+COLLECTION_NAME = "rhoai-doc-2.16"
 ```
 
 At the end, should have a successful RAG with LLM sample that you can query.
