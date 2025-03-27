@@ -42,19 +42,19 @@ image::composer_create_assistant.png[width=35%]
 . Select the `Recipes Assisstant` just created. 
 +
 [.bordershadow]
-image::composer_select_assisstant.png[width=35%]
+image::composer_select_assistant.png[]
 
 +
 . Start a conversation with the assistant by typing a message in the chat window. The assistant will respond with a recipe based on the input.
 
 +
 [.bordershadow]
-image::composer_chat.png[width=35%]
+image::composer_chat.png[]
 
-### Similar applications
+## Similar applications
 Documentation Assistant for Red Hat products - https://rh-kb-chatbot-rh-kb-chatbot.apps.prod.rhoai.rh-aiservices-bu.com/Chat[Documentation Assistant]
 
-### Reference Documentation
+## Reference Documentation
 . https://redhat-composer-ai.github.io/documentation/[Composer AI Documentation]
 
 . https://redhat-composer-ai.github.io/documentation/demo/Run-a-Composer-AI-local-env[Composer AI Local Environment]
