@@ -591,3 +591,4 @@ Run through the notebook to successfully demo an LLM with RAG using PGVector.
 ## References
 
 * https://research.ibm.com/blog/retrieval-augmented-generation-RAG[What is retrieval-augmented generation?] - IBM Research Blog and Video describing the basics of RAG.
+* https://developers.redhat.com/articles/2025/03/10/retrieval-augmented-generation-nodejs-podman-ai-lab-react#[Retrieval-augmented generation with Node.js, Podman AI Lab & React] - Running a RAG example on a local workstation using Podman.
