@@ -93,7 +93,7 @@ Testing this model includes the following steps:
 #### Testing FLAN-T5 small model
 Testing this model includes the following steps:
 
-- Create workbench in ai-example-single-node-serving Data Science Project using Standard Data Science Python v3.11 notebook image
+- Create workbench in ai-example-single-model-serving Data Science Project using Standard Data Science Python v3.11 notebook image
 - Clone your fork of ai-example repository in Jupiter Notebook in created workbench
 - Open tenants/ai-example/single-model-serving-tgis/test/test-using-grpc.iypnb Jupiter Notebook. In the first cell make sure to replace apps base URL in infer_endpoint field with apps base URL of your demo cluster. Run through notebook cells and observe results.
 - As recommended in notebook comments try changing question in the third cell and observe answers. Explain why answers are often not correct.
