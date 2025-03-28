@@ -193,7 +193,7 @@ image::oc_mirror_log.png[width=35%]
 [IMPORTANT]
 [.source, text]
 ====
-More information on disconnected mirroring can be found in the OpenShift documentation.https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/disconnected_installation_mirroring/index[OpenShift Disconnected Installation Mirroring]
+More information on disconnected mirroring can be found in the OpenShift documentation. https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/disconnected_installation_mirroring/index[OpenShift Disconnected Installation Mirroring]
 ====
 
 ### Step 2: Prepare the high side
@@ -519,7 +519,8 @@ spec:
 ## Known issue when installing ai-accelerator in disconnected cluster
 
 . Certificate error while downloading models from model storage or external storage. This error is seen when the certificates to be trusted are missing from cluster wide certificate authority bundle.
-
++
+.Error message:
 [source, bash]
 ----
 Failed to pull model from storage
@@ -529,7 +530,7 @@ code = Unknown desc = Failed to pull model from storage due to error: unable to 
 'my-storage': RequestError: send request failedincaused by: Get \"htts://xxxxxxx\": *509: certificate signed by unknown authority"}
 ----
 
-
++
 .Steps to resolve the certificate error
 [source, bash]
 ----    
@@ -538,12 +539,33 @@ $ oc get configmap -n openshift-config openshift-service-ca.crt -o jsonpath='{.d
 $ CA_BUNDLE_FILE=./openshift-ca-bundle.pem
 $ oc patch dscinitialization default-dsci --type='json' -p='[{"op":"replace","path":"/spec/trustedCABundle/customCABundle","value":"'"$(awk '{printf "%s\\n", $0}' $CA_BUNDLE_FILE)"'"}]'
 ----
-
++
 [TIP]
 [.source, text]
 ====
 For More information on certificates: https://docs.redhat.com/en/documentation/red_hat_openshift_ai_self-managed/2.16/html/installing_and_uninstalling_openshift_ai_self-managed/working-with-certificates_certs[Working with certificates]
 ====
++
+
+. Image Pull back off when starting a pipeline. This error is seen when the images are not available in the cluster registry. 
++
+.Error message:
+[source, bash]
+----
+Pulling image "image-registry/rhoai/odh-data-science-pipelines-argo-workflowcontroller-rhel8@sha256:67de22353f12e748992dc4b762eb3818e63c55fc414537b2acdc9a536f9ad308" 
+Error: ImagePullBackOff
+----
++
+.Steps to resolve the image pull back off
+.. Identify the missing images
+.. Pull the images from the Red Hat registry using `oc-mirror`.
+.. Use `oc-mirror` to create a tar file containing the images and load them into the cluster registry.
+.. Use `oc-mirror` to create a catalog source for the images.
+.. Update `ImageContentSourcePolicy` and `ImageTagMirrorSet` or `ImageDigestMirrorSet` to point to the new catalog source.
+
+## Hands-on disconnected workshop
+
+If you are interested in a hands-on workshop on how to install Red Hat OpenShift AI in a disconnected environment, you can provision https://catalog.demo.redhat.com/catalog?search=disconnected&item=babylon-catalog-prod%2Fsandboxes-gpte.ocp4-disconnected.prod[Disconnected Environment] on the Red Hat Demo Center. This environment is a fully disconnected environment. You can use this environment to test, modify `ImgeSetConfiguration.yaml` and learn how to install OpenShift AI in a disconnected environment.
 
 
 

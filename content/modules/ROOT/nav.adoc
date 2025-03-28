@@ -40,4 +40,7 @@
     ** 22. xref:80_trustyai_overview.adoc[TrustyAI Overview]
     ** 23. xref:81_llm_evaluation.adoc[Evaluating Large Language Models]
 
-* 24. xref:99_useful_tips.adoc[Useful Tips]
+* Disconnected Environment
+    ** 24. xref:disconnected_install.adoc[RHOAI on Disconnected Environment]
+
+* 25. xref:99_useful_tips.adoc[Useful Tips]
