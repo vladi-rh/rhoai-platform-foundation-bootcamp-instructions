@@ -3,7 +3,8 @@
 Composer AI enables users to create AI assistants tailored to specific business needs, leveraging technologies like LangChain, vector databases, and GraphRAG. These assistants enhance productivity by automating tasks such as summarization, data retrieval, project management, and decision support. 
 
 ## Provisioning Composer AI environment
-To provision a Composer AI environment, you can use the following link: https://catalog.demo.redhat.com/catalog?search=Composer+AI&item=babylon-catalog-prod%2Fsandboxes-gpte.ocp4-composer-ai.prod [Composer AI]
+To provision a Composer AI environment, you can use the following link: 
+https://catalog.demo.redhat.com/catalog?search=Composer+AI&item=babylon-catalog-prod%2Fsandboxes-gpte.ocp4-composer-ai.prod[Composer AI]
 
 [.bordershadow]
 image::composer_ai_catalog.png[width=35%]
