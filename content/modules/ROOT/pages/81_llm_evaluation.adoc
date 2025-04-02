@@ -2,20 +2,29 @@
 
 In this section we will cover how Large Language Models can be evaluated using LM-Eval framework.
 
-This demo requires a separate RHOAI environment.
+[WARNING]
+====
+This lab only works with rhoai-eus-2.16-aws-gpu overlay on Demo cluster.
+Qwen_Instruct model used in the lab requires gpu node and trustyai ConfigMap patching instructions are not applicable for RHOAI 2.18 due to the way how operator now controls that ConfigMap
+====
 
-Start with provisioning a new demo environment as described in the Environment Provisioning section.
+Validate via ArgoCD that all components are deployed and synced. TrustyAI demo components are deployed via `ai-example-lmeval-lab` application. It includes LLM model from https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct[]. Source code can be found under 'tenants/ai-example/lmeval-lab'. Minio deployment for object storage is done via 'ai-example-lmeval-lab-minio' ArgoCd application - source code is under 'tenants/ai-example/lmeval-lab-minio'.
 
-Make sure to choose `rhoai-eus-2.16-aws-gpu-trustyai` when running bootstrap.
+'Qwen2.5-0.5B-Instruct' model requires Nvidia GPU - so it might take some time for GPU machine to be provisioned and model to start. You can monitor the process in OpenShift Console under `Compute -> Machines`. Model is deployed in `ai-example-lmeval-lab` namespace. Make sure that `qwen-instruct-predictor*` pod is up and running.
 
-[.bordershadow]
-image::bootstrap-trustyai.png[]
+By default trustyai component is configured to prevent online access. In order for LLM Evaluation to succeed - online access needs to be enabled. Run the following commands to allow online connections:
 
-Validate via ArgoCD that all components are deployed and synced. TrustyAI demo components are deployed via `ai-example-trusty-ai` application. It includes LLM model from https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct[]. Source code can be found under 'tenants/ai-example/trustyai-demo'. Minio deployment for object storage is done via 'ai-example-trustyai-demo-minio' ArgoCd application - source code is under 'tenants/ai-example/trustyai-demo-minio'.
+[SOURCE]
+----
+oc patch configmap trustyai-service-operator-config -n redhat-ods-applications \
+--type merge -p '{"data":{"lmes-allow-online":"true","lmes-allow-code-execution":"true"}}'
 
-'Qwen2.5-0.5B-Instruct' model requires Nvidia GPU - so it might take some time for GPU machine to be provisioned and model to start. You can monitor the process in OpenShift Console under `Compute -> Machines`. Model is deployed in `ai-example-trustyai-demo` namespace. Make sure that `qwen-instruct-predictor*` pod is up and running.
+oc rollout restart deployment trustyai-service-operator-controller-manager -n redhat-ods-applications
+----
 
-LLM Evaluation can be initiate by creating the `LMEvalJob` Custom Resource.
+Wait for couple minutes before proceeding or check the status of trustyai-service-operator-controller-manager pod in redhat-ods-applications namespace
+
+LLM Evaluation can be initiated by creating the `LMEvalJob` Custom Resource.
 
 +
 .lm-eval-job.yaml
@@ -27,7 +36,7 @@ apiVersion: trustyai.opendatahub.io/v1alpha1
 kind: LMEvalJob
 metadata:
   name: evaljob
-  namespace: ai-example-trustyai-demo
+  namespace: ai-example-lmeval-lab
 spec:
   model: local-completions
   taskList:
@@ -62,39 +71,31 @@ Copy the content of the yaml to a local file on your machine and apply it using 
 oc apply -f lm-eval-job.yaml
 ----
 
-LM-Eval job will take some time to complete. The progress can be observed by monitoring `evaljob` pod in `ai-example-trustyai-demo` namespace.
+LM-Eval job will take some time to complete. The progress can be observed by monitoring `evaljob` pod in `ai-example-lmeval-lab` namespace.
 
 Pod logs can be observed by running the following command:
 
 [SOURCE]
 ----
-oc logs -f pod/evaljob -n ai-example-trustyai-demo
+oc logs -f pod/evaljob -n ai-example-lmeval-lab
 ----
 
-If 'evaljob' pod fails to complete - this might be due to a known issue with TrustyAI operator not allowing online connections by default. Run the following commands to allow online connections:
+If 'evaljob' pod fails - make sure that `trustyai-service-operator-config` configmap in redhat-ods-application namespace has `lmes-allow-online` set to `true`. If not - apply patch command above and restart `trustyai-service-operator-controller-manager` deployment.
 
+LLM Evaluation job can be restarted by using ommands below.
+ 
 [SOURCE]
 ----
-oc patch configmap trustyai-service-operator-config -n redhat-ods-applications \
---type merge -p '{"data":{"lmes-allow-online":"true","lmes-allow-code-execution":"true"}}'
-
-oc rollout restart deployment trustyai-service-operator-controller-manager -n redhat-ods-applications
-----
-
-Wait for couple minutes and then re-apply the LM-Eval job:
-
-[SOURCE]
-----
-oc delete LMEvalJob/evaljob -n ai-example-trustyai-demo
+oc delete LMEvalJob/evaljob -n ai-example-lmeval-lab
 
 oc apply -f lm-eval-job.yaml
 ----
 
-Once LM-Eval job completes - the evaluation results can be retrieved by runnign the following command:
+Once LM-Eval job completes - the evaluation results can be retrieved by running the following command:
 
 [SOURCE]
 ----
-oc get lmevaljobs.trustyai.opendatahub.io evaljob -n ai-example-trustyai-demo \
+oc get lmevaljobs.trustyai.opendatahub.io evaljob -n ai-example-lmeval-lab \
   -o template --template={{.status.results}} | jq '.results'
 {
   "arc_easy": {
