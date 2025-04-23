@@ -10,13 +10,18 @@ Notebooks and workbenches can consume many compute resources. Additionally, user
 
 The Idle Notebook Culler helps reduce the number of inactive notebooks running on the cluster. It tracks the last time an action was taken in a notebook and shuts down the pods if the notebook has been inactive for a period of time. A notebook is considered inactive when no user has taken an action inside of the notebook. Actions include executing a cell, creating files, or interacting with the user interface.
 
+NOTE: The Notebook Culler timeout must be between 10 minutes and 1000 hours.
+
 image:idle-notebook-culling.png[Idle Notebook Culling]
+
+### To change or enable in the RHOAI DashBoard:
 
 In RHOAI Dashboard>Settings>Cluster Settings>Stop idle notebooks:
 When enabled is selected and saved, the ConfigMap below will be created. You can enable culling outside of RHOAI Dashboard by applying this ConfigMap to `redhat-ods-applications` namespace.
 
 Apply ConfigMap in `redhat-ods-applications`.
 __CULL_IDLE_TIME__ and __IDLENESS_CHECK_PERIOD__ is in minutes. __ENABLE_CULLING__ is false by default.
+
 
 [.console-input]
 [source,yaml]
@@ -36,6 +41,29 @@ data:
 
 NOTE: In RHOAI Dashboard>Settings>Cluster Settings>Stop idle notebooks
 If culling is enabled by ConfigMap, but then disabled in RHOAI Dashboard settings. The ConfigMap `notebook-controller-culler-config` will be deleted. 
+
+## Optional: Update the Idle Notebook Culler in forked repository
+Because our AI-accelerator project is using GitOps/ArgoCD, we'll need to update the `components/operators/openshift-ai/instance/components/idle-notebook-culling/culler-config.yaml.yaml` for our changes to be applied. (GitOps is managing the `notebook-controller-culler-config` ConfigMap, so any changes made in the dashboard will be reverted by GitOps.)
+
+Edit the `components/operators/openshift-ai/instance/components/idle-notebook-culling/culler-config.yaml` file and change the culling period to 90 minutes:
+
+[.console-input]
+[source,yaml]
+```
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: notebook-controller-culler-config
+  namespace: redhat-ods-applications
+  labels:
+    opendatahub.io/dashboard: 'true'
+data:
+  CULL_IDLE_TIME: '90'
+  ENABLE_CULLING: 'true'
+  IDLENESS_CHECK_PERIOD: '1'
+```
+
+After saving the changes and pushing to your forked repository, give the RHOAI Dashboard a few minutes to update. The changes should now be available.
 
 
 ## Workbench and Model Server Sizes
@@ -84,7 +112,18 @@ spec:
 
 After making changes and saving, give the RHOAI Dashboard a few minutes to update. The changes should now be available.
 
-## Customize Model Server and Notebook Sizes
+## Customize Model Server and Notebook Sizes in AI-accelerator
+
+Since we are utilizing GitOps/ArgoCD in our cluster, we will need to update our forked project for our changes to be updated/synced on our cluster.
+
+In the `/components/operators/openshift-ai/instance/overlays/eus-2.##/kustomization.yaml`, the components are referencing:
+
+```
+- ../../components/notebook-pod-sizes
+- ../../components/model-server-pod-sizes
+```
+
+This allows GitOps/ArgoCD to enable these components/files in the cluster. So to make changes to the model server and notebook sizes in the cluster, we will need to update the files in the `components/operators/openshift-ai/instance/components/model-server-pod-sizes` and `components/operators/openshift-ai/instance/components/notebook-pod-sizes` directories. More specifically, the `patch-rhoai-dashboard.yaml` files.
 
 . Update the `components/operators/openshift-ai/instance/components/model-server-pod-sizes/patch-rhoai-dashboard.yaml` file to add a new size with the following specifications:
 
@@ -197,6 +236,8 @@ spec:
           cpu: '15'
           memory: 120Gi
 ====
+
+After making changes and saving, give the RHOAI Dashboard a few minutes to update (5-10 min). The changes should now be available.
 
 .Updated Configuration
 [%collapsible]
