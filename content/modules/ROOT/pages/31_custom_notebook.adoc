@@ -21,11 +21,48 @@ The notebooks repository also has a Wiki of the different variations of images h
 
 ## Steps to create a custom notebook
 
+NOTE: You can either use your local machine or a container to build the custom notebook image. The steps are the same for both except for the setup of the environment.
+
+### Using your dev workstation:
+The following steps are to make sure you have the necessary tools to run the notebooks repository on your local machine.
+
+. Make sure you have Python 3.11 installed on your machine. You can use the `pyenv` tool to manage your Python versions. Also install Pip for installing Python packages. Tested with version pip 25.0.1
+
 . Install _**make**_ (or _**gmake**_) on your local machine. Make is a build automation tool that automatically builds executable programs and libraries from source code by reading files called Makefiles which specify how to derive the target program. We need make _** version 4+ **_ to build the notebooks repository.
 
-. Install _**pipenv**_ on your local machine. Pipenv is a tool that aims to bring the best of all packaging worlds (bundled dependencies, virtual environments, and package management) to the Python world. It automatically creates and manages a virtual environment for your projects, as well as adds/removes packages from your Pipfile as you install/uninstall packages.
+. Install _**pipenv**_ on your local machine. Pipenv is a tool that aims to bring the best of all packaging worlds (bundled dependencies, virtual environments, and package management) to the Python world. It automatically creates and manages a virtual environment for your projects, as well as adds/removes packages from your Pipfile as you install/uninstall packages. Tested with version 2023.12.1
 
-. Start Podman or Docker on your machine.
+. Install _**go**_ on your local machine. The Go programming language is an open source project to make programmers more productive. Tested with version 1.24.0
+
+. Install _**podman**_ on your local machine. Podman is a tool to manage OCI containers and pods. It is a daemonless container engine for developing, managing, and running OCI containers on your workstation. Podman is a drop-in replacement for Docker. Tested with version 5.3.0
+
+
+### Using Podman to run the builder container:
+We have created a container image that contains all the necessary tools to build the notebooks repository. This image is based on the repository: https://github.com/containers/image_build. You can find the image contents here: https://github.com/redhat-ai-services/rhoai-platform-foundation-bootcamp-instructions/tree/main/custom-notebook-builder-container/podman/Containerfile. This image is based on the latest fedora image and contains: podman, git, make, which, go, pip, python3.11 and pipenv. 
+
+The image has already been built for you and is located here: `quay.io/asheet/custom-nb-builder-container:latest`.
+
+We can run this image using Podman and build/push our custom notebooks from within the container. 
+
+
+. Run the following command to run the container on podman:
+
+[.console-input]
+[source,terminal]
+----
+podman run -it --privileged --name custom-notebook-builder quay.io/asheet/custom-nb-builder-container:latest
+----  
+
+If running on an M-powered Mac, you will need to use the `--platform linux/amd64` flag to run the container.
+[.console-input]
+[source,terminal]
+----
+podman run -it --privileged --platform linux/amd64 --name custom-notebook-builder quay.io/asheet/custom-nb-builder-container:latest
+----  
+
+This will run the container and you will now be inside the container.
+
+### Using the notebooks repository to create a custom notebook image
 
 . Log into https://quay.io[quay.io] from your web browser.
 
@@ -86,9 +123,11 @@ podman login -u='username' -p='password' quay.io
 ----
 
 
-. Open the _**Makefile**_ and try to understand the build chain.
+. Open and read the _**Makefile**_ and try to understand the build chain and how the make file works.
 
-. Let's add a Python Package to the jupyter-data-science-ubi9-python-3.11 image. 
+. Let's build an image from the notebooks project, specifically the Jupyter Data Science UBI9 Python 3.11 image. 
+
+. Before we build, let's modify the image and add a Python package to the jupyter-data-science-ubi9-python-3.11 image. 
 
 . Change directory to the `jupyter/datascience/ubi9-python-3.11` directory.
 
@@ -99,7 +138,7 @@ podman login -u='username' -p='password' quay.io
 cd jupyter/datascience/ubi9-python-3.11 
 ----
 
-. Open the _**Pipfile**_ in the `jupyter/datascience/ubi9-python-3.11` directory. This file contains the list of Python packages that are installed in the image.
+. Open and edit the _**Pipfile**_ in the `jupyter/datascience/ubi9-python-3.11` directory. This file contains the list of Python packages that are installed in the image.
 
 . Add a new Python package to the _**Pipfile**_. For example, let's add the `art` package to the _**Pipfile**_ so we can make fancy ASCII art in our notebook.
 
@@ -143,7 +182,7 @@ You can now see that the **_Art_** package has been added to the `requirements.t
 cd ../../../
 ----
 
-. Let's build the jupyter-datascience-ubi9-python-3.11 image. Run the following command:
+. Let's build and push the jupyter-datascience-ubi9-python-3.11 image. Running the make file will build the image and push the image to your quay.io repository. Run the following command:
 +
 
 [.console-input]
@@ -177,7 +216,7 @@ This takes some time to build. It will build the base image first and then build
 
 . A new repository named `workbench-images` will get created in your quay.io account. This will get created as a Private repository. Convert it into a public repository in the settings.
 
-. In the `parasol-insurance` tenant (`ai-accelerator/tenants/parasol-insurance`), create a directory named `custom-workbench`
+. Let's now add our newly build image (that's in your quay repository) to RHOAI. In the `parasol-insurance` tenant (`ai-accelerator/tenants/parasol-insurance`), create a directory named `custom-workbench`
 
 . Create the `base` and `overlays` directories inside the `custom-workbench` directory
 
