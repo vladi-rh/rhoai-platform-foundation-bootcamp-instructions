@@ -92,6 +92,14 @@ All accounts in Quay must have unique e-mail addresses and usernames. The issue 
 git clone https://github.com/opendatahub-io/notebooks.git
 ----
 
+NOTE: If asked for GitHub username/password for cloning (e.g. inside builder container), you need to create Personal Access Token (https://github.com/settings/personal-access-tokens) and use it in a following command: 
++ 
+[.console-input]
+[source,terminal]
+----
+git clone https://{your-personal-access-token-here}@github.com/opendatahub-io/notebooks.git
+----
+
 . Navigate into the folder you just cloned.
 
 +
